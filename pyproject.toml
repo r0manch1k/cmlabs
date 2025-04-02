@@ -1,0 +1,31 @@
+[tool.black]
+line-length = 88
+target-version = ['py37', 'py38', 'py39', 'py310', 'py311']
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+
+[tool.mypy]
+follow_imports = "skip"
+implicit_reexport = true
+ignore_missing_imports = true
+
+[tool.docformatter]
+recursive = true
+wrap-summaries = 82
+blank = true
+
+[tool.pydocstyle]
+convention = "pep257"
