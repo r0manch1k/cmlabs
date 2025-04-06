@@ -23,21 +23,26 @@ release = "0.0.1"
 
 sys.path.insert(0, os.path.abspath("../.."))
 sys.path.insert(0, os.path.abspath("../../cmlabs"))
+sys.path.insert(0, os.path.abspath("../../cmlabs/interpolate"))
+sys.path.insert(0, os.path.abspath("../../cmlabs/interpolate/tests"))
 
 matplotlib.use("agg")
 plt.ioff()
 
 extensions = [
+    "sphinx.ext.intersphinx",
     "sphinx.ext.autodoc",
     "sphinx.ext.autosummary",
-    "sphinx.ext.viewcode",
-    "sphinx_autodoc_typehints",
     "sphinx.ext.mathjax",
-    "sphinx.ext.intersphinx",
+    "sphinx.ext.viewcode",
+    "sphinx.ext.napoleon",
+    "sphinx_rtd_theme",
+    "sphinx_autodoc_typehints",
     "matplotlib.sphinxext.plot_directive",
 ]
 
 templates_path = ["_templates"]
+source_suffix = ".rst"
 exclude_patterns = []
 
 
