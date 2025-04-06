@@ -20,6 +20,7 @@ def f(x):
     .. math::
 
         f(x) = x - \log_{10}(x + 2)
+
     """
     return x - np.log10(x + 2)
 
@@ -60,6 +61,11 @@ def test_lagrange_degree():
     >>> # Nearest f(x) values: [0.287 0.334]
     >>> lagrange([0.722 0.778], [0.287 0.334], 0.77)
     >>> # 0.327530850170338
+
+    See Also
+    --------
+    lagrange
+
     """
     print("\n")
     print("Test 1: Lagrange Interpolation Of Degree 1")
@@ -127,6 +133,11 @@ def test_lagrange_remainder_1():
     >>> # True
     >>> abs(1.0889016164338089e-05) <= 1e-4
     >>> # True
+
+    See Also
+    --------
+    lagrange_remainder
+
     """
     print("\n")
     print("Test 2: Estimating Remainder Degree 1 In Lagrange Interpolation Formula")
@@ -193,6 +204,11 @@ def test_lagrange_degree_2():
     >>> # Nearest f(x) values: [0.287 0.334 0.381]
     >>> lagrange([0.722 0.778 0.833], [0.287 0.334 0.381], 0.77)
     >>> # 0.3275203902670937
+
+    See Also
+    --------
+    lagrange
+
     """
     print("\n")
     print("Test 3: Lagrange Interpolation Of Degree 2")
@@ -260,6 +276,11 @@ def test_lagrange_remainder_2():
     >>> # True
     >>> abs(-1.6889086295708034e-07) <= 1e-5
     >>> # True
+
+    See Also
+    --------
+    lagrange_remainder
+
     """
     print("\n")
     print("Test 4: Estimating Remainder Degree 2 In Lagrange Interpolation Formula")
@@ -341,6 +362,7 @@ def test_lagrange_compare_with_newton(degree):
     --------
     lagrange
     newton
+
     """
     print("\n")
     print(
@@ -379,6 +401,7 @@ def test_lagrange_from_docs_example():
     See Also
     --------
     lagrange
+
     """
     print("\n")
     print("Test N: Lagrange Interpolation From Docs Example")
@@ -403,6 +426,7 @@ def test_lagrange_remainder_from_docs_example():
     See Also
     --------
     lagrange_remainder
+
     """
     print("\n")
     print("Test N: Lagrange Remainder From Docs Example")
@@ -445,6 +469,7 @@ def test_newton_from_docs_example():
     See Also
     --------
     newton
+
     """
     print("\n")
     print("Test N: Newton Interpolation From Docs Example")

@@ -166,7 +166,7 @@ def lagrange_remainder(xvals, M, x=None, method="auto"):
 
 
 def divided_differences(xvals, yvals):
-    r"""Compute the ordered divided differences list.
+    r"""Return the ordered divided differences list.
 
     Parameters
     ----------

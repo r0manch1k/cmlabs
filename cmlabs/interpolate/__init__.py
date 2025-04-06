@@ -5,7 +5,8 @@ Interpolation (:mod:`cmlabs.interpolate`)
 
 .. currentmodule:: cmlabs.interpolate
 
-Sub-package for interpolation methods.
+The `cmlabs.interpolate` module provides a collection of interpolation methods and
+related utilities.
 
 Lagrange interpolation
 ======================
