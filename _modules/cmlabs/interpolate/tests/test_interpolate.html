@@ -71,14 +71,28 @@
   <h1>Source code for cmlabs.interpolate.tests.test_interpolate</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">cmlabs.interpolate</span><span class="w"> </span><span class="kn">import</span> <span class="n">lagrange</span><span class="p">,</span> <span class="n">lagrange_remainder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">cmlabs.interpolate</span><span class="w"> </span><span class="kn">import</span> <span class="n">lagrange</span><span class="p">,</span> <span class="n">lagrange_remainder</span><span class="p">,</span> <span class="n">newton</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;test_lagrange_degree&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;test_lagrange_remainder_1&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;test_lagrange_degree_2&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;test_lagrange_remainder_2&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;test_lagrange_compare_with_newton&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;test_lagrange_from_docs_example&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;test_lagrange_remainder_from_docs_example&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;test_newton_from_docs_example&quot;</span><span class="p">,</span>
+<span class="p">]</span>
 
 
-<div class="viewcode-block" id="f">
-<a class="viewcode-back" href="../../../../cmlabs.interpolate.tests.html#cmlabs.interpolate.tests.test_interpolate.f">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">x</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span></div>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Test function for Lagrange interpolation.</span>
 
+<span class="sd">    .. math::</span>
+
+<span class="sd">        f(x) = x - \log_{10}(x + 2)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
 
 
 <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
@@ -93,21 +107,32 @@
     <span class="s2">&quot;x****&quot;</span><span class="p">:</span> <span class="mf">0.73</span><span class="p">,</span>
 <span class="p">}</span>
 
-
-<span class="n">TOL</span> <span class="o">=</span> <span class="mf">1e-4</span>
-
 <span class="n">np</span><span class="o">.</span><span class="n">set_printoptions</span><span class="p">(</span><span class="n">threshold</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">suppress</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="test_lagrange_degree_1">
-<a class="viewcode-back" href="../../../../cmlabs.interpolate.tests.html#cmlabs.interpolate.tests.test_interpolate.test_lagrange_degree_1">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">test_lagrange_degree_1</span><span class="p">():</span>
+<div class="viewcode-block" id="test_lagrange_degree">
+<a class="viewcode-back" href="../../../../cmlabs.interpolate.tests.html#cmlabs.interpolate.test_lagrange_degree">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_lagrange_degree</span><span class="p">():</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Calculate Lagrange interpolation polynomial of degree 1 at :math:`x^*`.</span>
 
 <span class="sd">    .. math::</span>
 
 <span class="sd">        L_1(x^*) = f(x_i) \cdot \frac{x^* - x_{i+1}}{x_i - x_{i+1}} +</span>
 <span class="sd">        f(x_{i+1}) \cdot \frac{x^* - x_i}{x_{i+1} - x_i}</span>
+
+<span class="sd">    Results</span>
+<span class="sd">    -------</span>
+<span class="sd">    &gt;&gt;&gt; # Test 1: Lagrange Interpolation Of Degree 1</span>
+<span class="sd">    &gt;&gt;&gt; # - f(x) = x - lg(x + 2)</span>
+<span class="sd">    &gt;&gt;&gt; # - X:  [0.5   0.556 0.611 ... 0.889 0.944 1.   ]</span>
+<span class="sd">    &gt;&gt;&gt; # - Y:  [0.102 0.148 0.194 ... 0.428 0.475 0.523]</span>
+<span class="sd">    &gt;&gt;&gt; # - x* =  0.77</span>
+<span class="sd">    &gt;&gt;&gt; f(0.77)</span>
+<span class="sd">    &gt;&gt;&gt; # 0.32752023093555144</span>
+<span class="sd">    &gt;&gt;&gt; # Nearest points: [0.722 0.778]</span>
+<span class="sd">    &gt;&gt;&gt; # Nearest f(x) values: [0.287 0.334]</span>
+<span class="sd">    &gt;&gt;&gt; lagrange([0.722 0.778], [0.287 0.334], 0.77)</span>
+<span class="sd">    &gt;&gt;&gt; # 0.327530850170338</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Test 1: Lagrange Interpolation Of Degree 1&quot;</span><span class="p">)</span>
@@ -134,52 +159,344 @@
     <span class="n">f_obs</span> <span class="o">=</span> <span class="n">lagrange</span><span class="p">(</span><span class="n">nearest_x</span><span class="p">,</span> <span class="n">nearest_y</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;x*&quot;</span><span class="p">])</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">f_obs</span><span class="p">)</span>
 
-    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">f_obs</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span></div>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">f_obs</span><span class="p">,</span> <span class="nb">float</span><span class="p">),</span> <span class="s2">&quot;Result is not a float&quot;</span></div>
 
 
 
-<span class="c1"># def test_lagrange_remainder():</span>
-<span class="c1">#     r&quot;&quot;&quot;Estimate the derative and remainder in Lagrange interpolation formula.</span>
+<div class="viewcode-block" id="test_lagrange_remainder_1">
+<a class="viewcode-back" href="../../../../cmlabs.interpolate.tests.html#cmlabs.interpolate.test_lagrange_remainder_1">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_lagrange_remainder_1</span><span class="p">():</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Estimate the derivative and remainder degree 1.</span>
 
-<span class="c1">#     .. math::</span>
+<span class="sd">    .. math::</span>
 
-<span class="c1">#         \begin{gather}</span>
-<span class="c1">#             R_n(x) = f(x) - L_n(x) \\</span>
-<span class="c1">#             |f^{(n+1)}(\xi)| \leq \left|\frac{(n+1)!</span>
-<span class="c1">#             \cdot R_n(x)}{\omega_{n+1}}\right|</span>
-<span class="c1">#         \end{gather}</span>
-<span class="c1">#     &quot;&quot;&quot;</span>
-<span class="c1">#     print(&quot;\n&quot;)</span>
-<span class="c1">#     print(&quot;Test 2: Estimating Remainder In Lagrange Interpolation Formula\n&quot;)</span>
-<span class="c1">#     print(&quot;- X: &quot;, df[&quot;X&quot;].values)</span>
-<span class="c1">#     print(&quot;- x* = &quot;, df[&quot;x*&quot;])</span>
+<span class="sd">        \begin{gather}</span>
+<span class="sd">            R_1(x) = f(x) - L_1(x) \\</span>
+<span class="sd">            \\</span>
+<span class="sd">            f(x) = x - \log_{10}(x + 2) \\</span>
+<span class="sd">            f&#39;&#39;(x) = \frac{1}{(x + 2)^2 \cdot \ln(10)} \\</span>
+<span class="sd">            \min{f&#39;&#39;_{[x_i, x_{i+1}]}} = \min_{x \in [x_i, x_{i+1}]} |f&#39;&#39;(x)| =</span>
+<span class="sd">            \frac{1}{(x_{i+1} + 2)^2 \cdot \ln(10)} \\</span>
+<span class="sd">            \max{f&#39;&#39;_{[x_i, x_{i+1}]}} = \max_{x \in [x_i, x_{i+1}]} |f&#39;&#39;(x)| =</span>
+<span class="sd">            \frac{1}{(x_i + 2)^2 \cdot \ln(10)} \\</span>
+<span class="sd">            \\</span>
+<span class="sd">            \left|\frac{\min{f&#39;&#39;(x)}}{2} \cdot</span>
+<span class="sd">            \omega_2(x)\right| \leq |R_1(x)| \leq</span>
+<span class="sd">            \left|\frac{\max{f&#39;&#39;(x)}}{2} \cdot</span>
+<span class="sd">            \omega_2(x)\right|, \quad x \in [x_i, x_{i+1}] \\</span>
+<span class="sd">        \end{gather}</span>
 
-<span class="c1">#     distances = np.abs(df[&quot;X&quot;] - df[&quot;x*&quot;])</span>
-<span class="c1">#     sorted_indices = np.argsort(distances)</span>
-<span class="c1">#     nearest_x = np.sort(df[&quot;X&quot;][sorted_indices[:2]])</span>
-<span class="c1">#     print(f&quot;Nearest points: {nearest_x}&quot;)</span>
+<span class="sd">    Results</span>
+<span class="sd">    -------</span>
+<span class="sd">    &gt;&gt;&gt; # Test 2: Estimating Remainder Degree 1 In Lagrange Interpolation Formula</span>
+<span class="sd">    &gt;&gt;&gt; # - X:  [0.5   0.556 0.611 ... 0.889 0.944 1.   ]</span>
+<span class="sd">    &gt;&gt;&gt; # - x* =  0.77</span>
+<span class="sd">    &gt;&gt;&gt; # Nearest points: [0.722 0.778]</span>
+<span class="sd">    &gt;&gt;&gt; # Nearest f(x) values: [0.287 0.334]</span>
+<span class="sd">    &gt;&gt;&gt; # f&#39;&#39;(x) min: 0.056284564854661434</span>
+<span class="sd">    &gt;&gt;&gt; # f&#39;&#39;(x) max: 0.05860533616686946</span>
+<span class="sd">    &gt;&gt;&gt; f(0.77) - lagrange([0.722 0.778], [0.287 0.334], 0.77)</span>
+<span class="sd">    &gt;&gt;&gt; # 1.0619234786568565e-05</span>
+<span class="sd">    &gt;&gt;&gt; # R_min: 1.0457811124230303e-05</span>
+<span class="sd">    &gt;&gt;&gt; # R_max: 1.0889016164338089e-05</span>
+<span class="sd">    &gt;&gt;&gt; |1.0457811124230303e-05| &lt;= |1.0619234786568565e-05| &lt;= |1.0889016164338089e-05|</span>
+<span class="sd">    &gt;&gt;&gt; # True</span>
+<span class="sd">    &gt;&gt;&gt; abs(1.0889016164338089e-05) &lt;= 1e-4</span>
+<span class="sd">    &gt;&gt;&gt; # True</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Test 2: Estimating Remainder Degree 1 In Lagrange Interpolation Formula&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- X: &quot;</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- x* = &quot;</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;x*&quot;</span><span class="p">])</span>
 
-<span class="c1">#     nearest_y = df[&quot;f&quot;](nearest_x)</span>
-<span class="c1">#     print(f&quot;Nearest f(x) values: {nearest_y}&quot;)</span>
+    <span class="n">distances</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;x*&quot;</span><span class="p">])</span>
+    <span class="n">sorted_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">distances</span><span class="p">)</span>
+    <span class="n">nearest_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">][</span><span class="n">sorted_indices</span><span class="p">[:</span><span class="mi">2</span><span class="p">]])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Nearest points: </span><span class="si">{</span><span class="n">nearest_x</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-<span class="c1">#     print(&quot;&quot;</span>
-<span class="c1">#     res = lagrange_remainder(df[&quot;X&quot;].values, df[&quot;Y&quot;].values, df[&quot;x*&quot;].values)</span>
+    <span class="n">nearest_y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;f&quot;</span><span class="p">](</span><span class="n">nearest_x</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Nearest f(x) values: </span><span class="si">{</span><span class="n">nearest_y</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-<span class="c1">#     print(&quot;Result: &quot;, res)</span>
+    <span class="n">f_der_2_min</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">((</span><span class="n">nearest_x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+    <span class="n">f_der_2_max</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">((</span><span class="n">nearest_x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;f&#39;&#39;(x) min: </span><span class="si">{</span><span class="n">f_der_2_min</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;f&#39;&#39;(x) max: </span><span class="si">{</span><span class="n">f_der_2_max</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-<span class="c1">#     expected = lagrange_remainder(</span>
-<span class="c1">#         df[&quot;X&quot;].values, df[&quot;Y&quot;].values, df[&quot;x*&quot;].values, method=method</span>
-<span class="c1">#     )</span>
-<span class="c1">#     print(&quot;Expected: &quot;, expected)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&gt;&gt;&gt;f(</span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;x*&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">) - lagrange(</span><span class="si">{</span><span class="n">nearest_x</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">nearest_y</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;x*&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
 
-<span class="c1">#     assert np.isclose(res, expected, atol=TOL)</span>
+    <span class="n">r_exp</span> <span class="o">=</span> <span class="n">lagrange</span><span class="p">(</span><span class="n">nearest_x</span><span class="p">,</span> <span class="n">nearest_y</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;x*&quot;</span><span class="p">])</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;f&quot;</span><span class="p">](</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;x*&quot;</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">r_exp</span><span class="p">)</span>
+
+    <span class="n">r_exp_min</span> <span class="o">=</span> <span class="n">lagrange_remainder</span><span class="p">(</span><span class="n">nearest_x</span><span class="p">,</span> <span class="n">f_der_2_min</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;x*&quot;</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;R_min: </span><span class="si">{</span><span class="n">r_exp_min</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">r_exp_max</span> <span class="o">=</span> <span class="n">lagrange_remainder</span><span class="p">(</span><span class="n">nearest_x</span><span class="p">,</span> <span class="n">f_der_2_max</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;x*&quot;</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;R_max: </span><span class="si">{</span><span class="n">r_exp_max</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&gt;&gt;&gt; |</span><span class="si">{</span><span class="n">r_exp_min</span><span class="si">}</span><span class="s2">| &lt;= |</span><span class="si">{</span><span class="n">r_exp</span><span class="si">}</span><span class="s2">| &lt;= |</span><span class="si">{</span><span class="n">r_exp_max</span><span class="si">}</span><span class="s2">|&quot;</span><span class="p">)</span>
+
+    <span class="n">res</span> <span class="o">=</span> <span class="n">r_exp_min</span> <span class="o">&lt;=</span> <span class="n">r_exp</span> <span class="o">&lt;=</span> <span class="n">r_exp_max</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">r_exp_min</span> <span class="o">&lt;=</span> <span class="n">r_exp</span> <span class="o">&lt;=</span> <span class="n">r_exp_max</span><span class="p">,</span> <span class="s2">&quot;Remainder is out of bounds&quot;</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&gt;&gt;&gt; abs(</span><span class="si">{</span><span class="n">r_exp_max</span><span class="si">}</span><span class="s2">) &lt;= 1e-4&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">r_exp_max</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mf">1e-4</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="test_lagrange_degree_2">
+<a class="viewcode-back" href="../../../../cmlabs.interpolate.tests.html#cmlabs.interpolate.test_lagrange_degree_2">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_lagrange_degree_2</span><span class="p">():</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Calculate Lagrange interpolation polynomial of degree 2 at :math:`x^*`.</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        L_2(x^*) = f(x_{i-1}) \cdot</span>
+<span class="sd">        \frac{(x^* - x_i)(x^* - x_{i+1})}{(x_{i-1} - x_i)(x_i - x_{i+1})} +</span>
+<span class="sd">        f(x_i) \cdot</span>
+<span class="sd">        \frac{(x^* - x_{i-1})(x^* - x_{i+1})}{(x_i - x_{i-1})(x_i - x_{i+1})} +</span>
+<span class="sd">        f(x_{i+1}) \cdot</span>
+<span class="sd">        \frac{(x^* - x_{i-1})(x^* - x_i)}{(x_{i+1} - x_{i-1})(x_{i+1} - x_i)}</span>
+
+<span class="sd">    Results</span>
+<span class="sd">    -------</span>
+<span class="sd">    &gt;&gt;&gt; # Test 3: Lagrange Interpolation Of Degree 2</span>
+<span class="sd">    &gt;&gt;&gt; # - f(x) = x - lg(x + 2)</span>
+<span class="sd">    &gt;&gt;&gt; # - X:  [0.5   0.556 0.611 ... 0.889 0.944 1.   ]</span>
+<span class="sd">    &gt;&gt;&gt; # - Y:  [0.102 0.148 0.194 ... 0.428 0.475 0.523]</span>
+<span class="sd">    &gt;&gt;&gt; # - x* =  0.77</span>
+<span class="sd">    &gt;&gt;&gt; f(0.77)</span>
+<span class="sd">    &gt;&gt;&gt; # 0.32752023093555144</span>
+<span class="sd">    &gt;&gt;&gt; # Nearest points: [0.722 0.778 0.833]</span>
+<span class="sd">    &gt;&gt;&gt; # Nearest f(x) values: [0.287 0.334 0.381]</span>
+<span class="sd">    &gt;&gt;&gt; lagrange([0.722 0.778 0.833], [0.287 0.334 0.381], 0.77)</span>
+<span class="sd">    &gt;&gt;&gt; # 0.3275203902670937</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Test 3: Lagrange Interpolation Of Degree 2&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- f(x) = x - lg(x + 2)&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- X: &quot;</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- Y: &quot;</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;Y&quot;</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- x* = &quot;</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;x*&quot;</span><span class="p">])</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&gt;&gt;&gt; f(</span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;x*&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+    <span class="n">f_exp</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;f&quot;</span><span class="p">](</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;x*&quot;</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">f_exp</span><span class="p">)</span>
+
+    <span class="n">distances</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;x*&quot;</span><span class="p">])</span>
+    <span class="n">sorted_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">distances</span><span class="p">)</span>
+    <span class="n">nearest_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">][</span><span class="n">sorted_indices</span><span class="p">[:</span><span class="mi">3</span><span class="p">]])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Nearest points: </span><span class="si">{</span><span class="n">nearest_x</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">nearest_y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;f&quot;</span><span class="p">](</span><span class="n">nearest_x</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Nearest f(x) values: </span><span class="si">{</span><span class="n">nearest_y</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&gt;&gt;&gt; lagrange(</span><span class="si">{</span><span class="n">nearest_x</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">nearest_y</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;x*&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+    <span class="n">f_obs</span> <span class="o">=</span> <span class="n">lagrange</span><span class="p">(</span><span class="n">nearest_x</span><span class="p">,</span> <span class="n">nearest_y</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;x*&quot;</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">f_obs</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">f_obs</span><span class="p">,</span> <span class="nb">float</span><span class="p">),</span> <span class="s2">&quot;Result is not a float&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="test_lagrange_remainder_2">
+<a class="viewcode-back" href="../../../../cmlabs.interpolate.tests.html#cmlabs.interpolate.test_lagrange_remainder_2">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_lagrange_remainder_2</span><span class="p">():</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Estimate the derivative and remainder degree 2.</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \begin{gather}</span>
+<span class="sd">            R_2(x) = f(x) - L_2(x) \\</span>
+<span class="sd">            \\</span>
+<span class="sd">            f(x) = x - \log_{10}(x + 2) \\</span>
+<span class="sd">            f^{(3)}(x) = \frac{-2}{(x + 2)^3 \cdot \ln(10)} \\</span>
+<span class="sd">            \min{f^{(3)}_{[x_{i-1}, x_{i+1}]}} = \min_{x \in [x_{i-1}, x_{i+1}]}</span>
+<span class="sd">            |f^{(3)}(x)| = \frac{-2}{(x_{i+1} + 2)^3 \cdot \ln(10)} \\</span>
+<span class="sd">            \max{f^{(3)}_{[x_{i-1}, x_{i+1}]}} = \max_{x \in [x_{i-1}, x_{i+1}]}</span>
+<span class="sd">            |f^{(3)}(x)| = \frac{-2}{(x_{i-1} + 2)^3 \cdot \ln(10)} \\</span>
+<span class="sd">            \\</span>
+<span class="sd">            \left|\frac{\min{f^{(3)}(x)}}{6} \cdot</span>
+<span class="sd">            \omega_3(x)\right| \leq |R_2(x)| \leq</span>
+<span class="sd">            \left|\frac{\max{f^{(3)}(x)}}{6} \cdot</span>
+<span class="sd">            \omega_3(x)\right|, \quad x \in [x_{i-1}, x_{i+1}]</span>
+<span class="sd">        \end{gather}</span>
+
+<span class="sd">    Results</span>
+<span class="sd">    -------</span>
+<span class="sd">    &gt;&gt;&gt; # Test 4: Estimating Remainder Degree 2 In Lagrange Interpolation Formula</span>
+<span class="sd">    &gt;&gt;&gt; # - X:  [0.5   0.556 0.611 ... 0.889 0.944 1.   ]</span>
+<span class="sd">    &gt;&gt;&gt; # - x* =  0.77</span>
+<span class="sd">    &gt;&gt;&gt; # Nearest points: [0.722 0.778 0.833]</span>
+<span class="sd">    &gt;&gt;&gt; # Nearest f(x) values: [0.287 0.334 0.381]</span>
+<span class="sd">    &gt;&gt;&gt; # f&#39;&#39;&#39;(x) min: -0.03818750583802256</span>
+<span class="sd">    &gt;&gt;&gt; # f&#39;&#39;&#39;(x) max: -0.04305698167361838</span>
+<span class="sd">    &gt;&gt;&gt; f(0.77) - lagrange([0.722 0.778 0.833], [0.287 0.334 0.381], 0.77)</span>
+<span class="sd">    &gt;&gt;&gt; # 1.5933154223768398e-07</span>
+<span class="sd">    &gt;&gt;&gt; # R_min: -1.4979036069111843e-07</span>
+<span class="sd">    &gt;&gt;&gt; # R_max: -1.6889086295708034e-07</span>
+<span class="sd">    &gt;&gt;&gt; |-1.4979036069111843e-07| &lt;= |1.5933154223768398e-07| &lt;= |-1.6889086295708034e-07|</span>
+<span class="sd">    &gt;&gt;&gt; # True</span>
+<span class="sd">    &gt;&gt;&gt; abs(-1.6889086295708034e-07) &lt;= 1e-5</span>
+<span class="sd">    &gt;&gt;&gt; # True</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Test 4: Estimating Remainder Degree 2 In Lagrange Interpolation Formula&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- X: &quot;</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- x* = &quot;</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;x*&quot;</span><span class="p">])</span>
+
+    <span class="n">distances</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;x*&quot;</span><span class="p">])</span>
+    <span class="n">sorted_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">distances</span><span class="p">)</span>
+    <span class="n">nearest_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">][</span><span class="n">sorted_indices</span><span class="p">[:</span><span class="mi">3</span><span class="p">]])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Nearest points: </span><span class="si">{</span><span class="n">nearest_x</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">nearest_y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;f&quot;</span><span class="p">](</span><span class="n">nearest_x</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Nearest f(x) values: </span><span class="si">{</span><span class="n">nearest_y</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">f_der_3_min</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span> <span class="o">/</span> <span class="p">((</span><span class="n">nearest_x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+    <span class="n">f_der_3_max</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span> <span class="o">/</span> <span class="p">((</span><span class="n">nearest_x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;f&#39;&#39;&#39;(x) min: </span><span class="si">{</span><span class="n">f_der_3_min</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;f&#39;&#39;&#39;(x) max: </span><span class="si">{</span><span class="n">f_der_3_max</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&gt;&gt;&gt; f(</span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;x*&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">) - lagrange(</span><span class="si">{</span><span class="n">nearest_x</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">nearest_y</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;x*&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+    <span class="n">r_exp</span> <span class="o">=</span> <span class="n">lagrange</span><span class="p">(</span><span class="n">nearest_x</span><span class="p">,</span> <span class="n">nearest_y</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;x*&quot;</span><span class="p">])</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;f&quot;</span><span class="p">](</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;x*&quot;</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">r_exp</span><span class="p">)</span>
+
+    <span class="n">r_exp_min</span> <span class="o">=</span> <span class="n">lagrange_remainder</span><span class="p">(</span><span class="n">nearest_x</span><span class="p">,</span> <span class="n">f_der_3_min</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;x*&quot;</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;R_min: </span><span class="si">{</span><span class="n">r_exp_min</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">r_exp_max</span> <span class="o">=</span> <span class="n">lagrange_remainder</span><span class="p">(</span><span class="n">nearest_x</span><span class="p">,</span> <span class="n">f_der_3_max</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;x*&quot;</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;R_max: </span><span class="si">{</span><span class="n">r_exp_max</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&gt;&gt;&gt; |</span><span class="si">{</span><span class="n">r_exp_min</span><span class="si">}</span><span class="s2">| &lt;= |</span><span class="si">{</span><span class="n">r_exp</span><span class="si">}</span><span class="s2">| &lt;= |</span><span class="si">{</span><span class="n">r_exp_max</span><span class="si">}</span><span class="s2">|&quot;</span><span class="p">)</span>
+
+    <span class="n">res</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">r_exp_min</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">r_exp</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">r_exp_max</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="n">r_exp_min</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">r_exp</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">r_exp_max</span><span class="p">),</span> <span class="s2">&quot;Remainder is out of bounds&quot;</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&gt;&gt;&gt; abs(</span><span class="si">{</span><span class="n">r_exp_max</span><span class="si">}</span><span class="s2">) &lt;= 1e-5&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">r_exp_max</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mf">1e-5</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="test_lagrange_compare_with_newton">
+<a class="viewcode-back" href="../../../../cmlabs.interpolate.tests.html#cmlabs.interpolate.test_lagrange_compare_with_newton">[docs]</a>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;degree&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_lagrange_compare_with_newton</span><span class="p">(</span><span class="n">degree</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compare Lagrange and Newton interpolation.</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \begin{gather}</span>
+<span class="sd">            L_n(x) = \sum_{i=0}^{n} l_i(x) f(x_i)\\</span>
+<span class="sd">            \\</span>
+<span class="sd">            L_n(x) = \sum_{i=0}^{n} f(x_0, x_1, \ldots, x_i) \omega_i(x)</span>
+<span class="sd">        \end{gather}</span>
+
+<span class="sd">    Results</span>
+<span class="sd">    -------</span>
+<span class="sd">    &gt;&gt;&gt; # Test 5: Compare Lagrange And Newton Interpolation Degree 1</span>
+<span class="sd">    &gt;&gt;&gt; # - X:  [0.5   0.556 0.611 ... 0.889 0.944 1.   ]</span>
+<span class="sd">    &gt;&gt;&gt; # - Y:  [0.102 0.148 0.194 ... 0.428 0.475 0.523]</span>
+<span class="sd">    &gt;&gt;&gt; # - x* =  0.77</span>
+<span class="sd">    &gt;&gt;&gt; # Nearest points: [0.722 0.778]</span>
+<span class="sd">    &gt;&gt;&gt; # Nearest f(x) values: [0.287 0.334]</span>
+<span class="sd">    &gt;&gt;&gt; lagrange([0.722 0.778], [0.287 0.334], 0.77)</span>
+<span class="sd">    &gt;&gt;&gt; # 0.327530850170338</span>
+<span class="sd">    &gt;&gt;&gt; newton([0.722 0.778], 0.77, yvals=[0.287 0.334])</span>
+<span class="sd">    &gt;&gt;&gt; # 0.327530850170338</span>
+
+<span class="sd">    &gt;&gt;&gt; # Test 6: Compare Lagrange And Newton Interpolation Degree 2</span>
+<span class="sd">    &gt;&gt;&gt; # - X:  [0.5   0.556 0.611 ... 0.889 0.944 1.   ]</span>
+<span class="sd">    &gt;&gt;&gt; # - Y:  [0.102 0.148 0.194 ... 0.428 0.475 0.523]</span>
+<span class="sd">    &gt;&gt;&gt; # - x* =  0.77</span>
+<span class="sd">    &gt;&gt;&gt; # Nearest points: [0.722 0.778 0.833]</span>
+<span class="sd">    &gt;&gt;&gt; # Nearest f(x) values: [0.287 0.334 0.381]</span>
+<span class="sd">    &gt;&gt;&gt; lagrange([0.722 0.778 0.833], [0.287 0.334 0.381], 0.77)</span>
+<span class="sd">    &gt;&gt;&gt; # 0.3275203902670937</span>
+<span class="sd">    &gt;&gt;&gt; newton([0.722 0.778 0.833], 0.77, yvals=[0.287 0.334 0.381])</span>
+<span class="sd">    &gt;&gt;&gt; # 0.3275203902670936</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    lagrange</span>
+<span class="sd">    newton</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;Test </span><span class="si">{</span><span class="mi">4</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">degree</span><span class="si">}</span><span class="s2">: Compare Lagrange And Newton Interpolation Degree </span><span class="si">{</span><span class="n">degree</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- X: &quot;</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- Y: &quot;</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;Y&quot;</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- x* = &quot;</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;x*&quot;</span><span class="p">])</span>
+
+    <span class="n">distances</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;x*&quot;</span><span class="p">])</span>
+    <span class="n">sorted_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">distances</span><span class="p">)</span>
+    <span class="n">nearest_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">][</span><span class="n">sorted_indices</span><span class="p">[:</span> <span class="p">(</span><span class="n">degree</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Nearest points: </span><span class="si">{</span><span class="n">nearest_x</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">nearest_y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;f&quot;</span><span class="p">](</span><span class="n">nearest_x</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Nearest f(x) values: </span><span class="si">{</span><span class="n">nearest_y</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&gt;&gt;&gt; lagrange(</span><span class="si">{</span><span class="n">nearest_x</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">nearest_y</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;x*&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+    <span class="n">f_obs_l</span> <span class="o">=</span> <span class="n">lagrange</span><span class="p">(</span><span class="n">nearest_x</span><span class="p">,</span> <span class="n">nearest_y</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;x*&quot;</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">f_obs_l</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&gt;&gt;&gt; newton(</span><span class="si">{</span><span class="n">nearest_x</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;x*&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">, yvals=</span><span class="si">{</span><span class="n">nearest_y</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+    <span class="n">f_obs_n</span> <span class="o">=</span> <span class="n">newton</span><span class="p">(</span><span class="n">nearest_x</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;x*&quot;</span><span class="p">],</span> <span class="n">yvals</span><span class="o">=</span><span class="n">nearest_y</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">f_obs_n</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span>
+        <span class="n">f_obs_l</span><span class="p">,</span> <span class="n">f_obs_n</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-6</span>
+    <span class="p">),</span> <span class="s2">&quot;Lagrange and Newton results are not close&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="test_lagrange_from_docs_example">
+<a class="viewcode-back" href="../../../../cmlabs.interpolate.tests.html#cmlabs.interpolate.test_lagrange_from_docs_example">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_lagrange_from_docs_example</span><span class="p">():</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Lagrange interpolation from docs example.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    lagrange</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Test N: Lagrange Interpolation From Docs Example&quot;</span><span class="p">)</span>
+
+    <span class="n">xvals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+    <span class="n">yvals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- X: &quot;</span><span class="p">,</span> <span class="n">xvals</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- Y: &quot;</span><span class="p">,</span> <span class="n">yvals</span><span class="p">)</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="mf">1.5</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&gt;&gt;&gt; lagrange(</span><span class="si">{</span><span class="n">xvals</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">yvals</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+    <span class="n">f_obs</span> <span class="o">=</span> <span class="n">lagrange</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">yvals</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">f_obs</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">f_obs</span><span class="p">,</span> <span class="nb">float</span><span class="p">),</span> <span class="s2">&quot;Result is not a float&quot;</span></div>
+
 
 
 <div class="viewcode-block" id="test_lagrange_remainder_from_docs_example">
-<a class="viewcode-back" href="../../../../cmlabs.interpolate.tests.html#cmlabs.interpolate.tests.test_interpolate.test_lagrange_remainder_from_docs_example">[docs]</a>
+<a class="viewcode-back" href="../../../../cmlabs.interpolate.tests.html#cmlabs.interpolate.test_lagrange_remainder_from_docs_example">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_lagrange_remainder_from_docs_example</span><span class="p">():</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Lagrange remainder from docs example.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    lagrange_remainder</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Test 3: Lagrange Remainder From Docs Example&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Test N: Lagrange Remainder From Docs Example&quot;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- f(x) = sin(x)&quot;</span><span class="p">)</span>
 
     <span class="n">xvals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">6</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">])</span>
@@ -203,12 +520,42 @@
     <span class="n">r_obs</span> <span class="o">=</span> <span class="n">lagrange_remainder</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">r_obs</span><span class="p">)</span>
 
+    <span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="n">r_exp</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">r_obs</span><span class="p">,</span> <span class="s2">&quot;Remainder is out of bounds&quot;</span>
+
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&gt;&gt;&gt; lagrange_remainder(X, </span><span class="si">{</span><span class="n">M</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
 
     <span class="n">r_obs</span> <span class="o">=</span> <span class="n">lagrange_remainder</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">M</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">r_obs</span><span class="p">)</span></div>
+    <span class="nb">print</span><span class="p">(</span><span class="n">r_obs</span><span class="p">)</span>
 
-    <span class="c1"># assert np.isclose(r_obs, r_exp, atol=TOL)</span>
+    <span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="n">r_exp</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">r_obs</span><span class="p">,</span> <span class="s2">&quot;Remainder is out of bounds&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="test_newton_from_docs_example">
+<a class="viewcode-back" href="../../../../cmlabs.interpolate.tests.html#cmlabs.interpolate.test_newton_from_docs_example">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_newton_from_docs_example</span><span class="p">():</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Newton interpolation from docs example.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    newton</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Test N: Newton Interpolation From Docs Example&quot;</span><span class="p">)</span>
+
+    <span class="n">xvals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+    <span class="n">yvals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- X: &quot;</span><span class="p">,</span> <span class="n">xvals</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- Y: &quot;</span><span class="p">,</span> <span class="n">yvals</span><span class="p">)</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="mf">1.5</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&gt;&gt;&gt; newton(</span><span class="si">{</span><span class="n">xvals</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">, yvals=</span><span class="si">{</span><span class="n">yvals</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+    <span class="n">f_obs</span> <span class="o">=</span> <span class="n">newton</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">yvals</span><span class="o">=</span><span class="n">yvals</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">f_obs</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">f_obs</span><span class="p">,</span> <span class="nb">float</span><span class="p">),</span> <span class="s2">&quot;Result is not a float&quot;</span></div>
+
 </pre></div>
 
            </div>

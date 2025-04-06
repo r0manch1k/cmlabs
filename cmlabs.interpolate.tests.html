@@ -21,6 +21,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="cmlabs.interpolate.lagrange" href="_autosummary/cmlabs.interpolate.lagrange.html" />
     <link rel="prev" title="cmlabs.interpolate package" href="cmlabs.interpolate.html" /> 
 </head>
 
@@ -92,23 +93,215 @@
 <section id="module-cmlabs.interpolate.tests.test_interpolate">
 <span id="cmlabs-interpolate-tests-test-interpolate-module"></span><h2>cmlabs.interpolate.tests.test_interpolate module<a class="headerlink" href="#module-cmlabs.interpolate.tests.test_interpolate" title="Link to this heading"></a></h2>
 <dl class="py function">
-<dt class="sig sig-object py" id="cmlabs.interpolate.tests.test_interpolate.f">
-<span class="sig-prename descclassname"><span class="pre">cmlabs.interpolate.tests.test_interpolate.</span></span><span class="sig-name descname"><span class="pre">f</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cmlabs/interpolate/tests/test_interpolate.html#f"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmlabs.interpolate.tests.test_interpolate.f" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="cmlabs.interpolate.tests.test_interpolate.test_lagrange_compare_with_newton">
+<span class="sig-prename descclassname"><span class="pre">cmlabs.interpolate.tests.test_interpolate.</span></span><span class="sig-name descname"><span class="pre">test_lagrange_compare_with_newton</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">degree</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cmlabs/interpolate/tests/test_interpolate.html#test_lagrange_compare_with_newton"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmlabs.interpolate.tests.test_interpolate.test_lagrange_compare_with_newton" title="Link to this definition"></a></dt>
+<dd><p>Compare Lagrange and Newton interpolation.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{gather}
+    L_n(x) = \sum_{i=0}^{n} l_i(x) f(x_i)\\
+    \\
+    L_n(x) = \sum_{i=0}^{n} f(x_0, x_1, \ldots, x_i) \omega_i(x)
+\end{gather}\end{split}\]</div>
+<section id="results">
+<h3>Results<a class="headerlink" href="#results" title="Link to this heading"></a></h3>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Test 5: Compare Lagrange And Newton Interpolation Degree 1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># - X:  [0.5   0.556 0.611 ... 0.889 0.944 1.   ]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># - Y:  [0.102 0.148 0.194 ... 0.428 0.475 0.523]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># - x* =  0.77</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Nearest points: [0.722 0.778]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Nearest f(x) values: [0.287 0.334]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lagrange</span><span class="p">([</span><span class="mf">0.722</span> <span class="mf">0.778</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.287</span> <span class="mf">0.334</span><span class="p">],</span> <span class="mf">0.77</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># 0.327530850170338</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">newton</span><span class="p">([</span><span class="mf">0.722</span> <span class="mf">0.778</span><span class="p">],</span> <span class="mf">0.77</span><span class="p">,</span> <span class="n">yvals</span><span class="o">=</span><span class="p">[</span><span class="mf">0.287</span> <span class="mf">0.334</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># 0.327530850170338</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Test 6: Compare Lagrange And Newton Interpolation Degree 2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># - X:  [0.5   0.556 0.611 ... 0.889 0.944 1.   ]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># - Y:  [0.102 0.148 0.194 ... 0.428 0.475 0.523]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># - x* =  0.77</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Nearest points: [0.722 0.778 0.833]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Nearest f(x) values: [0.287 0.334 0.381]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lagrange</span><span class="p">([</span><span class="mf">0.722</span> <span class="mf">0.778</span> <span class="mf">0.833</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.287</span> <span class="mf">0.334</span> <span class="mf">0.381</span><span class="p">],</span> <span class="mf">0.77</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># 0.3275203902670937</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">newton</span><span class="p">([</span><span class="mf">0.722</span> <span class="mf">0.778</span> <span class="mf">0.833</span><span class="p">],</span> <span class="mf">0.77</span><span class="p">,</span> <span class="n">yvals</span><span class="o">=</span><span class="p">[</span><span class="mf">0.287</span> <span class="mf">0.334</span> <span class="mf">0.381</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># 0.3275203902670936</span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">lagrange</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">newton</span></code></p>
+</div>
+</section>
+</dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="cmlabs.interpolate.tests.test_interpolate.test_lagrange_degree_1">
-<span class="sig-prename descclassname"><span class="pre">cmlabs.interpolate.tests.test_interpolate.</span></span><span class="sig-name descname"><span class="pre">test_lagrange_degree_1</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cmlabs/interpolate/tests/test_interpolate.html#test_lagrange_degree_1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmlabs.interpolate.tests.test_interpolate.test_lagrange_degree_1" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="cmlabs.interpolate.tests.test_interpolate.test_lagrange_degree">
+<span class="sig-prename descclassname"><span class="pre">cmlabs.interpolate.tests.test_interpolate.</span></span><span class="sig-name descname"><span class="pre">test_lagrange_degree</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cmlabs/interpolate/tests/test_interpolate.html#test_lagrange_degree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmlabs.interpolate.tests.test_interpolate.test_lagrange_degree" title="Link to this definition"></a></dt>
 <dd><p>Calculate Lagrange interpolation polynomial of degree 1 at <span class="math notranslate nohighlight">\(x^*\)</span>.</p>
 <div class="math notranslate nohighlight">
 \[L_1(x^*) = f(x_i) \cdot \frac{x^* - x_{i+1}}{x_i - x_{i+1}} +
 f(x_{i+1}) \cdot \frac{x^* - x_i}{x_{i+1} - x_i}\]</div>
+<section id="id1">
+<h3>Results<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Test 1: Lagrange Interpolation Of Degree 1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># - f(x) = x - lg(x + 2)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># - X:  [0.5   0.556 0.611 ... 0.889 0.944 1.   ]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># - Y:  [0.102 0.148 0.194 ... 0.428 0.475 0.523]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># - x* =  0.77</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">(</span><span class="mf">0.77</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># 0.32752023093555144</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Nearest points: [0.722 0.778]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Nearest f(x) values: [0.287 0.334]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lagrange</span><span class="p">([</span><span class="mf">0.722</span> <span class="mf">0.778</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.287</span> <span class="mf">0.334</span><span class="p">],</span> <span class="mf">0.77</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># 0.327530850170338</span>
+</pre></div>
+</div>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cmlabs.interpolate.tests.test_interpolate.test_lagrange_degree_2">
+<span class="sig-prename descclassname"><span class="pre">cmlabs.interpolate.tests.test_interpolate.</span></span><span class="sig-name descname"><span class="pre">test_lagrange_degree_2</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cmlabs/interpolate/tests/test_interpolate.html#test_lagrange_degree_2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmlabs.interpolate.tests.test_interpolate.test_lagrange_degree_2" title="Link to this definition"></a></dt>
+<dd><p>Calculate Lagrange interpolation polynomial of degree 2 at <span class="math notranslate nohighlight">\(x^*\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[L_2(x^*) = f(x_{i-1}) \cdot
+\frac{(x^* - x_i)(x^* - x_{i+1})}{(x_{i-1} - x_i)(x_i - x_{i+1})} +
+f(x_i) \cdot
+\frac{(x^* - x_{i-1})(x^* - x_{i+1})}{(x_i - x_{i-1})(x_i - x_{i+1})} +
+f(x_{i+1}) \cdot
+\frac{(x^* - x_{i-1})(x^* - x_i)}{(x_{i+1} - x_{i-1})(x_{i+1} - x_i)}\]</div>
+<section id="id2">
+<h3>Results<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Test 3: Lagrange Interpolation Of Degree 2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># - f(x) = x - lg(x + 2)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># - X:  [0.5   0.556 0.611 ... 0.889 0.944 1.   ]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># - Y:  [0.102 0.148 0.194 ... 0.428 0.475 0.523]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># - x* =  0.77</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">(</span><span class="mf">0.77</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># 0.32752023093555144</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Nearest points: [0.722 0.778 0.833]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Nearest f(x) values: [0.287 0.334 0.381]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lagrange</span><span class="p">([</span><span class="mf">0.722</span> <span class="mf">0.778</span> <span class="mf">0.833</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.287</span> <span class="mf">0.334</span> <span class="mf">0.381</span><span class="p">],</span> <span class="mf">0.77</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># 0.3275203902670937</span>
+</pre></div>
+</div>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cmlabs.interpolate.tests.test_interpolate.test_lagrange_from_docs_example">
+<span class="sig-prename descclassname"><span class="pre">cmlabs.interpolate.tests.test_interpolate.</span></span><span class="sig-name descname"><span class="pre">test_lagrange_from_docs_example</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cmlabs/interpolate/tests/test_interpolate.html#test_lagrange_from_docs_example"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmlabs.interpolate.tests.test_interpolate.test_lagrange_from_docs_example" title="Link to this definition"></a></dt>
+<dd><p>Lagrange interpolation from docs example.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">lagrange</span></code></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cmlabs.interpolate.tests.test_interpolate.test_lagrange_remainder_1">
+<span class="sig-prename descclassname"><span class="pre">cmlabs.interpolate.tests.test_interpolate.</span></span><span class="sig-name descname"><span class="pre">test_lagrange_remainder_1</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cmlabs/interpolate/tests/test_interpolate.html#test_lagrange_remainder_1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmlabs.interpolate.tests.test_interpolate.test_lagrange_remainder_1" title="Link to this definition"></a></dt>
+<dd><p>Estimate the derivative and remainder degree 1.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{gather}
+    R_1(x) = f(x) - L_1(x) \\
+    \\
+    f(x) = x - \log_{10}(x + 2) \\
+    f''(x) = \frac{1}{(x + 2)^2 \cdot \ln(10)} \\
+    \min{f''_{[x_i, x_{i+1}]}} = \min_{x \in [x_i, x_{i+1}]} |f''(x)| =
+    \frac{1}{(x_{i+1} + 2)^2 \cdot \ln(10)} \\
+    \max{f''_{[x_i, x_{i+1}]}} = \max_{x \in [x_i, x_{i+1}]} |f''(x)| =
+    \frac{1}{(x_i + 2)^2 \cdot \ln(10)} \\
+    \\
+    \left|\frac{\min{f''(x)}}{2} \cdot
+    \omega_2(x)\right| \leq |R_1(x)| \leq
+    \left|\frac{\max{f''(x)}}{2} \cdot
+    \omega_2(x)\right|, \quad x \in [x_i, x_{i+1}] \\
+\end{gather}\end{split}\]</div>
+<section id="id3">
+<h3>Results<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Test 2: Estimating Remainder Degree 1 In Lagrange Interpolation Formula</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># - X:  [0.5   0.556 0.611 ... 0.889 0.944 1.   ]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># - x* =  0.77</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Nearest points: [0.722 0.778]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Nearest f(x) values: [0.287 0.334]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># f&#39;&#39;(x) min: 0.056284564854661434</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># f&#39;&#39;(x) max: 0.05860533616686946</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">(</span><span class="mf">0.77</span><span class="p">)</span> <span class="o">-</span> <span class="n">lagrange</span><span class="p">([</span><span class="mf">0.722</span> <span class="mf">0.778</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.287</span> <span class="mf">0.334</span><span class="p">],</span> <span class="mf">0.77</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># 1.0619234786568565e-05</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># R_min: 1.0457811124230303e-05</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># R_max: 1.0889016164338089e-05</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">|</span><span class="mf">1.0457811124230303e-05</span><span class="o">|</span> <span class="o">&lt;=</span> <span class="o">|</span><span class="mf">1.0619234786568565e-05</span><span class="o">|</span> <span class="o">&lt;=</span> <span class="o">|</span><span class="mf">1.0889016164338089e-05</span><span class="o">|</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">abs</span><span class="p">(</span><span class="mf">1.0889016164338089e-05</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mf">1e-4</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># True</span>
+</pre></div>
+</div>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cmlabs.interpolate.tests.test_interpolate.test_lagrange_remainder_2">
+<span class="sig-prename descclassname"><span class="pre">cmlabs.interpolate.tests.test_interpolate.</span></span><span class="sig-name descname"><span class="pre">test_lagrange_remainder_2</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cmlabs/interpolate/tests/test_interpolate.html#test_lagrange_remainder_2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmlabs.interpolate.tests.test_interpolate.test_lagrange_remainder_2" title="Link to this definition"></a></dt>
+<dd><p>Estimate the derivative and remainder degree 2.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{gather}
+    R_2(x) = f(x) - L_2(x) \\
+    \\
+    f(x) = x - \log_{10}(x + 2) \\
+    f^{(3)}(x) = \frac{-2}{(x + 2)^3 \cdot \ln(10)} \\
+    \min{f^{(3)}_{[x_{i-1}, x_{i+1}]}} = \min_{x \in [x_{i-1}, x_{i+1}]}
+    |f^{(3)}(x)| = \frac{-2}{(x_{i+1} + 2)^3 \cdot \ln(10)} \\
+    \max{f^{(3)}_{[x_{i-1}, x_{i+1}]}} = \max_{x \in [x_{i-1}, x_{i+1}]}
+    |f^{(3)}(x)| = \frac{-2}{(x_{i-1} + 2)^3 \cdot \ln(10)} \\
+    \\
+    \left|\frac{\min{f^{(3)}(x)}}{6} \cdot
+    \omega_3(x)\right| \leq |R_2(x)| \leq
+    \left|\frac{\max{f^{(3)}(x)}}{6} \cdot
+    \omega_3(x)\right|, \quad x \in [x_{i-1}, x_{i+1}]
+\end{gather}\end{split}\]</div>
+<section id="id4">
+<h3>Results<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Test 4: Estimating Remainder Degree 2 In Lagrange Interpolation Formula</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># - X:  [0.5   0.556 0.611 ... 0.889 0.944 1.   ]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># - x* =  0.77</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Nearest points: [0.722 0.778 0.833]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Nearest f(x) values: [0.287 0.334 0.381]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># f&#39;&#39;&#39;(x) min: -0.03818750583802256</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># f&#39;&#39;&#39;(x) max: -0.04305698167361838</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">(</span><span class="mf">0.77</span><span class="p">)</span> <span class="o">-</span> <span class="n">lagrange</span><span class="p">([</span><span class="mf">0.722</span> <span class="mf">0.778</span> <span class="mf">0.833</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.287</span> <span class="mf">0.334</span> <span class="mf">0.381</span><span class="p">],</span> <span class="mf">0.77</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># 1.5933154223768398e-07</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># R_min: -1.4979036069111843e-07</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># R_max: -1.6889086295708034e-07</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">|-</span><span class="mf">1.4979036069111843e-07</span><span class="o">|</span> <span class="o">&lt;=</span> <span class="o">|</span><span class="mf">1.5933154223768398e-07</span><span class="o">|</span> <span class="o">&lt;=</span> <span class="o">|-</span><span class="mf">1.6889086295708034e-07</span><span class="o">|</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">abs</span><span class="p">(</span><span class="o">-</span><span class="mf">1.6889086295708034e-07</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mf">1e-5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># True</span>
+</pre></div>
+</div>
+</section>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="cmlabs.interpolate.tests.test_interpolate.test_lagrange_remainder_from_docs_example">
 <span class="sig-prename descclassname"><span class="pre">cmlabs.interpolate.tests.test_interpolate.</span></span><span class="sig-name descname"><span class="pre">test_lagrange_remainder_from_docs_example</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cmlabs/interpolate/tests/test_interpolate.html#test_lagrange_remainder_from_docs_example"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmlabs.interpolate.tests.test_interpolate.test_lagrange_remainder_from_docs_example" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Lagrange remainder from docs example.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">lagrange_remainder</span></code></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cmlabs.interpolate.tests.test_interpolate.test_newton_from_docs_example">
+<span class="sig-prename descclassname"><span class="pre">cmlabs.interpolate.tests.test_interpolate.</span></span><span class="sig-name descname"><span class="pre">test_newton_from_docs_example</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cmlabs/interpolate/tests/test_interpolate.html#test_newton_from_docs_example"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmlabs.interpolate.tests.test_interpolate.test_newton_from_docs_example" title="Link to this definition"></a></dt>
+<dd><p>Newton interpolation from docs example.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">newton</span></code></p>
+</div>
+</dd></dl>
 
 </section>
 <section id="module-cmlabs.interpolate.tests">
@@ -121,6 +314,7 @@ f(x_{i+1}) \cdot \frac{x^* - x_i}{x_{i+1} - x_i}\]</div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="cmlabs.interpolate.html" class="btn btn-neutral float-left" title="cmlabs.interpolate package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="_autosummary/cmlabs.interpolate.lagrange.html" class="btn btn-neutral float-right" title="cmlabs.interpolate.lagrange" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

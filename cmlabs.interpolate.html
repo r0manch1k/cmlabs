@@ -93,9 +93,14 @@
 <li class="toctree-l1"><a class="reference internal" href="cmlabs.interpolate.tests.html">cmlabs.interpolate.tests package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="cmlabs.interpolate.tests.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cmlabs.interpolate.tests.html#module-cmlabs.interpolate.tests.test_interpolate">cmlabs.interpolate.tests.test_interpolate module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.tests.html#cmlabs.interpolate.tests.test_interpolate.f"><code class="docutils literal notranslate"><span class="pre">f()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.tests.html#cmlabs.interpolate.tests.test_interpolate.test_lagrange_degree_1"><code class="docutils literal notranslate"><span class="pre">test_lagrange_degree_1()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.tests.html#cmlabs.interpolate.tests.test_interpolate.test_lagrange_compare_with_newton"><code class="docutils literal notranslate"><span class="pre">test_lagrange_compare_with_newton()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.tests.html#cmlabs.interpolate.tests.test_interpolate.test_lagrange_degree"><code class="docutils literal notranslate"><span class="pre">test_lagrange_degree()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.tests.html#cmlabs.interpolate.tests.test_interpolate.test_lagrange_degree_2"><code class="docutils literal notranslate"><span class="pre">test_lagrange_degree_2()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.tests.html#cmlabs.interpolate.tests.test_interpolate.test_lagrange_from_docs_example"><code class="docutils literal notranslate"><span class="pre">test_lagrange_from_docs_example()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.tests.html#cmlabs.interpolate.tests.test_interpolate.test_lagrange_remainder_1"><code class="docutils literal notranslate"><span class="pre">test_lagrange_remainder_1()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.tests.html#cmlabs.interpolate.tests.test_interpolate.test_lagrange_remainder_2"><code class="docutils literal notranslate"><span class="pre">test_lagrange_remainder_2()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.tests.html#cmlabs.interpolate.tests.test_interpolate.test_lagrange_remainder_from_docs_example"><code class="docutils literal notranslate"><span class="pre">test_lagrange_remainder_from_docs_example()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.tests.html#cmlabs.interpolate.tests.test_interpolate.test_newton_from_docs_example"><code class="docutils literal notranslate"><span class="pre">test_newton_from_docs_example()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="cmlabs.interpolate.tests.html#module-cmlabs.interpolate.tests">Module contents</a></li>
@@ -109,119 +114,64 @@
 <section id="interpolation-cmlabs-interpolate">
 <h3>Interpolation (<a class="reference internal" href="#module-cmlabs.interpolate" title="cmlabs.interpolate"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.interpolate</span></code></a>)<a class="headerlink" href="#interpolation-cmlabs-interpolate" title="Link to this heading"></a></h3>
 <p>Sub-package for interpolation methods.</p>
+<section id="lagrange-interpolation">
+<h4>Lagrange interpolation<a class="headerlink" href="#lagrange-interpolation" title="Link to this heading"></a></h4>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/cmlabs.interpolate.lagrange.html#cmlabs.interpolate.lagrange" title="cmlabs.interpolate.lagrange"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lagrange</span></code></a></p></td>
+<td><p>Lagrange interpolation polynomial value at <cite>x</cite>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/cmlabs.interpolate.lagrange_remainder.html#cmlabs.interpolate.lagrange_remainder" title="cmlabs.interpolate.lagrange_remainder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lagrange_remainder</span></code></a></p></td>
+<td><p>Remainder in Lagrange interpolation formula.</p></td>
+</tr>
+</tbody>
+</table>
 </section>
-<dl class="py function">
-<dt class="sig sig-object py" id="cmlabs.interpolate.lagrange">
-<span class="sig-prename descclassname"><span class="pre">cmlabs.interpolate.</span></span><span class="sig-name descname"><span class="pre">lagrange</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xvals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yvals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cmlabs/interpolate/_interpolate.html#lagrange"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmlabs.interpolate.lagrange" title="Link to this definition"></a></dt>
-<dd><p>Lagrange interpolation polynomial value at <cite>x</cite>.</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\begin{align*}
-P_n(x) &amp;= L_n(x) = \sum_{i=0}^{n} l_i(x) f(x_i) \\
-l_i(x) &amp;= \prod_{j=0, j \neq i}^{n} \frac{x - x_j}{x_i - x_j}
-\end{align*}\end{split}\]</div>
-<p>where <span class="math notranslate nohighlight">\(l_i(x)\)</span> is the Lagrange basis polynomial for the i-th data point.</p>
-<p>Return the value of the Lagrange polynomial that has degree <cite>n = len(xvals)-1</cite></p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>xvals</strong> (<em>array_like</em><em>, </em><em>1-D</em>) – The sorted x-coordinates of the data points.</p></li>
-<li><p><strong>yvals</strong> (<em>array_like</em><em>, </em><em>1-D</em>) – The y-coordinates of the data points, i.e., f(<cite>x</cite>).</p></li>
-<li><p><strong>x</strong> (<em>float</em>) – The x-coordinate at which to evaluate the polynomial.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>res</strong> – The value of the polynomial at <cite>x</cite>.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>float</p>
-</dd>
-</dl>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">cmlabs.interpolate</span><span class="w"> </span><span class="kn">import</span> <span class="n">lagrange</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">xvals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">yvals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">(</span><span class="mf">1.5</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">lagrange</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">yvals</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
-<span class="go">2.5</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="cmlabs.interpolate.lagrange_remainder">
-<span class="sig-prename descclassname"><span class="pre">cmlabs.interpolate.</span></span><span class="sig-name descname"><span class="pre">lagrange_remainder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xvals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">M</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cmlabs/interpolate/_interpolate.html#lagrange_remainder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmlabs.interpolate.lagrange_remainder" title="Link to this definition"></a></dt>
-<dd><p>Remainder in Lagrange interpolation formula.</p>
-<p>Common notation for the Lagrange interpolation polynomial is:</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\begin{aligned}
-R_n(x) &amp;= f(x) - L_n(x)
-        = \frac{f^{(n+1)}(\xi)}{(n+1)!} \prod_{i=0}^{n} (x - x_i), \quad
-        \xi \in (a, b) \\
-\end{aligned}\end{split}\]</div>
-<p>where <span class="math notranslate nohighlight">\(L_n(x)\)</span> is the Lagrange polynomial of degree <cite>n`and
-:math:`R_n(x)</cite> is the remainder term.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>xvals</strong> (<em>array_like</em><em>, </em><em>1-D</em>) – The x-coordinates of the data points.</p></li>
-<li><p><strong>M</strong> (<em>float</em>) – The bound for the (n+1)-th derivative of the function.</p></li>
-<li><p><strong>x</strong> (<em>float</em><em>, </em><em>optional</em>) – The x-coordinate at which to evaluate the polynomial.
-Only used if <cite>method</cite> is ‘exact’.</p></li>
-<li><p><strong>mehtod</strong> (<em>{'auto'</em><em>, </em><em>'exact'</em><em>, </em><em>'bound'}</em><em>, </em><em>optional</em>) – <p>Defines the method to compute the remainder.
-The following options are available (default is ‘bound’):</p>
-<blockquote>
-<div><ul>
-<li><p>’auto’ : uses ‘exact’ if <cite>x</cite> is provided, otherwise uses ‘bound’.</p></li>
-<li><p>’exact’ : uses the exact formula for the remainder term.</p></li>
-<li><p>’bound’ : uses the bound formula for the remainder term.</p></li>
-</ul>
-</div></blockquote>
-</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>res</strong> – The value of the remainder term.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>float</p>
-</dd>
-</dl>
-<p class="rubric">Notes</p>
-<p>The <cite>method</cite> parameter determines how the remainder term is computed.
-If <cite>method</cite> is ‘exact’, the function will compute the exact value of the
-remainder term using the formula:</p>
-<div class="math notranslate nohighlight">
-\[|R_n(x)| \leq \frac{M_{n+1}}{(n+1)!} \prod_{i=0}^{n} |x - x_i|\]</div>
-<p>where <span class="math notranslate nohighlight">\(n\)</span> is the length of the <cite>xvals</cite> array, <span class="math notranslate nohighlight">\(M_{n+1}\)</span> is the bound for
-the (n+1)-th derivative of the function.</p>
-<p>If <cite>method</cite> is ‘bound’, the function will compute the bound for the remainder term
-using the formula:</p>
-<div class="math notranslate nohighlight">
-\[|f(x) - L_n(x)| \leq \frac{M_{n+1}(x_{[n]}-x_{[0]})^{n+1}}{2^{2n+1}(n+1)!}\]</div>
-<p>where <span class="math notranslate nohighlight">\(x_{[i]}\)</span> is the i-th element of the sorted <cite>xvals</cite> array</p>
-<p>This formula follows from the properties of Chebyshev polynomials.</p>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">cmlabs.interpolate</span><span class="w"> </span><span class="kn">import</span> <span class="n">lagrange</span><span class="p">,</span> <span class="n">lagrange_remainder</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># f(x) = sin(x)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">xvals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">yvals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># M_3 = max |f&#39;&#39;&#39;(x)| = 1</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">M_3</span> <span class="o">=</span> <span class="mf">1.0</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">p</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">lagrange</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">yvals</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
-<span class="go">0.019606781186547573</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Exact remainder</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">lagrange_remainder</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
-<span class="go">0.020186378047070193</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Bound remainder</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">lagrange_remainder</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">M</span><span class="p">)</span>
-<span class="go">0.020186378047070193</span>
-</pre></div>
-</div>
-</dd></dl>
-
+<section id="newton-interpolation">
+<h4>Newton interpolation<a class="headerlink" href="#newton-interpolation" title="Link to this heading"></a></h4>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/cmlabs.interpolate.divided_differences.html#cmlabs.interpolate.divided_differences" title="cmlabs.interpolate.divided_differences"><code class="xref py py-obj docutils literal notranslate"><span class="pre">divided_differences</span></code></a></p></td>
+<td><p>Compute the ordered divided differences list.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/cmlabs.interpolate.newton.html#cmlabs.interpolate.newton" title="cmlabs.interpolate.newton"><code class="xref py py-obj docutils literal notranslate"><span class="pre">newton</span></code></a></p></td>
+<td><p>Newton interpolation polynomial value at <cite>x</cite>.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="tests">
+<h4>Tests<a class="headerlink" href="#tests" title="Link to this heading"></a></h4>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_lagrange_degree.html#cmlabs.interpolate.test_lagrange_degree" title="cmlabs.interpolate.test_lagrange_degree"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_lagrange_degree</span></code></a></p></td>
+<td><p>Calculate Lagrange interpolation polynomial of degree 1 at <span class="math notranslate nohighlight">\(x^*\)</span>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_lagrange_remainder_1.html#cmlabs.interpolate.test_lagrange_remainder_1" title="cmlabs.interpolate.test_lagrange_remainder_1"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_lagrange_remainder_1</span></code></a></p></td>
+<td><p>Estimate the derivative and remainder degree 1.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_lagrange_degree_2.html#cmlabs.interpolate.test_lagrange_degree_2" title="cmlabs.interpolate.test_lagrange_degree_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_lagrange_degree_2</span></code></a></p></td>
+<td><p>Calculate Lagrange interpolation polynomial of degree 2 at <span class="math notranslate nohighlight">\(x^*\)</span>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_lagrange_remainder_2.html#cmlabs.interpolate.test_lagrange_remainder_2" title="cmlabs.interpolate.test_lagrange_remainder_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_lagrange_remainder_2</span></code></a></p></td>
+<td><p>Estimate the derivative and remainder degree 2.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_lagrange_compare_with_newton.html#cmlabs.interpolate.test_lagrange_compare_with_newton" title="cmlabs.interpolate.test_lagrange_compare_with_newton"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_lagrange_compare_with_newton</span></code></a></p></td>
+<td><p>Compare Lagrange and Newton interpolation.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_lagrange_from_docs_example.html#cmlabs.interpolate.test_lagrange_from_docs_example" title="cmlabs.interpolate.test_lagrange_from_docs_example"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_lagrange_from_docs_example</span></code></a></p></td>
+<td><p>Lagrange interpolation from docs example.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_lagrange_remainder_from_docs_example.html#cmlabs.interpolate.test_lagrange_remainder_from_docs_example" title="cmlabs.interpolate.test_lagrange_remainder_from_docs_example"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_lagrange_remainder_from_docs_example</span></code></a></p></td>
+<td><p>Lagrange remainder from docs example.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_newton_from_docs_example.html#cmlabs.interpolate.test_newton_from_docs_example" title="cmlabs.interpolate.test_newton_from_docs_example"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_newton_from_docs_example</span></code></a></p></td>
+<td><p>Newton interpolation from docs example.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
 </section>
 </section>
 

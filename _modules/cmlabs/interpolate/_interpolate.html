@@ -69,14 +69,14 @@
            <div itemprop="articleBody">
              
   <h1>Source code for cmlabs.interpolate._interpolate</h1><div class="highlight"><pre>
-<span></span><span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;lagrange&quot;</span><span class="p">,</span> <span class="s2">&quot;lagrange_remainder&quot;</span><span class="p">]</span>
+<span></span><span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;lagrange&quot;</span><span class="p">,</span> <span class="s2">&quot;lagrange_remainder&quot;</span><span class="p">,</span> <span class="s2">&quot;divided_differences&quot;</span><span class="p">,</span> <span class="s2">&quot;newton&quot;</span><span class="p">]</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
 
 
 <div class="viewcode-block" id="lagrange">
-<a class="viewcode-back" href="../../../cmlabs.interpolate.html#cmlabs.interpolate.lagrange">[docs]</a>
+<a class="viewcode-back" href="../../../_autosummary/cmlabs.interpolate.lagrange.html#cmlabs.interpolate.lagrange">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">lagrange</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">yvals</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Lagrange interpolation polynomial value at `x`.</span>
 
@@ -109,11 +109,11 @@
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; import numpy as np</span>
 <span class="sd">    &gt;&gt;&gt; from cmlabs.interpolate import lagrange</span>
-<span class="sd">    &gt;&gt;&gt; xvals = np.array([0, 1, 2])</span>
-<span class="sd">    &gt;&gt;&gt; yvals = np.array([1, 2, 3])</span>
+<span class="sd">    &gt;&gt;&gt; xvals = np.array([0, 2, 3, 5])</span>
+<span class="sd">    &gt;&gt;&gt; yvals = np.array([1, 3, 2, 5])</span>
 <span class="sd">    &gt;&gt;&gt; x = np.float32(1.5)</span>
 <span class="sd">    &gt;&gt;&gt; lagrange(xvals, yvals, x)</span>
-<span class="sd">    2.5</span>
+<span class="sd">    3.3375000000000004</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">xvals</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
@@ -135,7 +135,7 @@
 
 
 <div class="viewcode-block" id="lagrange_remainder">
-<a class="viewcode-back" href="../../../cmlabs.interpolate.html#cmlabs.interpolate.lagrange_remainder">[docs]</a>
+<a class="viewcode-back" href="../../../_autosummary/cmlabs.interpolate.lagrange_remainder.html#cmlabs.interpolate.lagrange_remainder">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">lagrange_remainder</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Remainder in Lagrange interpolation formula.</span>
 
@@ -237,6 +237,164 @@
             <span class="o">*</span> <span class="p">(</span><span class="n">xvals</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">xvals</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">**</span> <span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
             <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">**</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">factorial</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
         <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">res</span></div>
+
+
+
+<div class="viewcode-block" id="divided_differences">
+<a class="viewcode-back" href="../../../_autosummary/cmlabs.interpolate.divided_differences.html#cmlabs.interpolate.divided_differences">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">divided_differences</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">yvals</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute the ordered divided differences list.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    xvals : array_like, 1-D</span>
+<span class="sd">        The x-coordinates of the data points.</span>
+<span class="sd">    yvals : array_like, 1-D</span>
+<span class="sd">        The y-coordinates of the data points.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    res: array_like, 1-D</span>
+<span class="sd">        The divided differences list.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The divided differences list has the following structure:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        [f(x_0), f(x_0, x_1), f(x_0, x_1, x_2), \ldots, f(x_0, x_1, \ldots, x_n)]</span>
+
+<span class="sd">    Algorithm is based on the following formula:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        f(x_0, x_1, \ldots, x_n) = \frac{f(x_1, \ldots, x_n) -</span>
+<span class="sd">        f(x_0, \ldots, x_{n-1})}{x_n - x_0}</span>
+
+<span class="sd">    where :math:`f[x_0, x_1, \ldots, x_n]` is the divided difference of the function</span>
+<span class="sd">    at the points :math:`x_0, x_1, \ldots, x_n`.</span>
+
+<span class="sd">    It starts moving from the right side of the array, so the iterations look like this:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \begin{aligned}</span>
+<span class="sd">            \\</span>
+<span class="sd">            [f(x_0), f(x_1), \ldots, f(x_n)] &amp;\to</span>
+<span class="sd">            [f(x_0), f(x_0, x_1), \ldots, f(x_{n-1}, x_n)] \\</span>
+<span class="sd">            [f(x_0), f(x_0, x_1), \ldots, f(x_{n-1}, x_n)] &amp;\to</span>
+<span class="sd">            [f(x_0), f(x_0, x_1), \ldots, f(x_{n-2}, x_{n-1}, x_n)] \\</span>
+<span class="sd">            &amp;\vdots \\</span>
+<span class="sd">            [f(x_0), f(x_0, x_1), \ldots, f(x_1, x_2, \ldots, x_n)] &amp;\to</span>
+<span class="sd">            [f(x_0), f(x_0, x_1), \ldots, f(x_0, x_1, \ldots, x_n)]</span>
+<span class="sd">        \end{aligned}</span>
+
+<span class="sd">    The divided differences list is used to compute the coefficients of the Newton</span>
+<span class="sd">    interpolation polynomial.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">xvals</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">n</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">yvals</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;xvals and yvals must have the same length&quot;</span><span class="p">)</span>
+
+    <span class="n">coef</span> <span class="o">=</span> <span class="p">[</span><span class="n">y</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">yvals</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">coef</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">coef</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">coef</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="n">xvals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">xvals</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="n">j</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">coef</span></div>
+
+
+
+<div class="viewcode-block" id="newton">
+<a class="viewcode-back" href="../../../_autosummary/cmlabs.interpolate.newton.html#cmlabs.interpolate.newton">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">newton</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">yvals</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">coef</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Newton interpolation polynomial value at `x`.</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \begin{gather}</span>
+<span class="sd">        L_n(x) = \sum_{i=0}^{n} f(x_0, x_1, \ldots, x_i) \omega_i(x), \\</span>
+<span class="sd">        \omega_0(x) = 1, \quad \omega_1(x) = x - x_0, \quad</span>
+<span class="sd">        \omega_i(x) = \prod_{j=0, j \neq i}^{n} (x - x_j), i \geq 2</span>
+<span class="sd">        \end{gather}</span>
+
+<span class="sd">    where :math:`f(x_0, x_1, \ldots, x_i)` is the divided difference of the function</span>
+<span class="sd">    at the points :math:`x_0, x_1, \ldots, x_i`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    xvals : array_like, 1-D</span>
+<span class="sd">        The sorted x-coordinates of the data points.</span>
+<span class="sd">    x : float</span>
+<span class="sd">        The x-coordinate at which to evaluate the polynomial.</span>
+<span class="sd">    yvals : array_like, 1-D, optional</span>
+<span class="sd">        The y-coordinates of the data points, i.e., f(`x`).</span>
+<span class="sd">        Only used if `coef` is not provided.</span>
+<span class="sd">    coef : array_like, 1-D, optional</span>
+<span class="sd">        The coefficients of the Newton polynomial.</span>
+<span class="sd">        If not provided, the function will compute the divided differences list</span>
+<span class="sd">        using the `divided_differences` function.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    res: float</span>
+<span class="sd">        The value of the polynomial at `x`.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The `coef` parameter is optional and can be used to provide the coefficients</span>
+<span class="sd">    of the Newton polynomial. If not provided, the function will compute the</span>
+<span class="sd">    divided differences list using the `divided_differences` function.</span>
+
+<span class="sd">    The divided differences list has the following structure:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        [f(x_0), f(x_0, x_1), f(x_0, x_1, x_2), \ldots, f(x_0, x_1, \ldots, x_n)]</span>
+
+<span class="sd">    Use Horner&#39;s method to compute the value of the polynomial at `x`.</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \begin{gather}</span>
+<span class="sd">            P(x) = a_0 + (x - x_0)(a_1 + (x - x_1)(a_2 + \ldots)) \\</span>
+<span class="sd">            a_0 = f(x_0), \quad a_1 = f(x_0, x_1), \quad</span>
+<span class="sd">            a_2 = f(x_0, x_1, x_2), \quad \ldots, \quad</span>
+<span class="sd">            a_n = f(x_0, x_1, \ldots, x_n)</span>
+<span class="sd">        \end{gather}</span>
+
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; from cmlabs.interpolate import newton</span>
+<span class="sd">    &gt;&gt;&gt; xvals = np.array([0, 2, 3, 5])</span>
+<span class="sd">    &gt;&gt;&gt; yvals = np.array([1, 3, 2, 5])</span>
+<span class="sd">    &gt;&gt;&gt; x = np.float32(1.5)</span>
+<span class="sd">    &gt;&gt;&gt; newton(xvals, x, yvals=yvals)</span>
+<span class="sd">    3.3375</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">xvals</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">coef</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">n</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">coef</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;coef must have the same length as xvals and yvals&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">yvals</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">coef</span> <span class="o">=</span> <span class="n">divided_differences</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">yvals</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">coef</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Either yvals or coef must be provided&quot;</span><span class="p">)</span>
+
+    <span class="n">res</span> <span class="o">=</span> <span class="n">coef</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">res</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">xvals</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span> <span class="n">coef</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
 
     <span class="k">return</span> <span class="n">res</span></div>
 
