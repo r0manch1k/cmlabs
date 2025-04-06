@@ -3,13 +3,10 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-cmlabs documentation
+Cmlabs Documentation
 ====================
 
-Add your content using ``reStructuredText`` syntax. See the
-`reStructuredText <https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html>`_
-documentation for details.
-
+The `cmlabs` package is designed to complete `computational mathematics labs <https://files.teachbase.ru/system/attachment/2073903/file/692ea302cb4d810fe1b45462f76e19b8.pdf>`_. It provides a collection of tools for interpolation, numerical methods. 
 
 .. toctree::
    :maxdepth: 2

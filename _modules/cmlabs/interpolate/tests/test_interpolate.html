@@ -41,7 +41,7 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../cmlabs.html">cmlabs package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../cmlabs.interpolate.html">Interpolation (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.interpolate</span></code>)</a></li>
 </ul>
 
         </div>
@@ -91,6 +91,7 @@
 <span class="sd">    .. math::</span>
 
 <span class="sd">        f(x) = x - \log_{10}(x + 2)</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">x</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
 
@@ -111,7 +112,7 @@
 
 
 <div class="viewcode-block" id="test_lagrange_degree">
-<a class="viewcode-back" href="../../../../cmlabs.interpolate.tests.html#cmlabs.interpolate.test_lagrange_degree">[docs]</a>
+<a class="viewcode-back" href="../../../../_autosummary/cmlabs.interpolate.test_lagrange_degree.html#cmlabs.interpolate.test_lagrange_degree">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_lagrange_degree</span><span class="p">():</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Calculate Lagrange interpolation polynomial of degree 1 at :math:`x^*`.</span>
 
@@ -133,6 +134,11 @@
 <span class="sd">    &gt;&gt;&gt; # Nearest f(x) values: [0.287 0.334]</span>
 <span class="sd">    &gt;&gt;&gt; lagrange([0.722 0.778], [0.287 0.334], 0.77)</span>
 <span class="sd">    &gt;&gt;&gt; # 0.327530850170338</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    lagrange</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Test 1: Lagrange Interpolation Of Degree 1&quot;</span><span class="p">)</span>
@@ -164,7 +170,7 @@
 
 
 <div class="viewcode-block" id="test_lagrange_remainder_1">
-<a class="viewcode-back" href="../../../../cmlabs.interpolate.tests.html#cmlabs.interpolate.test_lagrange_remainder_1">[docs]</a>
+<a class="viewcode-back" href="../../../../_autosummary/cmlabs.interpolate.test_lagrange_remainder_1.html#cmlabs.interpolate.test_lagrange_remainder_1">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_lagrange_remainder_1</span><span class="p">():</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Estimate the derivative and remainder degree 1.</span>
 
@@ -203,6 +209,11 @@
 <span class="sd">    &gt;&gt;&gt; # True</span>
 <span class="sd">    &gt;&gt;&gt; abs(1.0889016164338089e-05) &lt;= 1e-4</span>
 <span class="sd">    &gt;&gt;&gt; # True</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    lagrange_remainder</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Test 2: Estimating Remainder Degree 1 In Lagrange Interpolation Formula&quot;</span><span class="p">)</span>
@@ -246,7 +257,7 @@
 
 
 <div class="viewcode-block" id="test_lagrange_degree_2">
-<a class="viewcode-back" href="../../../../cmlabs.interpolate.tests.html#cmlabs.interpolate.test_lagrange_degree_2">[docs]</a>
+<a class="viewcode-back" href="../../../../_autosummary/cmlabs.interpolate.test_lagrange_degree_2.html#cmlabs.interpolate.test_lagrange_degree_2">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_lagrange_degree_2</span><span class="p">():</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Calculate Lagrange interpolation polynomial of degree 2 at :math:`x^*`.</span>
 
@@ -272,6 +283,11 @@
 <span class="sd">    &gt;&gt;&gt; # Nearest f(x) values: [0.287 0.334 0.381]</span>
 <span class="sd">    &gt;&gt;&gt; lagrange([0.722 0.778 0.833], [0.287 0.334 0.381], 0.77)</span>
 <span class="sd">    &gt;&gt;&gt; # 0.3275203902670937</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    lagrange</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Test 3: Lagrange Interpolation Of Degree 2&quot;</span><span class="p">)</span>
@@ -303,7 +319,7 @@
 
 
 <div class="viewcode-block" id="test_lagrange_remainder_2">
-<a class="viewcode-back" href="../../../../cmlabs.interpolate.tests.html#cmlabs.interpolate.test_lagrange_remainder_2">[docs]</a>
+<a class="viewcode-back" href="../../../../_autosummary/cmlabs.interpolate.test_lagrange_remainder_2.html#cmlabs.interpolate.test_lagrange_remainder_2">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_lagrange_remainder_2</span><span class="p">():</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Estimate the derivative and remainder degree 2.</span>
 
@@ -342,6 +358,11 @@
 <span class="sd">    &gt;&gt;&gt; # True</span>
 <span class="sd">    &gt;&gt;&gt; abs(-1.6889086295708034e-07) &lt;= 1e-5</span>
 <span class="sd">    &gt;&gt;&gt; # True</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    lagrange_remainder</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Test 4: Estimating Remainder Degree 2 In Lagrange Interpolation Formula&quot;</span><span class="p">)</span>
@@ -385,7 +406,7 @@
 
 
 <div class="viewcode-block" id="test_lagrange_compare_with_newton">
-<a class="viewcode-back" href="../../../../cmlabs.interpolate.tests.html#cmlabs.interpolate.test_lagrange_compare_with_newton">[docs]</a>
+<a class="viewcode-back" href="../../../../_autosummary/cmlabs.interpolate.test_lagrange_compare_with_newton.html#cmlabs.interpolate.test_lagrange_compare_with_newton">[docs]</a>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;degree&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_lagrange_compare_with_newton</span><span class="p">(</span><span class="n">degree</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compare Lagrange and Newton interpolation.</span>
@@ -426,6 +447,7 @@
 <span class="sd">    --------</span>
 <span class="sd">    lagrange</span>
 <span class="sd">    newton</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span>
@@ -460,13 +482,14 @@
 
 
 <div class="viewcode-block" id="test_lagrange_from_docs_example">
-<a class="viewcode-back" href="../../../../cmlabs.interpolate.tests.html#cmlabs.interpolate.test_lagrange_from_docs_example">[docs]</a>
+<a class="viewcode-back" href="../../../../_autosummary/cmlabs.interpolate.test_lagrange_from_docs_example.html#cmlabs.interpolate.test_lagrange_from_docs_example">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_lagrange_from_docs_example</span><span class="p">():</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Lagrange interpolation from docs example.</span>
 
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
 <span class="sd">    lagrange</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Test N: Lagrange Interpolation From Docs Example&quot;</span><span class="p">)</span>
@@ -487,13 +510,14 @@
 
 
 <div class="viewcode-block" id="test_lagrange_remainder_from_docs_example">
-<a class="viewcode-back" href="../../../../cmlabs.interpolate.tests.html#cmlabs.interpolate.test_lagrange_remainder_from_docs_example">[docs]</a>
+<a class="viewcode-back" href="../../../../_autosummary/cmlabs.interpolate.test_lagrange_remainder_from_docs_example.html#cmlabs.interpolate.test_lagrange_remainder_from_docs_example">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_lagrange_remainder_from_docs_example</span><span class="p">():</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Lagrange remainder from docs example.</span>
 
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
 <span class="sd">    lagrange_remainder</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Test N: Lagrange Remainder From Docs Example&quot;</span><span class="p">)</span>
@@ -532,13 +556,14 @@
 
 
 <div class="viewcode-block" id="test_newton_from_docs_example">
-<a class="viewcode-back" href="../../../../cmlabs.interpolate.tests.html#cmlabs.interpolate.test_newton_from_docs_example">[docs]</a>
+<a class="viewcode-back" href="../../../../_autosummary/cmlabs.interpolate.test_newton_from_docs_example.html#cmlabs.interpolate.test_newton_from_docs_example">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_newton_from_docs_example</span><span class="p">():</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Newton interpolation from docs example.</span>
 
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
 <span class="sd">    newton</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Test N: Newton Interpolation From Docs Example&quot;</span><span class="p">)</span>
