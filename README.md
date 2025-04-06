@@ -1,2 +1,9 @@
 # cmlabs
-Computational mathematics methods
+
+computational mathematics labs
+
+the actual labs implemented as tests
+
+```sh
+make tests
+```

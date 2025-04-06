@@ -61,41 +61,41 @@ def test_lagrange_degree_1():
     assert isinstance(f_obs, float)
 
 
-def test_lagrange_remainder():
-    r"""Estimate the derative and remainder in Lagrange interpolation formula.
+# def test_lagrange_remainder():
+#     r"""Estimate the derative and remainder in Lagrange interpolation formula.
 
-    .. math::
+#     .. math::
 
-        \begin{gather}
-            R_n(x) = f(x) - L_n(x) \\
-            |f^{(n+1)}(\xi)| \leq \left|\frac{(n+1)!
-            \cdot R_n(x)}{\omega_{n+1}}\right|
-        \end{gather}
-    """
-    print("\n")
-    print("Test 2: Estimating Remainder In Lagrange Interpolation Formula\n")
-    print("- X: ", df["X"].values)
-    print("- x* = ", df["x*"])
+#         \begin{gather}
+#             R_n(x) = f(x) - L_n(x) \\
+#             |f^{(n+1)}(\xi)| \leq \left|\frac{(n+1)!
+#             \cdot R_n(x)}{\omega_{n+1}}\right|
+#         \end{gather}
+#     """
+#     print("\n")
+#     print("Test 2: Estimating Remainder In Lagrange Interpolation Formula\n")
+#     print("- X: ", df["X"].values)
+#     print("- x* = ", df["x*"])
 
-    distances = np.abs(df["X"] - df["x*"])
-    sorted_indices = np.argsort(distances)
-    nearest_x = np.sort(df["X"][sorted_indices[:2]])
-    print(f"Nearest points: {nearest_x}")
+#     distances = np.abs(df["X"] - df["x*"])
+#     sorted_indices = np.argsort(distances)
+#     nearest_x = np.sort(df["X"][sorted_indices[:2]])
+#     print(f"Nearest points: {nearest_x}")
 
-    nearest_y = df["f"](nearest_x)
-    print(f"Nearest f(x) values: {nearest_y}")
+#     nearest_y = df["f"](nearest_x)
+#     print(f"Nearest f(x) values: {nearest_y}")
 
-    print(""
-    res = lagrange_remainder(df["X"].values, df["Y"].values, df["x*"].values)
+#     print(""
+#     res = lagrange_remainder(df["X"].values, df["Y"].values, df["x*"].values)
 
-    print("Result: ", res)
+#     print("Result: ", res)
 
-    expected = lagrange_remainder(
-        df["X"].values, df["Y"].values, df["x*"].values, method=method
-    )
-    print("Expected: ", expected)
+#     expected = lagrange_remainder(
+#         df["X"].values, df["Y"].values, df["x*"].values, method=method
+#     )
+#     print("Expected: ", expected)
 
-    assert np.isclose(res, expected, atol=TOL)
+#     assert np.isclose(res, expected, atol=TOL)
 
 
 def test_lagrange_remainder_from_docs_example():
