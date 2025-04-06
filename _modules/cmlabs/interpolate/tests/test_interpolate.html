@@ -1,0 +1,241 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cmlabs.interpolate.tests.test_interpolate &mdash; cmlabs 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/plot_directive.css" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            cmlabs
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../cmlabs.html">cmlabs package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">cmlabs</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">cmlabs.interpolate.tests.test_interpolate</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for cmlabs.interpolate.tests.test_interpolate</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">cmlabs.interpolate</span><span class="w"> </span><span class="kn">import</span> <span class="n">lagrange</span><span class="p">,</span> <span class="n">lagrange_remainder</span>
+
+
+<div class="viewcode-block" id="f">
+<a class="viewcode-back" href="../../../../cmlabs.interpolate.tests.html#cmlabs.interpolate.tests.test_interpolate.f">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span></div>
+
+
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="n">f</span><span class="p">,</span>
+    <span class="s2">&quot;X&quot;</span><span class="p">:</span> <span class="n">X</span><span class="p">,</span>
+    <span class="s2">&quot;Y&quot;</span><span class="p">:</span> <span class="n">f</span><span class="p">(</span><span class="n">X</span><span class="p">),</span>
+    <span class="s2">&quot;x*&quot;</span><span class="p">:</span> <span class="mf">0.77</span><span class="p">,</span>
+    <span class="s2">&quot;x**&quot;</span><span class="p">:</span> <span class="mf">0.52</span><span class="p">,</span>
+    <span class="s2">&quot;x***&quot;</span><span class="p">:</span> <span class="mf">0.97</span><span class="p">,</span>
+    <span class="s2">&quot;x****&quot;</span><span class="p">:</span> <span class="mf">0.73</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<span class="n">TOL</span> <span class="o">=</span> <span class="mf">1e-4</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">set_printoptions</span><span class="p">(</span><span class="n">threshold</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">suppress</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="test_lagrange_degree_1">
+<a class="viewcode-back" href="../../../../cmlabs.interpolate.tests.html#cmlabs.interpolate.tests.test_interpolate.test_lagrange_degree_1">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_lagrange_degree_1</span><span class="p">():</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Calculate Lagrange interpolation polynomial of degree 1 at :math:`x^*`.</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        L_1(x^*) = f(x_i) \cdot \frac{x^* - x_{i+1}}{x_i - x_{i+1}} +</span>
+<span class="sd">        f(x_{i+1}) \cdot \frac{x^* - x_i}{x_{i+1} - x_i}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Test 1: Lagrange Interpolation Of Degree 1&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- f(x) = x - lg(x + 2)&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- X: &quot;</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- Y: &quot;</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;Y&quot;</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- x* = &quot;</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;x*&quot;</span><span class="p">])</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&gt;&gt;&gt; f(</span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;x*&quot;</span><span class="p">]</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+    <span class="n">f_exp</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;f&quot;</span><span class="p">](</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;x*&quot;</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">f_exp</span><span class="p">)</span>
+
+    <span class="n">distances</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;x*&quot;</span><span class="p">])</span>
+    <span class="n">sorted_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">distances</span><span class="p">)</span>
+    <span class="n">nearest_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">][</span><span class="n">sorted_indices</span><span class="p">[:</span><span class="mi">2</span><span class="p">]])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Nearest points: </span><span class="si">{</span><span class="n">nearest_x</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">nearest_y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;f&quot;</span><span class="p">](</span><span class="n">nearest_x</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Nearest f(x) values: </span><span class="si">{</span><span class="n">nearest_y</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&gt;&gt;&gt; lagrange(</span><span class="si">{</span><span class="n">nearest_x</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">nearest_y</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;x*&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+    <span class="n">f_obs</span> <span class="o">=</span> <span class="n">lagrange</span><span class="p">(</span><span class="n">nearest_x</span><span class="p">,</span> <span class="n">nearest_y</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;x*&quot;</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">f_obs</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">f_obs</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span></div>
+
+
+
+<span class="c1"># def test_lagrange_remainder():</span>
+<span class="c1">#     r&quot;&quot;&quot;Estimate the derative and remainder in Lagrange interpolation formula.</span>
+
+<span class="c1">#     .. math::</span>
+
+<span class="c1">#         \begin{gather}</span>
+<span class="c1">#             R_n(x) = f(x) - L_n(x) \\</span>
+<span class="c1">#             |f^{(n+1)}(\xi)| \leq \left|\frac{(n+1)!</span>
+<span class="c1">#             \cdot R_n(x)}{\omega_{n+1}}\right|</span>
+<span class="c1">#         \end{gather}</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     print(&quot;\n&quot;)</span>
+<span class="c1">#     print(&quot;Test 2: Estimating Remainder In Lagrange Interpolation Formula\n&quot;)</span>
+<span class="c1">#     print(&quot;- X: &quot;, df[&quot;X&quot;].values)</span>
+<span class="c1">#     print(&quot;- x* = &quot;, df[&quot;x*&quot;])</span>
+
+<span class="c1">#     distances = np.abs(df[&quot;X&quot;] - df[&quot;x*&quot;])</span>
+<span class="c1">#     sorted_indices = np.argsort(distances)</span>
+<span class="c1">#     nearest_x = np.sort(df[&quot;X&quot;][sorted_indices[:2]])</span>
+<span class="c1">#     print(f&quot;Nearest points: {nearest_x}&quot;)</span>
+
+<span class="c1">#     nearest_y = df[&quot;f&quot;](nearest_x)</span>
+<span class="c1">#     print(f&quot;Nearest f(x) values: {nearest_y}&quot;)</span>
+
+<span class="c1">#     print(&quot;&quot;</span>
+<span class="c1">#     res = lagrange_remainder(df[&quot;X&quot;].values, df[&quot;Y&quot;].values, df[&quot;x*&quot;].values)</span>
+
+<span class="c1">#     print(&quot;Result: &quot;, res)</span>
+
+<span class="c1">#     expected = lagrange_remainder(</span>
+<span class="c1">#         df[&quot;X&quot;].values, df[&quot;Y&quot;].values, df[&quot;x*&quot;].values, method=method</span>
+<span class="c1">#     )</span>
+<span class="c1">#     print(&quot;Expected: &quot;, expected)</span>
+
+<span class="c1">#     assert np.isclose(res, expected, atol=TOL)</span>
+
+
+<div class="viewcode-block" id="test_lagrange_remainder_from_docs_example">
+<a class="viewcode-back" href="../../../../cmlabs.interpolate.tests.html#cmlabs.interpolate.tests.test_interpolate.test_lagrange_remainder_from_docs_example">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_lagrange_remainder_from_docs_example</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Test 3: Lagrange Remainder From Docs Example&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- f(x) = sin(x)&quot;</span><span class="p">)</span>
+
+    <span class="n">xvals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">6</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">])</span>
+    <span class="n">yvals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- X: &quot;</span><span class="p">,</span> <span class="n">xvals</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- Y: &quot;</span><span class="p">,</span> <span class="n">yvals</span><span class="p">)</span>
+
+    <span class="n">M</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;- n = </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">xvals</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;- M_3 = max |f&#39;&#39;&#39;(x)| = </span><span class="si">{</span><span class="n">M</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&gt;&gt;&gt; np.sin(x) - lagrange(xvals, yvals, x)&quot;</span><span class="p">)</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">4</span>
+    <span class="n">r_exp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">lagrange</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">yvals</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">r_exp</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&gt;&gt;&gt; lagrange_remainder(X, </span><span class="si">{</span><span class="n">M</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+    <span class="n">r_obs</span> <span class="o">=</span> <span class="n">lagrange_remainder</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">r_obs</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&gt;&gt;&gt; lagrange_remainder(X, </span><span class="si">{</span><span class="n">M</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+    <span class="n">r_obs</span> <span class="o">=</span> <span class="n">lagrange_remainder</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">M</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">r_obs</span><span class="p">)</span></div>
+
+    <span class="c1"># assert np.isclose(r_obs, r_exp, atol=TOL)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Roman Sokolovsky.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
