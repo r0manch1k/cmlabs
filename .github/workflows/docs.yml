@@ -25,6 +25,9 @@ jobs:
 
       - name: Build documentation
         run: |
+          pip install sphinx
+          pip install sphinx_rtd_theme
+          pip install sphinx-autodoc-typehints
           cd docs
           make html
 
