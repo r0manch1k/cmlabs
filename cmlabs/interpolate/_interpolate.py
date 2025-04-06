@@ -12,6 +12,7 @@ def lagrange(x_arr, y_arr, x):
             P_n(x) = L_n(x) = \sum_{i=0}^{n} l_i(x) f(x_i) \\
             l_i(x) = \prod_{j=0, j \neq i}^{n} \frac{x - x_j}{x_i - x_j}
         \end{gather}
+
     where :math:`l_i(x)` is the Lagrange basis polynomial for the i-th data point.
 
     Parameters
