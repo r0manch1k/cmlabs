@@ -37,10 +37,12 @@ Finite differences interpolation
    :toctree: _autosummary
    :nosignatures:
 
+   finite_differences
    forward_differences
    backward_differences
    newtonfd
    newtonbd
+   gaussfd
 
 
 Tests
@@ -58,6 +60,11 @@ Tests
    test_lagrange_from_docs_example
    test_lagrange_remainder_from_docs_example
    test_newton_from_docs_example
+   test_forward_differences_from_docs_example
+   test_backward_differences_from_docs_example
+   test_newtonfd_from_docs_example
+   test_newtonbd_from_docs_example
+
 """
 
 from ._interpolate import *

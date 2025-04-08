@@ -4,10 +4,12 @@ from cmlabs.interpolate import (
     lagrange,
     lagrange_remainder,
     newton,
+    finite_differences,
     forward_differences,
     backward_differences,
     newtonfd,
     newtonbd,
+    gaussfd,
 )
 
 __all__ = [
@@ -19,6 +21,10 @@ __all__ = [
     "test_lagrange_from_docs_example",
     "test_lagrange_remainder_from_docs_example",
     "test_newton_from_docs_example",
+    "test_forward_differences_from_docs_example",
+    "test_backward_differences_from_docs_example",
+    "test_newtonfd_from_docs_example",
+    "test_newtonbd_from_docs_example",
 ]
 
 
@@ -496,6 +502,28 @@ def test_newton_from_docs_example():
     assert isinstance(f_obs, float), "Result is not a float"
 
 
+def test_finite_differences_from_docs_example():
+    r"""Finite differences from docs example.
+
+    See Also
+    --------
+    finite_differences
+
+    """
+    print("\n")
+    print("Test N: Finite Differences From Docs Example")
+
+    yvals = np.array([1, 3, 2, 5])
+    print("- Y: ", yvals)
+
+    print(f">>> finite_differences({yvals})")
+
+    fd = finite_differences(yvals)
+    print(fd)
+
+    assert isinstance(fd, list), "Result is not a list"
+
+
 def test_forward_differences_from_docs_example():
     r"""Forward differences from docs example.
 
@@ -515,12 +543,7 @@ def test_forward_differences_from_docs_example():
     fd = forward_differences(yvals)
     print(fd)
 
-    print(f">>> forward_differences({yvals}, newton=True)")
-
-    fd_newton = forward_differences(yvals, newton=True)
-    print(fd_newton)
-
-    assert isinstance(fd, list), "Result is not a list"
+    assert isinstance(fd, np.ndarray), "Result is not a numpy array"
 
 
 def test_backward_differences_from_docs_example():
@@ -542,16 +565,11 @@ def test_backward_differences_from_docs_example():
     bd = backward_differences(yvals)
     print(bd)
 
-    print(f">>> backward_differences({yvals}, newton=True)")
-
-    bd_newton = backward_differences(yvals, newton=True)
-    print(bd_newton)
-
-    assert isinstance(bd, list), "Result is not a numpy array"
+    assert isinstance(bd, np.ndarray), "Result is not a numpy array"
 
 
 def test_newtonfd_from_docs_example():
-    r"""Newton forward differences from docs example.
+    r"""Newton's forward interpolation formula from docs example.
 
     See Also
     --------
@@ -566,7 +584,7 @@ def test_newtonfd_from_docs_example():
     print("- X: ", xvals)
     print("- Y: ", yvals)
 
-    x = 0.1
+    x = 0.5
     print(f">>> x = {x}")
 
     print(f">>> newtonfd({xvals}, {x}, yvals={yvals})")
@@ -578,7 +596,7 @@ def test_newtonfd_from_docs_example():
 
 
 def test_newtonbd_from_docs_example():
-    r"""Newton backward differences from docs example.
+    r"""Newton's backward interpolation formula from docs example.
 
     See Also
     --------
@@ -599,6 +617,33 @@ def test_newtonbd_from_docs_example():
     print(f">>> newtonbd({xvals}, {x}, yvals={yvals})")
 
     f_obs = newtonbd(xvals, x, yvals=yvals)
+    print(f_obs)
+
+    assert isinstance(f_obs, float), "Result is not a float"
+
+
+def test_gaussfd_from_docs_example():
+    r"""Gauss’s forward interpolation formula from docs example.
+
+    See Also
+    --------
+    gaussfd
+
+    """
+    print("\n")
+    print("Test N: Gauss Forward Differences From Docs Example")
+
+    xvals = np.array([0, 1, 2, 3])
+    yvals = np.array([1, 3, 2, 5])
+    print("- X: ", xvals)
+    print("- Y: ", yvals)
+
+    x = 1.5
+    print(f">>> x = {x}")
+
+    print(f">>> gaussfd({xvals}, {x}, yvals={yvals})")
+
+    f_obs = gaussfd(xvals, x, yvals=yvals)
     print(f_obs)
 
     assert isinstance(f_obs, float), "Result is not a float"
