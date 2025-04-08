@@ -17,9 +17,12 @@
       <script src="../_static/documentation_options.js?v=d45e8c67"></script>
       <script src="../_static/doctools.js?v=9bcbadda"></script>
       <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="cmlabs.interpolate.newtonfd" href="cmlabs.interpolate.newtonfd.html" />
+    <link rel="prev" title="cmlabs.interpolate.forward_differences" href="cmlabs.interpolate.forward_differences.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -41,11 +44,25 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">cmlabs.interpolate.backward_differences</a></li>
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../cmlabs.interpolate.html">Interpolation (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.interpolate</span></code>)</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../cmlabs.interpolate.html#lagrange-interpolation">Lagrange interpolation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cmlabs.interpolate.html#newton-interpolation">Newton interpolation</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../cmlabs.interpolate.html#finite-differences-interpolation">Finite differences interpolation</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.forward_differences.html">cmlabs.interpolate.forward_differences</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">cmlabs.interpolate.backward_differences</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cmlabs.interpolate.backward_differences"><code class="docutils literal notranslate"><span class="pre">backward_differences()</span></code></a></li>
 </ul>
-</div>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.newtonfd.html">cmlabs.interpolate.newtonfd</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.newtonbd.html">cmlabs.interpolate.newtonbd</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../cmlabs.interpolate.html#tests">Tests</a></li>
+</ul>
+</li>
+</ul>
+
         </div>
       </div>
     </nav>
@@ -60,6 +77,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../cmlabs.interpolate.html">Interpolation (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.interpolate</span></code>)</a></li>
       <li class="breadcrumb-item active">cmlabs.interpolate.backward_differences</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/_autosummary/cmlabs.interpolate.backward_differences.rst.txt" rel="nofollow"> View page source</a>
@@ -72,12 +90,66 @@
              
   <section id="cmlabs-interpolate-backward-differences">
 <h1>cmlabs.interpolate.backward_differences<a class="headerlink" href="#cmlabs-interpolate-backward-differences" title="Link to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="cmlabs.interpolate.backward_differences">
+<span class="sig-prename descclassname"><span class="pre">cmlabs.interpolate.</span></span><span class="sig-name descname"><span class="pre">backward_differences</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">yvals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">newton</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cmlabs/interpolate/_interpolate.html#backward_differences"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmlabs.interpolate.backward_differences" title="Link to this definition"></a></dt>
+<dd><p>Return the backward differences table.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{gather}
+    \nabla^k f_{i+1} = \nabla^{k-1} f_{i+1} - \nabla^{k-1} f_i, \\
+    f_i = f(x_0 + i \cdot h)
+\end{gather}\end{split}\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>yvals</strong> (<em>array_like</em><em>, </em><em>1-D</em>) – The y-coordinates of the data points.</p></li>
+<li><p><strong>newton</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, the function will return the backward differences list
+at <span class="math notranslate nohighlight">\(x_n\)</span> instead of the table.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>res</strong> – The backward differences table.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>array_like, 2-D | 1-D</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The output is the table with following structure:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\left[\begin{gather}
+[\nabla^0 f_0 \quad \nabla^0 f_1 \quad \ldots \quad \nabla^0 f_n] \\
+[\nabla^1 f_1 \quad \nabla^1 f_1 \quad \ldots \quad \nabla^1 f_n] \\
+[\nabla^2 f_2 \quad \nabla^2 f_1 \quad \ldots \quad \nabla^2 f_n] \\
+\vdots \\
+[\nabla^n f_n]
+\end{gather}\right]\end{split}\]</div>
+<p>where <cite>n = len(yvals) - 1</cite>.</p>
+<p>If <cite>netwon</cite> is True, the function will return the backward differences list
+with the following structure:</p>
+<div class="math notranslate nohighlight">
+\[[\nabla^0 f_n, \nabla^1 f_n, \nabla^2 f_n, \ldots, \nabla^n f_n]\]</div>
+<p>The backward differences list is used to compute the coefficients
+of the Newton Backward-Difference Formula</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">cmlabs.interpolate</span><span class="w"> </span><span class="kn">import</span> <span class="n">backward_differences</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">yvals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">backward_differences</span><span class="p">(</span><span class="n">yvals</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">]]</span>
+</pre></div>
+</div>
+</dd></dl>
+
 </section>
 
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="cmlabs.interpolate.forward_differences.html" class="btn btn-neutral float-left" title="cmlabs.interpolate.forward_differences" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="cmlabs.interpolate.newtonfd.html" class="btn btn-neutral float-right" title="cmlabs.interpolate.newtonfd" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 

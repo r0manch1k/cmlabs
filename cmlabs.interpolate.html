@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>&lt;no title&gt; &mdash; cmlabs 0.0.1 documentation</title>
+  <title>Interpolation (cmlabs.interpolate) &mdash; cmlabs 0.0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
@@ -17,9 +17,11 @@
       <script src="_static/documentation_options.js?v=d45e8c67"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="cmlabs.interpolate.lagrange" href="_autosummary/cmlabs.interpolate.lagrange.html" />
     <link rel="prev" title="Cmlabs Documentation" href="index.html" /> 
 </head>
 
@@ -42,10 +44,40 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"><ul class="simple">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Interpolation (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.interpolate</span></code>)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#lagrange-interpolation">Lagrange interpolation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/cmlabs.interpolate.lagrange.html">cmlabs.interpolate.lagrange</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/cmlabs.interpolate.lagrange_remainder.html">cmlabs.interpolate.lagrange_remainder</a></li>
 </ul>
-</div>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#newton-interpolation">Newton interpolation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/cmlabs.interpolate.divided_differences.html">cmlabs.interpolate.divided_differences</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/cmlabs.interpolate.newton.html">cmlabs.interpolate.newton</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#finite-differences-interpolation">Finite differences interpolation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/cmlabs.interpolate.forward_differences.html">cmlabs.interpolate.forward_differences</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/cmlabs.interpolate.backward_differences.html">cmlabs.interpolate.backward_differences</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/cmlabs.interpolate.newtonfd.html">cmlabs.interpolate.newtonfd</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/cmlabs.interpolate.newtonbd.html">cmlabs.interpolate.newtonbd</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#tests">Tests</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_lagrange_degree.html">cmlabs.interpolate.test_lagrange_degree</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_lagrange_remainder_1.html">cmlabs.interpolate.test_lagrange_remainder_1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_lagrange_degree_2.html">cmlabs.interpolate.test_lagrange_degree_2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_lagrange_remainder_2.html">cmlabs.interpolate.test_lagrange_remainder_2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_lagrange_compare_with_newton.html">cmlabs.interpolate.test_lagrange_compare_with_newton</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_lagrange_from_docs_example.html">cmlabs.interpolate.test_lagrange_from_docs_example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_lagrange_remainder_from_docs_example.html">cmlabs.interpolate.test_lagrange_remainder_from_docs_example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_newton_from_docs_example.html">cmlabs.interpolate.test_newton_from_docs_example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
         </div>
       </div>
     </nav>
@@ -60,7 +92,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">&lt;no title&gt;</li>
+      <li class="breadcrumb-item active">Interpolation (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.interpolate</span></code>)</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/cmlabs.interpolate.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -70,12 +102,94 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  
+  <section id="interpolation-cmlabs-interpolate">
+<span id="module-cmlabs.interpolate"></span><h1>Interpolation (<a class="reference internal" href="#module-cmlabs.interpolate" title="cmlabs.interpolate"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.interpolate</span></code></a>)<a class="headerlink" href="#interpolation-cmlabs-interpolate" title="Link to this heading"></a></h1>
+<p>The <cite>cmlabs.interpolate</cite> module provides a collection of interpolation methods and
+related utilities.</p>
+<section id="lagrange-interpolation">
+<h2>Lagrange interpolation<a class="headerlink" href="#lagrange-interpolation" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/cmlabs.interpolate.lagrange.html#cmlabs.interpolate.lagrange" title="cmlabs.interpolate.lagrange"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lagrange</span></code></a></p></td>
+<td><p>Lagrange interpolation polynomial value at <span class="math notranslate nohighlight">\(x\)</span>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/cmlabs.interpolate.lagrange_remainder.html#cmlabs.interpolate.lagrange_remainder" title="cmlabs.interpolate.lagrange_remainder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lagrange_remainder</span></code></a></p></td>
+<td><p>Remainder in Lagrange interpolation formula.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="newton-interpolation">
+<h2>Newton interpolation<a class="headerlink" href="#newton-interpolation" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/cmlabs.interpolate.divided_differences.html#cmlabs.interpolate.divided_differences" title="cmlabs.interpolate.divided_differences"><code class="xref py py-obj docutils literal notranslate"><span class="pre">divided_differences</span></code></a></p></td>
+<td><p>Return the ordered divided differences list.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/cmlabs.interpolate.newton.html#cmlabs.interpolate.newton" title="cmlabs.interpolate.newton"><code class="xref py py-obj docutils literal notranslate"><span class="pre">newton</span></code></a></p></td>
+<td><p>Newton interpolation polynomial value at <span class="math notranslate nohighlight">\(x\)</span>.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="finite-differences-interpolation">
+<h2>Finite differences interpolation<a class="headerlink" href="#finite-differences-interpolation" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/cmlabs.interpolate.forward_differences.html#cmlabs.interpolate.forward_differences" title="cmlabs.interpolate.forward_differences"><code class="xref py py-obj docutils literal notranslate"><span class="pre">forward_differences</span></code></a></p></td>
+<td><p>Return the forward differences table.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/cmlabs.interpolate.backward_differences.html#cmlabs.interpolate.backward_differences" title="cmlabs.interpolate.backward_differences"><code class="xref py py-obj docutils literal notranslate"><span class="pre">backward_differences</span></code></a></p></td>
+<td><p>Return the backward differences table.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/cmlabs.interpolate.newtonfd.html#cmlabs.interpolate.newtonfd" title="cmlabs.interpolate.newtonfd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">newtonfd</span></code></a></p></td>
+<td><p>Newton interpolation polynomial value at <span class="math notranslate nohighlight">\(x\)</span> using forward differences.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/cmlabs.interpolate.newtonbd.html#cmlabs.interpolate.newtonbd" title="cmlabs.interpolate.newtonbd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">newtonbd</span></code></a></p></td>
+<td><p>Newton interpolation polynomial value at <span class="math notranslate nohighlight">\(x\)</span> using backward differences.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="tests">
+<h2>Tests<a class="headerlink" href="#tests" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_lagrange_degree.html#cmlabs.interpolate.test_lagrange_degree" title="cmlabs.interpolate.test_lagrange_degree"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_lagrange_degree</span></code></a></p></td>
+<td><p>Calculate Lagrange interpolation polynomial of degree 1 at <span class="math notranslate nohighlight">\(x^*\)</span>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_lagrange_remainder_1.html#cmlabs.interpolate.test_lagrange_remainder_1" title="cmlabs.interpolate.test_lagrange_remainder_1"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_lagrange_remainder_1</span></code></a></p></td>
+<td><p>Estimate the derivative and remainder degree 1.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_lagrange_degree_2.html#cmlabs.interpolate.test_lagrange_degree_2" title="cmlabs.interpolate.test_lagrange_degree_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_lagrange_degree_2</span></code></a></p></td>
+<td><p>Calculate Lagrange interpolation polynomial of degree 2 at <span class="math notranslate nohighlight">\(x^*\)</span>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_lagrange_remainder_2.html#cmlabs.interpolate.test_lagrange_remainder_2" title="cmlabs.interpolate.test_lagrange_remainder_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_lagrange_remainder_2</span></code></a></p></td>
+<td><p>Estimate the derivative and remainder degree 2.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_lagrange_compare_with_newton.html#cmlabs.interpolate.test_lagrange_compare_with_newton" title="cmlabs.interpolate.test_lagrange_compare_with_newton"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_lagrange_compare_with_newton</span></code></a></p></td>
+<td><p>Compare Lagrange and Newton interpolation.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_lagrange_from_docs_example.html#cmlabs.interpolate.test_lagrange_from_docs_example" title="cmlabs.interpolate.test_lagrange_from_docs_example"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_lagrange_from_docs_example</span></code></a></p></td>
+<td><p>Lagrange interpolation from docs example.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_lagrange_remainder_from_docs_example.html#cmlabs.interpolate.test_lagrange_remainder_from_docs_example" title="cmlabs.interpolate.test_lagrange_remainder_from_docs_example"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_lagrange_remainder_from_docs_example</span></code></a></p></td>
+<td><p>Lagrange remainder from docs example.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_newton_from_docs_example.html#cmlabs.interpolate.test_newton_from_docs_example" title="cmlabs.interpolate.test_newton_from_docs_example"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_newton_from_docs_example</span></code></a></p></td>
+<td><p>Newton interpolation from docs example.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="index.html" class="btn btn-neutral float-left" title="Cmlabs Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="_autosummary/cmlabs.interpolate.lagrange.html" class="btn btn-neutral float-right" title="cmlabs.interpolate.lagrange" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
