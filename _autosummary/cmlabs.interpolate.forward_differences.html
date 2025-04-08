@@ -22,7 +22,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="cmlabs.interpolate.backward_differences" href="cmlabs.interpolate.backward_differences.html" />
-    <link rel="prev" title="cmlabs.interpolate.newton" href="cmlabs.interpolate.newton.html" /> 
+    <link rel="prev" title="cmlabs.interpolate.finite_differences" href="cmlabs.interpolate.finite_differences.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -49,6 +49,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../cmlabs.interpolate.html#lagrange-interpolation">Lagrange interpolation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../cmlabs.interpolate.html#newton-interpolation">Newton interpolation</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../cmlabs.interpolate.html#finite-differences-interpolation">Finite differences interpolation</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.finite_differences.html">cmlabs.interpolate.finite_differences</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">cmlabs.interpolate.forward_differences</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#cmlabs.interpolate.forward_differences"><code class="docutils literal notranslate"><span class="pre">forward_differences()</span></code></a></li>
 </ul>
@@ -56,6 +57,7 @@
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.backward_differences.html">cmlabs.interpolate.backward_differences</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.newtonfd.html">cmlabs.interpolate.newtonfd</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.newtonbd.html">cmlabs.interpolate.newtonbd</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.gaussfd.html">cmlabs.interpolate.gaussfd</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../cmlabs.interpolate.html#tests">Tests</a></li>
@@ -92,43 +94,28 @@
 <h1>cmlabs.interpolate.forward_differences<a class="headerlink" href="#cmlabs-interpolate-forward-differences" title="Link to this heading"></a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="cmlabs.interpolate.forward_differences">
-<span class="sig-prename descclassname"><span class="pre">cmlabs.interpolate.</span></span><span class="sig-name descname"><span class="pre">forward_differences</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">yvals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">newton</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cmlabs/interpolate/_interpolate.html#forward_differences"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmlabs.interpolate.forward_differences" title="Link to this definition"></a></dt>
-<dd><p>Return the forward differences table.</p>
+<span class="sig-prename descclassname"><span class="pre">cmlabs.interpolate.</span></span><span class="sig-name descname"><span class="pre">forward_differences</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">yvals</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cmlabs/interpolate/_interpolate.html#forward_differences"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmlabs.interpolate.forward_differences" title="Link to this definition"></a></dt>
+<dd><p>Return the forward differences list for <span class="math notranslate nohighlight">\(f(x_0)\)</span>.</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}\begin{gather}
-    \Delta^k f_i = \Delta^{k-1} f_{i+1} - \Delta^{k-1} f_i, \\
-    f_i = f(x_0 + i \cdot h)
-\end{gather}\end{split}\]</div>
+\[\begin{gather}
+    \Delta^k f(x_i) = \Delta^{k-1} f(x_{i+1}) - \Delta^{k-1} f(x_i)
+\end{gather}\]</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>yvals</strong> (<em>array_like</em><em>, </em><em>1-D</em>) – The y-coordinates of the data points.</p></li>
-<li><p><strong>newton</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, the function will return the forward differences list
-at <span class="math notranslate nohighlight">\(x_0\)</span> instead of the table.</p></li>
-</ul>
+<dd class="field-odd"><p><strong>yvals</strong> (<em>array_like</em><em>, </em><em>1-D</em>) – The y-coordinates of the data points.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>res</strong> – The forward differences table.</p>
+<dd class="field-even"><p><strong>res</strong> – The forward differences list.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>array_like, 2-D | 1-D</p>
+<dd class="field-odd"><p>array_like, 1-D</p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
-<p>The output is the table with following structure:</p>
+<p>The output is the list with following structure:</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}\left[\begin{gather}
-[\Delta^0 f_0 \quad \Delta^0 f_1 \quad \ldots \quad \Delta^0 f_n] \\
-[\Delta^1 f_0 \quad \Delta^1 f_1 \quad \ldots \quad \Delta^1 f_{n-1}] \\
-[\Delta^2 f_0 \quad \Delta^2 f_1 \quad \ldots \quad \Delta^2 f_{n-2}] \\
-\vdots \\
-[\Delta^n f_0]
-\end{gather}\right]\end{split}\]</div>
+\[[\Delta^0 f(x_0), \Delta^1 f(x_0), \Delta^2 f(x_0), \ldots, \Delta^n f(x_0)]\]</div>
 <p>where <cite>n = len(yvals) - 1</cite>.</p>
-<p>If <cite>netwon</cite> is True, the function will return the forward differences list
-with the following structure:</p>
-<div class="math notranslate nohighlight">
-\[[\Delta^0 f_0, \Delta^1 f_0, \Delta^2 f_0, \ldots, \Delta^n f_0]\]</div>
 <p>The forward differences list is used to compute the coefficients
 of the Newton Forward-Difference Formula</p>
 <p class="rubric">Examples</p>
@@ -136,8 +123,6 @@ of the Newton Forward-Difference Formula</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">cmlabs.interpolate</span><span class="w"> </span><span class="kn">import</span> <span class="n">forward_differences</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">yvals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">forward_differences</span><span class="p">(</span><span class="n">yvals</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">]]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">forward_differences</span><span class="p">(</span><span class="n">yvals</span><span class="p">,</span> <span class="n">newton</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>
 </pre></div>
 </div>
@@ -149,7 +134,7 @@ of the Newton Forward-Difference Formula</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="cmlabs.interpolate.newton.html" class="btn btn-neutral float-left" title="cmlabs.interpolate.newton" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="cmlabs.interpolate.finite_differences.html" class="btn btn-neutral float-left" title="cmlabs.interpolate.finite_differences" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="cmlabs.interpolate.backward_differences.html" class="btn btn-neutral float-right" title="cmlabs.interpolate.backward_differences" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

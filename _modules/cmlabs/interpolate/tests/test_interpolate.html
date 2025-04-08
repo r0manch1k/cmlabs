@@ -75,10 +75,12 @@
     <span class="n">lagrange</span><span class="p">,</span>
     <span class="n">lagrange_remainder</span><span class="p">,</span>
     <span class="n">newton</span><span class="p">,</span>
+    <span class="n">finite_differences</span><span class="p">,</span>
     <span class="n">forward_differences</span><span class="p">,</span>
     <span class="n">backward_differences</span><span class="p">,</span>
     <span class="n">newtonfd</span><span class="p">,</span>
     <span class="n">newtonbd</span><span class="p">,</span>
+    <span class="n">gaussfd</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
@@ -90,6 +92,10 @@
     <span class="s2">&quot;test_lagrange_from_docs_example&quot;</span><span class="p">,</span>
     <span class="s2">&quot;test_lagrange_remainder_from_docs_example&quot;</span><span class="p">,</span>
     <span class="s2">&quot;test_newton_from_docs_example&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;test_forward_differences_from_docs_example&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;test_backward_differences_from_docs_example&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;test_newtonfd_from_docs_example&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;test_newtonbd_from_docs_example&quot;</span><span class="p">,</span>
 <span class="p">]</span>
 
 
@@ -591,6 +597,30 @@
 
 
 
+<span class="k">def</span><span class="w"> </span><span class="nf">test_finite_differences_from_docs_example</span><span class="p">():</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Finite differences from docs example.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    finite_differences</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Test N: Finite Differences From Docs Example&quot;</span><span class="p">)</span>
+
+    <span class="n">yvals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- Y: &quot;</span><span class="p">,</span> <span class="n">yvals</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&gt;&gt;&gt; finite_differences(</span><span class="si">{</span><span class="n">yvals</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+    <span class="n">fd</span> <span class="o">=</span> <span class="n">finite_differences</span><span class="p">(</span><span class="n">yvals</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fd</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="nb">list</span><span class="p">),</span> <span class="s2">&quot;Result is not a list&quot;</span>
+
+
+<div class="viewcode-block" id="test_forward_differences_from_docs_example">
+<a class="viewcode-back" href="../../../../_autosummary/cmlabs.interpolate.test_forward_differences_from_docs_example.html#cmlabs.interpolate.test_forward_differences_from_docs_example">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_forward_differences_from_docs_example</span><span class="p">():</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Forward differences from docs example.</span>
 
@@ -610,14 +640,12 @@
     <span class="n">fd</span> <span class="o">=</span> <span class="n">forward_differences</span><span class="p">(</span><span class="n">yvals</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">fd</span><span class="p">)</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&gt;&gt;&gt; forward_differences(</span><span class="si">{</span><span class="n">yvals</span><span class="si">}</span><span class="s2">, newton=True)&quot;</span><span class="p">)</span>
-
-    <span class="n">fd_newton</span> <span class="o">=</span> <span class="n">forward_differences</span><span class="p">(</span><span class="n">yvals</span><span class="p">,</span> <span class="n">newton</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">fd_newton</span><span class="p">)</span>
-
-    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="nb">list</span><span class="p">),</span> <span class="s2">&quot;Result is not a list&quot;</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">),</span> <span class="s2">&quot;Result is not a numpy array&quot;</span></div>
 
 
+
+<div class="viewcode-block" id="test_backward_differences_from_docs_example">
+<a class="viewcode-back" href="../../../../_autosummary/cmlabs.interpolate.test_backward_differences_from_docs_example.html#cmlabs.interpolate.test_backward_differences_from_docs_example">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_backward_differences_from_docs_example</span><span class="p">():</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Backward differences from docs example.</span>
 
@@ -637,16 +665,14 @@
     <span class="n">bd</span> <span class="o">=</span> <span class="n">backward_differences</span><span class="p">(</span><span class="n">yvals</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">bd</span><span class="p">)</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&gt;&gt;&gt; backward_differences(</span><span class="si">{</span><span class="n">yvals</span><span class="si">}</span><span class="s2">, newton=True)&quot;</span><span class="p">)</span>
-
-    <span class="n">bd_newton</span> <span class="o">=</span> <span class="n">backward_differences</span><span class="p">(</span><span class="n">yvals</span><span class="p">,</span> <span class="n">newton</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">bd_newton</span><span class="p">)</span>
-
-    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bd</span><span class="p">,</span> <span class="nb">list</span><span class="p">),</span> <span class="s2">&quot;Result is not a numpy array&quot;</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bd</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">),</span> <span class="s2">&quot;Result is not a numpy array&quot;</span></div>
 
 
+
+<div class="viewcode-block" id="test_newtonfd_from_docs_example">
+<a class="viewcode-back" href="../../../../_autosummary/cmlabs.interpolate.test_newtonfd_from_docs_example.html#cmlabs.interpolate.test_newtonfd_from_docs_example">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_newtonfd_from_docs_example</span><span class="p">():</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Newton forward differences from docs example.</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Newton&#39;s forward interpolation formula from docs example.</span>
 
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
@@ -661,7 +687,7 @@
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- X: &quot;</span><span class="p">,</span> <span class="n">xvals</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- Y: &quot;</span><span class="p">,</span> <span class="n">yvals</span><span class="p">)</span>
 
-    <span class="n">x</span> <span class="o">=</span> <span class="mf">0.1</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="mf">0.5</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&gt;&gt;&gt; x = </span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&gt;&gt;&gt; newtonfd(</span><span class="si">{</span><span class="n">xvals</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">, yvals=</span><span class="si">{</span><span class="n">yvals</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
@@ -669,11 +695,14 @@
     <span class="n">f_obs</span> <span class="o">=</span> <span class="n">newtonfd</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">yvals</span><span class="o">=</span><span class="n">yvals</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">f_obs</span><span class="p">)</span>
 
-    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">f_obs</span><span class="p">,</span> <span class="nb">float</span><span class="p">),</span> <span class="s2">&quot;Result is not a float&quot;</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">f_obs</span><span class="p">,</span> <span class="nb">float</span><span class="p">),</span> <span class="s2">&quot;Result is not a float&quot;</span></div>
 
 
+
+<div class="viewcode-block" id="test_newtonbd_from_docs_example">
+<a class="viewcode-back" href="../../../../_autosummary/cmlabs.interpolate.test_newtonbd_from_docs_example.html#cmlabs.interpolate.test_newtonbd_from_docs_example">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_newtonbd_from_docs_example</span><span class="p">():</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Newton backward differences from docs example.</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Newton&#39;s backward interpolation formula from docs example.</span>
 
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
@@ -694,6 +723,34 @@
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&gt;&gt;&gt; newtonbd(</span><span class="si">{</span><span class="n">xvals</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">, yvals=</span><span class="si">{</span><span class="n">yvals</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
 
     <span class="n">f_obs</span> <span class="o">=</span> <span class="n">newtonbd</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">yvals</span><span class="o">=</span><span class="n">yvals</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">f_obs</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">f_obs</span><span class="p">,</span> <span class="nb">float</span><span class="p">),</span> <span class="s2">&quot;Result is not a float&quot;</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">test_gaussfd_from_docs_example</span><span class="p">():</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Gauss’s forward interpolation formula from docs example.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    gaussfd</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Test N: Gauss Forward Differences From Docs Example&quot;</span><span class="p">)</span>
+
+    <span class="n">xvals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+    <span class="n">yvals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- X: &quot;</span><span class="p">,</span> <span class="n">xvals</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- Y: &quot;</span><span class="p">,</span> <span class="n">yvals</span><span class="p">)</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="mf">1.5</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&gt;&gt;&gt; x = </span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&gt;&gt;&gt; gaussfd(</span><span class="si">{</span><span class="n">xvals</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">, yvals=</span><span class="si">{</span><span class="n">yvals</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+    <span class="n">f_obs</span> <span class="o">=</span> <span class="n">gaussfd</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">yvals</span><span class="o">=</span><span class="n">yvals</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">f_obs</span><span class="p">)</span>
 
     <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">f_obs</span><span class="p">,</span> <span class="nb">float</span><span class="p">),</span> <span class="s2">&quot;Result is not a float&quot;</span>

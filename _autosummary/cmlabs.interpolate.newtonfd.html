@@ -49,6 +49,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../cmlabs.interpolate.html#lagrange-interpolation">Lagrange interpolation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../cmlabs.interpolate.html#newton-interpolation">Newton interpolation</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../cmlabs.interpolate.html#finite-differences-interpolation">Finite differences interpolation</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.finite_differences.html">cmlabs.interpolate.finite_differences</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.forward_differences.html">cmlabs.interpolate.forward_differences</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.backward_differences.html">cmlabs.interpolate.backward_differences</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">cmlabs.interpolate.newtonfd</a><ul>
@@ -56,6 +57,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.newtonbd.html">cmlabs.interpolate.newtonbd</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.gaussfd.html">cmlabs.interpolate.gaussfd</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../cmlabs.interpolate.html#tests">Tests</a></li>
@@ -93,7 +95,7 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="cmlabs.interpolate.newtonfd">
 <span class="sig-prename descclassname"><span class="pre">cmlabs.interpolate.</span></span><span class="sig-name descname"><span class="pre">newtonfd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xvals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yvals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coef</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cmlabs/interpolate/_interpolate.html#newtonfd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmlabs.interpolate.newtonfd" title="Link to this definition"></a></dt>
-<dd><p>Newton interpolation polynomial value at <span class="math notranslate nohighlight">\(x\)</span> using forward differences.</p>
+<dd><p>Newton’s forward interpolation formula.</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\begin{gather}
     P_n(x) = \sum_{k=0}^{n} \frac{\Delta^k f(x_0)}{k!h^k} \omega_k(x) \\
@@ -107,9 +109,9 @@
 <li><p><strong>x</strong> (<em>float</em>) – The x-coordinate at which to evaluate the polynomial.</p></li>
 <li><p><strong>yvals</strong> (<em>array_like</em><em>, </em><em>1-D</em><em>, </em><em>optional</em>) – The y-coordinates of the data points, i.e., f(<span class="math notranslate nohighlight">\(x\)</span>).
 Only used if <cite>coef</cite> is not provided.</p></li>
-<li><p><strong>coef</strong> (<em>array_like</em><em>, </em><em>2-D</em><em>, </em><em>optional</em>) – The forward differences table.
+<li><p><strong>coef</strong> (<em>array_like</em><em>, </em><em>1-D</em><em>, </em><em>optional</em>) – The forward differences list.
 If not provided, the function will compute the forward differences table
-using the <cite>forward_differences</cite> function.</p></li>
+using the <cite>forward_differences</cite>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -129,7 +131,7 @@ proved by induction.</p>
 <div class="math notranslate nohighlight">
 \[\begin{gather}
     f(x_0, x_1, \ldots, x_k) = \frac{\Delta^k f(x_0)}{k! h^k},
-    \quad h = x_1 - x_0 = const
+    \quad h = x_{i+1} - x_i = const
 \end{gather}\]</div>
 <p>So the Newton polynomial can be written as:</p>
 <div class="math notranslate nohighlight">
@@ -144,15 +146,18 @@ proved by induction.</p>
     \quad C^1_n = n \\
     P_n(x) = \sum_{k=0}^{n} C^k_t \Delta^k f(x_0) \\
 \end{gather}\end{split}\]</div>
-<p>Recommended to use this method to compute the polynomial value at <span class="math notranslate nohighlight">\(x\)</span> near the
-first data point <span class="math notranslate nohighlight">\(x_0\)</span> to avoid numerical errors.</p>
+<p>This method is beneficial for determining values of <span class="math notranslate nohighlight">\(x\)</span> at the
+beginning of a tabulated equally spaced set of values, i.e. <span class="math notranslate nohighlight">\(0 &lt; t &lt; 1\)</span>.
+Also for extrapolating values of <span class="math notranslate nohighlight">\(x\)</span> a bit backward (i.e. to the left)
+of <span class="math notranslate nohighlight">\(x_0\)</span>.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">cmlabs.interpolate</span><span class="w"> </span><span class="kn">import</span> <span class="n">newtonfd</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">xvals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">yvals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">(</span><span class="mf">1.5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">newtonfd</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">yvals</span><span class="o">=</span><span class="n">yvals</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="mf">2.8125</span>
 </pre></div>
 </div>
 </dd></dl>

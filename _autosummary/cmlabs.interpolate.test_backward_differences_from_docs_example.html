@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>cmlabs.interpolate.test_lagrange_degree_2 &mdash; cmlabs 0.0.1 documentation</title>
+  <title>cmlabs.interpolate.test_backward_differences_from_docs_example &mdash; cmlabs 0.0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
@@ -17,12 +17,11 @@
       <script src="../_static/documentation_options.js?v=d45e8c67"></script>
       <script src="../_static/doctools.js?v=9bcbadda"></script>
       <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="cmlabs.interpolate.test_lagrange_remainder_2" href="cmlabs.interpolate.test_lagrange_remainder_2.html" />
-    <link rel="prev" title="cmlabs.interpolate.test_lagrange_remainder_1" href="cmlabs.interpolate.test_lagrange_remainder_1.html" /> 
+    <link rel="next" title="cmlabs.interpolate.test_newtonfd_from_docs_example" href="cmlabs.interpolate.test_newtonfd_from_docs_example.html" />
+    <link rel="prev" title="cmlabs.interpolate.test_forward_differences_from_docs_example" href="cmlabs.interpolate.test_forward_differences_from_docs_example.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -52,17 +51,17 @@
 <li class="toctree-l2 current"><a class="reference internal" href="../cmlabs.interpolate.html#tests">Tests</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_lagrange_degree.html">cmlabs.interpolate.test_lagrange_degree</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_lagrange_remainder_1.html">cmlabs.interpolate.test_lagrange_remainder_1</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">cmlabs.interpolate.test_lagrange_degree_2</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#cmlabs.interpolate.test_lagrange_degree_2"><code class="docutils literal notranslate"><span class="pre">test_lagrange_degree_2()</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_lagrange_degree_2.html">cmlabs.interpolate.test_lagrange_degree_2</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_lagrange_remainder_2.html">cmlabs.interpolate.test_lagrange_remainder_2</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_lagrange_compare_with_newton.html">cmlabs.interpolate.test_lagrange_compare_with_newton</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_lagrange_from_docs_example.html">cmlabs.interpolate.test_lagrange_from_docs_example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_lagrange_remainder_from_docs_example.html">cmlabs.interpolate.test_lagrange_remainder_from_docs_example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_newton_from_docs_example.html">cmlabs.interpolate.test_newton_from_docs_example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_forward_differences_from_docs_example.html">cmlabs.interpolate.test_forward_differences_from_docs_example</a></li>
-<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_backward_differences_from_docs_example.html">cmlabs.interpolate.test_backward_differences_from_docs_example</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">cmlabs.interpolate.test_backward_differences_from_docs_example</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cmlabs.interpolate.test_backward_differences_from_docs_example"><code class="docutils literal notranslate"><span class="pre">test_backward_differences_from_docs_example()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_newtonfd_from_docs_example.html">cmlabs.interpolate.test_newtonfd_from_docs_example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_newtonbd_from_docs_example.html">cmlabs.interpolate.test_newtonbd_from_docs_example</a></li>
 </ul>
@@ -86,9 +85,9 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../cmlabs.interpolate.html">Interpolation (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.interpolate</span></code>)</a></li>
-      <li class="breadcrumb-item active">cmlabs.interpolate.test_lagrange_degree_2</li>
+      <li class="breadcrumb-item active">cmlabs.interpolate.test_backward_differences_from_docs_example</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/_autosummary/cmlabs.interpolate.test_lagrange_degree_2.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/_autosummary/cmlabs.interpolate.test_backward_differences_from_docs_example.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -96,39 +95,16 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="cmlabs-interpolate-test-lagrange-degree-2">
-<h1>cmlabs.interpolate.test_lagrange_degree_2<a class="headerlink" href="#cmlabs-interpolate-test-lagrange-degree-2" title="Link to this heading"></a></h1>
+  <section id="cmlabs-interpolate-test-backward-differences-from-docs-example">
+<h1>cmlabs.interpolate.test_backward_differences_from_docs_example<a class="headerlink" href="#cmlabs-interpolate-test-backward-differences-from-docs-example" title="Link to this heading"></a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="cmlabs.interpolate.test_lagrange_degree_2">
-<span class="sig-prename descclassname"><span class="pre">cmlabs.interpolate.</span></span><span class="sig-name descname"><span class="pre">test_lagrange_degree_2</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cmlabs/interpolate/tests/test_interpolate.html#test_lagrange_degree_2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmlabs.interpolate.test_lagrange_degree_2" title="Link to this definition"></a></dt>
-<dd><p>Calculate Lagrange interpolation polynomial of degree 2 at <span class="math notranslate nohighlight">\(x^*\)</span>.</p>
-<div class="math notranslate nohighlight">
-\[L_2(x^*) = f(x_{i-1}) \cdot
-\frac{(x^* - x_i)(x^* - x_{i+1})}{(x_{i-1} - x_i)(x_i - x_{i+1})} +
-f(x_i) \cdot
-\frac{(x^* - x_{i-1})(x^* - x_{i+1})}{(x_i - x_{i-1})(x_i - x_{i+1})} +
-f(x_{i+1}) \cdot
-\frac{(x^* - x_{i-1})(x^* - x_i)}{(x_{i+1} - x_{i-1})(x_{i+1} - x_i)}\]</div>
-<section id="results">
-<h2>Results<a class="headerlink" href="#results" title="Link to this heading"></a></h2>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Test 3: Lagrange Interpolation Of Degree 2</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># - f(x) = x - lg(x + 2)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># - X:  [0.5   0.556 0.611 ... 0.889 0.944 1.   ]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># - Y:  [0.102 0.148 0.194 ... 0.428 0.475 0.523]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># - x* =  0.77</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">(</span><span class="mf">0.77</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># 0.32752023093555144</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Nearest points: [0.722 0.778 0.833]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Nearest f(x) values: [0.287 0.334 0.381]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">lagrange</span><span class="p">([</span><span class="mf">0.722</span> <span class="mf">0.778</span> <span class="mf">0.833</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.287</span> <span class="mf">0.334</span> <span class="mf">0.381</span><span class="p">],</span> <span class="mf">0.77</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># 0.3275203902670937</span>
-</pre></div>
-</div>
+<dt class="sig sig-object py" id="cmlabs.interpolate.test_backward_differences_from_docs_example">
+<span class="sig-prename descclassname"><span class="pre">cmlabs.interpolate.</span></span><span class="sig-name descname"><span class="pre">test_backward_differences_from_docs_example</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cmlabs/interpolate/tests/test_interpolate.html#test_backward_differences_from_docs_example"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmlabs.interpolate.test_backward_differences_from_docs_example" title="Link to this definition"></a></dt>
+<dd><p>Backward differences from docs example.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p><a class="reference internal" href="cmlabs.interpolate.lagrange.html#cmlabs.interpolate.lagrange" title="cmlabs.interpolate.lagrange"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lagrange</span></code></a></p>
+<p><a class="reference internal" href="cmlabs.interpolate.backward_differences.html#cmlabs.interpolate.backward_differences" title="cmlabs.interpolate.backward_differences"><code class="xref py py-obj docutils literal notranslate"><span class="pre">backward_differences</span></code></a></p>
 </div>
-</section>
 </dd></dl>
 
 </section>
@@ -137,8 +113,8 @@ f(x_{i+1}) \cdot
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="cmlabs.interpolate.test_lagrange_remainder_1.html" class="btn btn-neutral float-left" title="cmlabs.interpolate.test_lagrange_remainder_1" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="cmlabs.interpolate.test_lagrange_remainder_2.html" class="btn btn-neutral float-right" title="cmlabs.interpolate.test_lagrange_remainder_2" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="cmlabs.interpolate.test_forward_differences_from_docs_example.html" class="btn btn-neutral float-left" title="cmlabs.interpolate.test_forward_differences_from_docs_example" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="cmlabs.interpolate.test_newtonfd_from_docs_example.html" class="btn btn-neutral float-right" title="cmlabs.interpolate.test_newtonfd_from_docs_example" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

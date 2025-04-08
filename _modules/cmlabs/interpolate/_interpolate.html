@@ -74,10 +74,12 @@
     <span class="s2">&quot;lagrange_remainder&quot;</span><span class="p">,</span>
     <span class="s2">&quot;divided_differences&quot;</span><span class="p">,</span>
     <span class="s2">&quot;newton&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;finite_differences&quot;</span><span class="p">,</span>
     <span class="s2">&quot;forward_differences&quot;</span><span class="p">,</span>
     <span class="s2">&quot;backward_differences&quot;</span><span class="p">,</span>
     <span class="s2">&quot;newtonfd&quot;</span><span class="p">,</span>
     <span class="s2">&quot;newtonbd&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;gaussfd&quot;</span><span class="p">,</span>
 <span class="p">]</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
@@ -358,7 +360,7 @@
 
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
-<span class="sd">    divided_differences : Compute the divided differences list.</span>
+<span class="sd">    divided_differences</span>
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
@@ -414,30 +416,27 @@
 
 
 
-<div class="viewcode-block" id="forward_differences">
-<a class="viewcode-back" href="../../../_autosummary/cmlabs.interpolate.forward_differences.html#cmlabs.interpolate.forward_differences">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">forward_differences</span><span class="p">(</span><span class="n">yvals</span><span class="p">,</span> <span class="n">newton</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Return the forward differences table.</span>
+<div class="viewcode-block" id="finite_differences">
+<a class="viewcode-back" href="../../../_autosummary/cmlabs.interpolate.finite_differences.html#cmlabs.interpolate.finite_differences">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">finite_differences</span><span class="p">(</span><span class="n">yvals</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Return the finite differences table.</span>
 
 <span class="sd">    .. math::</span>
 
 <span class="sd">        \begin{gather}</span>
-<span class="sd">            \Delta^k f_i = \Delta^{k-1} f_{i+1} - \Delta^{k-1} f_i, \\</span>
-<span class="sd">            f_i = f(x_0 + i \cdot h)</span>
+<span class="sd">            \Delta^k f(x_i) = f(x_{i+1}) - f(x_i), \\</span>
+<span class="sd">            \nabla^k f(x_i) = f(x_i) - f(x_{i-1})</span>
 <span class="sd">        \end{gather}</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    yvals : array_like, 1-D</span>
 <span class="sd">        The y-coordinates of the data points.</span>
-<span class="sd">    newton : bool, optional</span>
-<span class="sd">        If True, the function will return the forward differences list</span>
-<span class="sd">        at :math:`x_0` instead of the table.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    res: array_like, 2-D | 1-D</span>
-<span class="sd">        The forward differences table.</span>
+<span class="sd">    res: array_like, 2-D</span>
+<span class="sd">        The finite differences table.</span>
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
@@ -446,35 +445,34 @@
 <span class="sd">    .. math::</span>
 
 <span class="sd">        \left[\begin{gather}</span>
-<span class="sd">        [\Delta^0 f_0 \quad \Delta^0 f_1 \quad \ldots \quad \Delta^0 f_n] \\</span>
-<span class="sd">        [\Delta^1 f_0 \quad \Delta^1 f_1 \quad \ldots \quad \Delta^1 f_{n-1}] \\</span>
-<span class="sd">        [\Delta^2 f_0 \quad \Delta^2 f_1 \quad \ldots \quad \Delta^2 f_{n-2}] \\</span>
+<span class="sd">        [\Delta^0 f(x_0) \quad \Delta^0 f(x_1) \quad \ldots \quad \Delta^0 f(x_n)] \\</span>
+<span class="sd">        [\Delta^1 f(x_0) \quad \Delta^1 f(x_1) \quad \ldots \quad \Delta^1 f(x_{n-1})]\\</span>
+<span class="sd">        [\Delta^2 f(x_0) \quad \Delta^2 f(x_1) \quad \ldots \quad \Delta^2 f(x_{n-2})]\\</span>
 <span class="sd">        \vdots \\</span>
-<span class="sd">        [\Delta^n f_0]</span>
+<span class="sd">        [\Delta^n f(x_0)]</span>
+<span class="sd">        \end{gather}\right]</span>
+
+<span class="sd">    Or it can be treated as...</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \left[\begin{gather}</span>
+<span class="sd">        [\nabla^0 f(x_0) \quad \nabla^0 f(x_1) \quad \ldots \quad \nabla^0 f(x_n)] \\</span>
+<span class="sd">        [\nabla^1 f(x_1) \quad \nabla^1 f(x_1) \quad \ldots \quad \nabla^1 f(x_n)]\\</span>
+<span class="sd">        [\nabla^2 f(x_2) \quad \nabla^2 f(x_1) \quad \ldots \quad \nabla^2 f(x_n)]\\</span>
+<span class="sd">        \vdots \\</span>
+<span class="sd">        [\nabla^n f(x_n)]</span>
 <span class="sd">        \end{gather}\right]</span>
 
 <span class="sd">    where `n = len(yvals) - 1`.</span>
 
-<span class="sd">    If `netwon` is True, the function will return the forward differences list</span>
-<span class="sd">    with the following structure:</span>
-
-<span class="sd">    .. math::</span>
-
-<span class="sd">        [\Delta^0 f_0, \Delta^1 f_0, \Delta^2 f_0, \ldots, \Delta^n f_0]</span>
-
-<span class="sd">    The forward differences list is used to compute the coefficients</span>
-<span class="sd">    of the Newton Forward-Difference Formula</span>
-
-
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; import numpy as np</span>
-<span class="sd">    &gt;&gt;&gt; from cmlabs.interpolate import forward_differences</span>
+<span class="sd">    &gt;&gt;&gt; from cmlabs.interpolate import finite_differences</span>
 <span class="sd">    &gt;&gt;&gt; yvals = np.array([1, 3, 2, 5])</span>
-<span class="sd">    &gt;&gt;&gt; forward_differences(yvals)</span>
+<span class="sd">    &gt;&gt;&gt; finite_differences(yvals)</span>
 <span class="sd">    &gt;&gt;&gt; [[1, 3, 2, 5], [2, -1, 3], [-3, 4], [7]]</span>
-<span class="sd">    &gt;&gt;&gt; forward_differences(yvals, newton=True)</span>
-<span class="sd">    &gt;&gt;&gt; [1, 2, -3, 7]</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">yvals</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
@@ -486,60 +484,88 @@
         <span class="n">diff</span> <span class="o">=</span> <span class="p">[</span><span class="n">prev</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="n">prev</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">prev</span><span class="p">))]</span>
         <span class="n">table</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">diff</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">))</span>
 
-    <span class="k">if</span> <span class="n">newton</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">table</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">table</span><span class="p">))]</span>
-
     <span class="k">return</span> <span class="n">table</span></div>
 
 
 
-<div class="viewcode-block" id="backward_differences">
-<a class="viewcode-back" href="../../../_autosummary/cmlabs.interpolate.backward_differences.html#cmlabs.interpolate.backward_differences">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">backward_differences</span><span class="p">(</span><span class="n">yvals</span><span class="p">,</span> <span class="n">newton</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Return the backward differences table.</span>
+<div class="viewcode-block" id="forward_differences">
+<a class="viewcode-back" href="../../../_autosummary/cmlabs.interpolate.forward_differences.html#cmlabs.interpolate.forward_differences">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">forward_differences</span><span class="p">(</span><span class="n">yvals</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Return the forward differences list for :math:`f(x_0)`.</span>
 
 <span class="sd">    .. math::</span>
 
 <span class="sd">        \begin{gather}</span>
-<span class="sd">            \nabla^k f_{i+1} = \nabla^{k-1} f_{i+1} - \nabla^{k-1} f_i, \\</span>
-<span class="sd">            f_i = f(x_0 + i \cdot h)</span>
+<span class="sd">            \Delta^k f(x_i) = \Delta^{k-1} f(x_{i+1}) - \Delta^{k-1} f(x_i)</span>
 <span class="sd">        \end{gather}</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    yvals : array_like, 1-D</span>
 <span class="sd">        The y-coordinates of the data points.</span>
-<span class="sd">    newton : bool, optional</span>
-<span class="sd">        If True, the function will return the backward differences list</span>
-<span class="sd">        at :math:`x_n` instead of the table.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    res: array_like, 2-D | 1-D</span>
-<span class="sd">        The backward differences table.</span>
+<span class="sd">    res: array_like, 1-D</span>
+<span class="sd">        The forward differences list.</span>
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
-<span class="sd">    The output is the table with following structure:</span>
+<span class="sd">    The output is the list with following structure:</span>
 
 <span class="sd">    .. math::</span>
 
-<span class="sd">        \left[\begin{gather}</span>
-<span class="sd">        [\nabla^0 f_0 \quad \nabla^0 f_1 \quad \ldots \quad \nabla^0 f_n] \\</span>
-<span class="sd">        [\nabla^1 f_1 \quad \nabla^1 f_1 \quad \ldots \quad \nabla^1 f_n] \\</span>
-<span class="sd">        [\nabla^2 f_2 \quad \nabla^2 f_1 \quad \ldots \quad \nabla^2 f_n] \\</span>
-<span class="sd">        \vdots \\</span>
-<span class="sd">        [\nabla^n f_n]</span>
-<span class="sd">        \end{gather}\right]</span>
+<span class="sd">        [\Delta^0 f(x_0), \Delta^1 f(x_0), \Delta^2 f(x_0), \ldots, \Delta^n f(x_0)]</span>
 
 <span class="sd">    where `n = len(yvals) - 1`.</span>
 
-<span class="sd">    If `netwon` is True, the function will return the backward differences list</span>
-<span class="sd">    with the following structure:</span>
+<span class="sd">    The forward differences list is used to compute the coefficients</span>
+<span class="sd">    of the Newton Forward-Difference Formula</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; from cmlabs.interpolate import forward_differences</span>
+<span class="sd">    &gt;&gt;&gt; yvals = np.array([1, 3, 2, 5])</span>
+<span class="sd">    &gt;&gt;&gt; forward_differences(yvals)</span>
+<span class="sd">    &gt;&gt;&gt; [1, 2, -3, 7]</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">table</span> <span class="o">=</span> <span class="n">finite_differences</span><span class="p">(</span><span class="n">yvals</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">table</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">table</span><span class="p">))])</span></div>
+
+
+
+<div class="viewcode-block" id="backward_differences">
+<a class="viewcode-back" href="../../../_autosummary/cmlabs.interpolate.backward_differences.html#cmlabs.interpolate.backward_differences">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">backward_differences</span><span class="p">(</span><span class="n">yvals</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Return the backward differences list for :math:`f(x_n)`.</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \begin{gather}</span>
+<span class="sd">            \nabla^k f(x_i) = \nabla^{k-1} f(x_{i+1}) - \nabla^{k-1} f(x_i)</span>
+<span class="sd">        \end{gather}</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    yvals : array_like, 1-D</span>
+<span class="sd">        The y-coordinates of the data points.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    res: array_like, 1-D</span>
+<span class="sd">        The backward differences list.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The output is the list with following structure:</span>
 
 <span class="sd">    .. math::</span>
 
 <span class="sd">        [\nabla^0 f_n, \nabla^1 f_n, \nabla^2 f_n, \ldots, \nabla^n f_n]</span>
+
+<span class="sd">    where `n = len(yvals) - 1`.</span>
 
 <span class="sd">    The backward differences list is used to compute the coefficients</span>
 <span class="sd">    of the Newton Backward-Difference Formula</span>
@@ -550,29 +576,18 @@
 <span class="sd">    &gt;&gt;&gt; from cmlabs.interpolate import backward_differences</span>
 <span class="sd">    &gt;&gt;&gt; yvals = np.array([1, 3, 2, 5])</span>
 <span class="sd">    &gt;&gt;&gt; backward_differences(yvals)</span>
-<span class="sd">    &gt;&gt;&gt; [[1, 3, 2, 5], [2, -1, 3], [-3, 4], [7]]</span>
+<span class="sd">    &gt;&gt;&gt; [5, 3, 4, 7]</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">yvals</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
-
-    <span class="n">table</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">yvals</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)]</span>
-
-    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-        <span class="n">prev</span> <span class="o">=</span> <span class="n">table</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">diff</span> <span class="o">=</span> <span class="p">[</span><span class="n">prev</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">prev</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">prev</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)]</span>
-        <span class="n">table</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">diff</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">))</span>
-
-    <span class="k">if</span> <span class="n">newton</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">table</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">table</span><span class="p">))]</span>
-
-    <span class="k">return</span> <span class="n">table</span></div>
+    <span class="n">table</span> <span class="o">=</span> <span class="n">finite_differences</span><span class="p">(</span><span class="n">yvals</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">table</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">table</span><span class="p">))])</span></div>
 
 
 
 <div class="viewcode-block" id="newtonfd">
 <a class="viewcode-back" href="../../../_autosummary/cmlabs.interpolate.newtonfd.html#cmlabs.interpolate.newtonfd">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">newtonfd</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">yvals</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">coef</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Newton interpolation polynomial value at :math:`x` using forward differences.</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Newton&#39;s forward interpolation formula.</span>
 
 <span class="sd">    .. math::</span>
 
@@ -592,10 +607,10 @@
 <span class="sd">    yvals : array_like, 1-D, optional</span>
 <span class="sd">        The y-coordinates of the data points, i.e., f(:math:`x`).</span>
 <span class="sd">        Only used if `coef` is not provided.</span>
-<span class="sd">    coef : array_like, 2-D, optional</span>
-<span class="sd">        The forward differences table.</span>
+<span class="sd">    coef : array_like, 1-D, optional</span>
+<span class="sd">        The forward differences list.</span>
 <span class="sd">        If not provided, the function will compute the forward differences table</span>
-<span class="sd">        using the `forward_differences` function.</span>
+<span class="sd">        using the `forward_differences`.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -615,7 +630,7 @@
 
 <span class="sd">        \begin{gather}</span>
 <span class="sd">            f(x_0, x_1, \ldots, x_k) = \frac{\Delta^k f(x_0)}{k! h^k},</span>
-<span class="sd">            \quad h = x_1 - x_0 = const</span>
+<span class="sd">            \quad h = x_{i+1} - x_i = const</span>
 <span class="sd">        \end{gather}</span>
 
 <span class="sd">    So the Newton polynomial can be written as:</span>
@@ -637,8 +652,10 @@
 <span class="sd">            P_n(x) = \sum_{k=0}^{n} C^k_t \Delta^k f(x_0) \\</span>
 <span class="sd">        \end{gather}</span>
 
-<span class="sd">    Recommended to use this method to compute the polynomial value at :math:`x` near the</span>
-<span class="sd">    first data point :math:`x_0` to avoid numerical errors.</span>
+<span class="sd">    This method is beneficial for determining values of :math:`x` at the</span>
+<span class="sd">    beginning of a tabulated equally spaced set of values, i.e. :math:`0 &lt; t &lt; 1`.</span>
+<span class="sd">    Also for extrapolating values of :math:`x` a bit backward (i.e. to the left)</span>
+<span class="sd">    of :math:`x_0`.</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -646,8 +663,9 @@
 <span class="sd">    &gt;&gt;&gt; from cmlabs.interpolate import newtonfd</span>
 <span class="sd">    &gt;&gt;&gt; xvals = np.array([0, 1, 2, 3])</span>
 <span class="sd">    &gt;&gt;&gt; yvals = np.array([1, 3, 2, 5])</span>
-<span class="sd">    &gt;&gt;&gt; x = np.float32(1.5)</span>
+<span class="sd">    &gt;&gt;&gt; x = np.float32(0.5)</span>
 <span class="sd">    &gt;&gt;&gt; newtonfd(xvals, x, yvals=yvals)</span>
+<span class="sd">    &gt;&gt;&gt; 2.8125</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">xvals</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
@@ -658,7 +676,7 @@
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;coef must have the same length as xvals and yvals&quot;</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">yvals</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">coef</span> <span class="o">=</span> <span class="n">forward_differences</span><span class="p">(</span><span class="n">yvals</span><span class="p">,</span> <span class="n">newton</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">coef</span> <span class="o">=</span> <span class="n">forward_differences</span><span class="p">(</span><span class="n">yvals</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">coef</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Either yvals or coef must be provided&quot;</span><span class="p">)</span>
 
@@ -672,7 +690,7 @@
 <div class="viewcode-block" id="newtonbd">
 <a class="viewcode-back" href="../../../_autosummary/cmlabs.interpolate.newtonbd.html#cmlabs.interpolate.newtonbd">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">newtonbd</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">yvals</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">coef</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Newton interpolation polynomial value at :math:`x` using backward differences.</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Newton&#39;s backward interpolation formula.</span>
 
 <span class="sd">    .. math::</span>
 
@@ -692,10 +710,10 @@
 <span class="sd">    yvals : array_like, 1-D, optional</span>
 <span class="sd">        The y-coordinates of the data points, i.e., f(:math:`x`).</span>
 <span class="sd">        Only used if `coef` is not provided.</span>
-<span class="sd">    coef : array_like, 2-D, optional</span>
-<span class="sd">        The backward differences table.</span>
+<span class="sd">    coef : array_like, 1-D, optional</span>
+<span class="sd">        The backward differences list.</span>
 <span class="sd">        If not provided, the function will compute the backward differences table</span>
-<span class="sd">        using the `backward_differences` function.</span>
+<span class="sd">        using the `backward_differences`.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -715,7 +733,7 @@
 
 <span class="sd">        \begin{gather}</span>
 <span class="sd">            f(x_0, x_1, \ldots, x_k) = \frac{\nabla^k f(x_n)}{k! h^k},</span>
-<span class="sd">            \quad h = x_1 - x_0 = const</span>
+<span class="sd">            \quad h = x_i - x_{i-1} = const</span>
 <span class="sd">        \end{gather}</span>
 
 <span class="sd">    So the Newton polynomial can be written as:</span>
@@ -738,8 +756,9 @@
 <span class="sd">            P_n(x) = \sum_{k=0}^{n} (-1)^k C^k_{-s} \nabla^k f(x_n) \\</span>
 <span class="sd">        \end{gather}</span>
 
-<span class="sd">    Recommended to use this method to compute the polynomial value at :math:`x` near the</span>
-<span class="sd">    last data point :math:`x_n` to avoid numerical errors.</span>
+<span class="sd">    This method is beneficial for determining values of :math:`x` at the end of the</span>
+<span class="sd">    tabulated equally spaced set of values, i.e. :math:`-1 &lt; t &lt; 0`. Also for</span>
+<span class="sd">    extrapolating values of :math:`x` a little ahead (to the right) of :math:`x_n`.</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -750,6 +769,7 @@
 <span class="sd">    &gt;&gt;&gt; x = np.float32(2.5)</span>
 <span class="sd">    &gt;&gt;&gt; newtonbd(xvals, x, yvals=yvals)</span>
 <span class="sd">    2.5625</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">xvals</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
     <span class="n">h</span> <span class="o">=</span> <span class="n">xvals</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">xvals</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -759,14 +779,115 @@
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;coef must have the same length as xvals and yvals&quot;</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">yvals</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">coef</span> <span class="o">=</span> <span class="n">backward_differences</span><span class="p">(</span><span class="n">yvals</span><span class="p">,</span> <span class="n">newton</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">coef</span> <span class="o">=</span> <span class="n">backward_differences</span><span class="p">(</span><span class="n">yvals</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">coef</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Either yvals or coef must be provided&quot;</span><span class="p">)</span>
 
     <span class="n">res</span> <span class="o">=</span> <span class="n">coef</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-
     <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
         <span class="n">res</span> <span class="o">+=</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="n">k</span> <span class="o">*</span> <span class="n">sps</span><span class="o">.</span><span class="n">binom</span><span class="p">(</span><span class="o">-</span><span class="n">t</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="o">*</span> <span class="n">coef</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">res</span></div>
+
+
+
+<div class="viewcode-block" id="gaussfd">
+<a class="viewcode-back" href="../../../_autosummary/cmlabs.interpolate.gaussfd.html#cmlabs.interpolate.gaussfd">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">gaussfd</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">yvals</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">coef</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Gauss’s forward interpolation formula.</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \begin{aligned}</span>
+<span class="sd">            P_n(x) &amp;= \Delta^0 f(x_m) + \\</span>
+<span class="sd">            &amp;+ t \Delta^1 f(x_m) + \\</span>
+<span class="sd">            &amp;+ \frac{t(t-1)}{2!} \Delta^2 f(x_{m-1}) + \\</span>
+<span class="sd">            &amp;+ \frac{(t+1)t(t-1)}{3!} \Delta^3 f(x_{m-1}) + \\</span>
+<span class="sd">            &amp;+ \frac{(t+1)t(t-1)(t-2)}{4!} \Delta^4 f(x_{m-2}) + \\</span>
+<span class="sd">            &amp;+ \frac{(t+2)(t+1)t(t-1)(t-2)}{5!} \Delta^5 f(x_{m-2}) + \\</span>
+<span class="sd">            &amp;+ \frac{(t+2)(t+1)t(t-1)(t-2)(t-3)}{6!} \Delta^6 f(x_{m-3}) + \ldots</span>
+<span class="sd">        \end{aligned}</span>
+
+<span class="sd">    where :math:`x_m` is the midpoint of the data point (if even then :math:`x_{n/2}`)</span>
+<span class="sd">    and :math:`t = \frac{x-x_m}{h}`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    xvals : array_like, 1-D</span>
+<span class="sd">        The sorted x-coordinates of the data points.</span>
+<span class="sd">    x : float</span>
+<span class="sd">        The x-coordinate at which to evaluate the polynomial.</span>
+<span class="sd">    yvals : array_like, 1-D, optional</span>
+<span class="sd">        The y-coordinates of the data points, i.e., f(:math:`x`).</span>
+<span class="sd">        Only used if `coef` is not provided.</span>
+<span class="sd">    coef : array_like, 2-D, optional</span>
+<span class="sd">        The forward differences table.</span>
+<span class="sd">        If not provided, the function will compute the finite differences table</span>
+<span class="sd">        using the `finite_differences` function.</span>
+<span class="sd">    m : int, optional</span>
+<span class="sd">        The index of the midpoint of the data points.</span>
+<span class="sd">        If not provided, the function will compute it using the formula:</span>
+<span class="sd">        :math:`m = \frac{n}{2}` if `n` is even, otherwise :math:`m = \frac{n+1}{2}`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    res: float</span>
+<span class="sd">        The value of the polynomial at :math:`x`.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    finite_differences</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Gauss’s forward interpolation formula is best applicable for determining</span>
+<span class="sd">    the values near the middle of the table.</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        x = x_m + t h, \quad 0 &lt; t &lt; \frac{1}{2}</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; from cmlabs.interpolate import gaussfd</span>
+<span class="sd">    &gt;&gt;&gt; xvals = np.array([0, 1, 2, 3])</span>
+<span class="sd">    &gt;&gt;&gt; yvals = np.array([1, 3, 2, 5])</span>
+<span class="sd">    &gt;&gt;&gt; x = np.float32(1.5)</span>
+<span class="sd">    &gt;&gt;&gt; gaussfd(xvals, x, yvals=yvals)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">xvals</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+
+    <span class="k">if</span> <span class="n">m</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">m</span> <span class="o">&gt;=</span> <span class="n">n</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;m must be less than n&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">m</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span> <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">n</span> <span class="o">//</span> <span class="mi">2</span>
+
+    <span class="n">h</span> <span class="o">=</span> <span class="n">xvals</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">xvals</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">xvals</span><span class="p">[</span><span class="n">m</span><span class="p">])</span> <span class="o">/</span> <span class="n">h</span>
+
+    <span class="k">if</span> <span class="n">coef</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">n</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">coef</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;coef must have the same length as xvals and yvals&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">yvals</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">coef</span> <span class="o">=</span> <span class="n">finite_differences</span><span class="p">(</span><span class="n">yvals</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">coef</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Either yvals or coef must be provided&quot;</span><span class="p">)</span>
+
+    <span class="n">res</span> <span class="o">=</span> <span class="n">coef</span><span class="p">[</span><span class="n">m</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">prod</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="c1"># sign = 1</span>
+
+    <span class="c1"># TODO: dodelat&#39;</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">coef</span><span class="p">)):</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="n">m</span> <span class="o">-</span> <span class="p">(</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>
+
+        <span class="c1"># prod *= t + sign * ((k - 1) // 2)</span>
+        <span class="c1"># sign *= -1</span>
+        <span class="n">prod</span> <span class="o">*=</span> <span class="p">(</span><span class="n">t</span> <span class="o">-</span> <span class="p">(</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span> <span class="k">if</span> <span class="n">k</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="p">(</span><span class="n">t</span> <span class="o">+</span> <span class="p">(</span><span class="n">k</span> <span class="o">//</span> <span class="mi">2</span><span class="p">))</span>
+
+        <span class="n">term</span> <span class="o">=</span> <span class="p">(</span><span class="n">prod</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">factorial</span><span class="p">(</span><span class="n">k</span><span class="p">))</span> <span class="o">*</span> <span class="n">coef</span><span class="p">[</span><span class="n">index</span><span class="p">][</span><span class="n">k</span><span class="p">]</span>
+        <span class="n">res</span> <span class="o">+=</span> <span class="n">term</span>
 
     <span class="k">return</span> <span class="n">res</span></div>
 
