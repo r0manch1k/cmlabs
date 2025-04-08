@@ -40,6 +40,7 @@ Finite differences interpolation
    forward_differences
    backward_differences
    newtonfd
+   newtonbd
 
 
 Tests

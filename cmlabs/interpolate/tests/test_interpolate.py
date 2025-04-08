@@ -7,6 +7,7 @@ from cmlabs.interpolate import (
     forward_differences,
     backward_differences,
     newtonfd,
+    newtonbd,
 )
 
 __all__ = [
@@ -514,7 +515,12 @@ def test_forward_differences_from_docs_example():
     fd = forward_differences(yvals)
     print(fd)
 
-    assert isinstance(fd, list), "Result is not a numpy array"
+    print(f">>> forward_differences({yvals}, newton=True)")
+
+    fd_newton = forward_differences(yvals, newton=True)
+    print(fd_newton)
+
+    assert isinstance(fd, list), "Result is not a list"
 
 
 def test_backward_differences_from_docs_example():
@@ -536,6 +542,11 @@ def test_backward_differences_from_docs_example():
     bd = backward_differences(yvals)
     print(bd)
 
+    print(f">>> backward_differences({yvals}, newton=True)")
+
+    bd_newton = backward_differences(yvals, newton=True)
+    print(bd_newton)
+
     assert isinstance(bd, list), "Result is not a numpy array"
 
 
@@ -550,15 +561,44 @@ def test_newtonfd_from_docs_example():
     print("\n")
     print("Test N: Newton Forward Differences From Docs Example")
 
-    xvals = np.array([0, 2, 3, 5])
+    xvals = np.array([0, 1, 2, 3])
     yvals = np.array([1, 3, 2, 5])
     print("- X: ", xvals)
     print("- Y: ", yvals)
 
     x = 1.5
+    print(f">>> x = {x}")
+
     print(f">>> newtonfd({xvals}, {x}, yvals={yvals})")
 
     f_obs = newtonfd(xvals, x, yvals=yvals)
+    print(f_obs)
+
+    assert isinstance(f_obs, float), "Result is not a float"
+
+
+def test_newtonbd_from_docs_example():
+    r"""Newton backward differences from docs example.
+
+    See Also
+    --------
+    newtonbd
+
+    """
+    print("\n")
+    print("Test N: Newton Backward Differences From Docs Example")
+
+    xvals = np.array([0, 1, 2, 3])
+    yvals = np.array([1, 3, 2, 5])
+    print("- X: ", xvals)
+    print("- Y: ", yvals)
+
+    x = 2.5
+    print(f">>> x = {x}")
+
+    print(f">>> newtonbd({xvals}, {x}, yvals={yvals})")
+
+    f_obs = newtonbd(xvals, x, yvals=yvals)
     print(f_obs)
 
     assert isinstance(f_obs, float), "Result is not a float"

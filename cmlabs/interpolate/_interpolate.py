@@ -6,6 +6,7 @@ __all__ = [
     "forward_differences",
     "backward_differences",
     "newtonfd",
+    "newtonbd",
 ]
 
 import numpy as np
@@ -330,7 +331,7 @@ def newton(xvals, x, yvals=None, coef=None):
     return res
 
 
-def forward_differences(yvals):
+def forward_differences(yvals, newton=False):
     r"""Return the forward differences table.
 
     .. math::
@@ -344,10 +345,13 @@ def forward_differences(yvals):
     ----------
     yvals : array_like, 1-D
         The y-coordinates of the data points.
+    newton : bool, optional
+        If True, the function will return the forward differences list
+        at :math:`x_0` instead of the table.
 
     Returns
     -------
-    res: array_like, 2-D
+    res: array_like, 2-D | 1-D
         The forward differences table.
 
     Notes
@@ -366,6 +370,17 @@ def forward_differences(yvals):
 
     where `n = len(yvals) - 1`.
 
+    If `netwon` is True, the function will return the forward differences list
+    with the following structure:
+
+    .. math::
+
+        [\Delta^0 f_0, \Delta^1 f_0, \Delta^2 f_0, \ldots, \Delta^n f_0]
+
+    The forward differences list is used to compute the coefficients
+    of the Newton Forward-Difference Formula
+
+
     Examples
     --------
     >>> import numpy as np
@@ -373,21 +388,26 @@ def forward_differences(yvals):
     >>> yvals = np.array([1, 3, 2, 5])
     >>> forward_differences(yvals)
     >>> [[1, 3, 2, 5], [2, -1, 3], [-3, 4], [7]]
+    >>> forward_differences(yvals, newton=True)
+    >>> [1, 2, -3, 7]
 
     """
     n = len(yvals) - 1
 
     table = [np.array(yvals, dtype=float)]
 
-    for k in range(1, n + 1):
+    for _ in range(1, n + 1):
         prev = table[-1]
         diff = [prev[j] - prev[j - 1] for j in range(1, len(prev))]
         table.append(np.array(diff, dtype=float))
 
+    if newton:
+        return [table[k][0] for k in range(len(table))]
+
     return table
 
 
-def backward_differences(yvals):
+def backward_differences(yvals, newton=False):
     r"""Return the backward differences table.
 
     .. math::
@@ -401,10 +421,13 @@ def backward_differences(yvals):
     ----------
     yvals : array_like, 1-D
         The y-coordinates of the data points.
+    newton : bool, optional
+        If True, the function will return the backward differences list
+        at :math:`x_n` instead of the table.
 
     Returns
     -------
-    res: array_like, 2-D
+    res: array_like, 2-D | 1-D
         The backward differences table.
 
     Notes
@@ -423,6 +446,16 @@ def backward_differences(yvals):
 
     where `n = len(yvals) - 1`.
 
+    If `netwon` is True, the function will return the backward differences list
+    with the following structure:
+
+    .. math::
+
+        [\nabla^0 f_n, \nabla^1 f_n, \nabla^2 f_n, \ldots, \nabla^n f_n]
+
+    The backward differences list is used to compute the coefficients
+    of the Newton Backward-Difference Formula
+
     Examples
     --------
     >>> import numpy as np
@@ -436,10 +469,13 @@ def backward_differences(yvals):
 
     table = [np.array(yvals, dtype=float)]
 
-    for k in range(1, n + 1):
+    for _ in range(1, n + 1):
         prev = table[-1]
         diff = [prev[j + 1] - prev[j] for j in range(0, len(prev) - 1)]
         table.append(np.array(diff, dtype=float))
+
+    if newton:
+        return [table[k][-1] for k in range(len(table))]
 
     return table
 
@@ -517,22 +553,128 @@ def newtonfd(xvals, x, yvals=None, coef=None):
     --------
     >>> import numpy as np
     >>> from cmlabs.interpolate import newtonfd
-    >>> xvals = np.array([0, 2, 3, 5])
+    >>> xvals = np.array([0, 1, 2, 3])
     >>> yvals = np.array([1, 3, 2, 5])
     >>> x = np.float32(1.5)
     >>> newtonfd(xvals, x, yvals=yvals)
-    """
 
+    """
     n = len(xvals) - 1
     h = xvals[1] - xvals[0]
     t = (x - xvals[0]) / h
 
+    if coef is not None and n != len(coef):
+        raise ValueError("coef must have the same length as xvals and yvals")
+
     if yvals is not None:
-        coef = forward_differences(yvals)
+        coef = forward_differences(yvals, newton=True)
     elif coef is None:
         raise ValueError("Either yvals or coef must be provided")
 
-    res = coef[0][0]
-    for k in range(1, n):
-        res += sps.binom(t, k) * coef[k][0]
+    res = coef[0]
+    for k in range(1, n + 1):
+        res += sps.binom(t, k) * coef[k]
+    return res
+
+
+def newtonbd(xvals, x, yvals=None, coef=None):
+    r"""Newton interpolation polynomial value at :math:`x` using backward differences.
+
+    .. math::
+
+        \begin{gather}
+            P_n(x) = \sum_{k=0}^{n} \frac{\nabla^k f(x_n)}{k!h^k} \omega_k(x) \\
+            P_n(x) = \sum_{k=0}^{n} C^k_t \nabla^k f(x_n)
+        \end{gather}
+
+    where :math:`\nabla^k f_n` is the backward difference of the function.
+
+    Parameters
+    ----------
+    xvals : array_like, 1-D
+        The sorted x-coordinates of the data points.
+    x : float
+        The x-coordinate at which to evaluate the polynomial.
+    yvals : array_like, 1-D, optional
+        The y-coordinates of the data points, i.e., f(:math:`x`).
+        Only used if `coef` is not provided.
+    coef : array_like, 2-D, optional
+        The backward differences table.
+        If not provided, the function will compute the backward differences table
+        using the `backward_differences` function.
+
+    Returns
+    -------
+    res: float
+        The value of the polynomial at :math:`x`.
+
+    See Also
+    --------
+    backward_differences
+
+    Notes
+    -----
+    The relation between divided difference and backward difference is
+    proved by induction.
+
+    .. math::
+
+        \begin{gather}
+            f(x_0, x_1, \ldots, x_k) = \frac{\nabla^k f(x_n)}{k! h^k},
+            \quad h = x_1 - x_0 = const
+        \end{gather}
+
+    So the Newton polynomial can be written as:
+
+    .. math::
+
+        \begin{gather}
+            P_n(x) = \sum_{k=0}^{n} \frac{\nabla^k f(x_n)}{k!h^k} \omega_k(x) \\
+        \end{gather}
+
+    Using a variable :math:`t = \frac{x - x_n}{h}` we can rewrite the polynomial as:
+
+    .. math::
+
+        \begin{gather}
+            P_n(x) = \sum_{k=0}^{n}
+            \frac{t(t+1)\ldots(t+k-1)}{k!} \nabla^k f(x_n) \\
+            C^k_n = \frac{n(n+1)\ldots(n+k-1)}{k!}, \quad k \geq 2, \quad C^0_n = 1,
+            \quad C^1_n = n \\
+            P_n(x) = \sum_{k=0}^{n} C^k_n \nabla^k f(x_n) \\
+        \end{gather}
+
+    Recommended to use this method to compute the polynomial value at :math:`x` near the
+    last data point :math:`x_n` to avoid numerical errors.
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> from cmlabs.interpolate import newtonbd
+    >>> xvals = np.array([0, 1, 2, 3])
+    >>> yvals = np.array([1, 3, 2, 5])
+    >>> x = np.float32(2.5)
+    >>> newtonbd(xvals, x, yvals=yvals)
+    2.5
+    """
+    n = len(xvals) - 1
+    h = xvals[1] - xvals[0]
+    t = (x - xvals[-1]) / h
+
+    if coef is not None and n != len(coef):
+        raise ValueError("coef must have the same length as xvals and yvals")
+
+    if yvals is not None:
+        coef = backward_differences(yvals, newton=True)
+    elif coef is None:
+        raise ValueError("Either yvals or coef must be provided")
+
+    res = coef[0]
+
+    # for k in range(1, n + 1):
+    #     res += sps.binom(t + k - 1, k) * coef[n - k - 1]
+
+    for k in range(1, n + 1):
+        res += sps.binom(t, k) * coef[k]
+
     return res
