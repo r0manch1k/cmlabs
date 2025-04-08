@@ -17,12 +17,9 @@
       <script src="../_static/documentation_options.js?v=d45e8c67"></script>
       <script src="../_static/doctools.js?v=9bcbadda"></script>
       <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="cmlabs.interpolate.test_lagrange_from_docs_example" href="cmlabs.interpolate.test_lagrange_from_docs_example.html" />
-    <link rel="prev" title="cmlabs.interpolate.test_lagrange_remainder_2" href="cmlabs.interpolate.test_lagrange_remainder_2.html" /> 
+    <link rel="search" title="Search" href="../search.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -44,28 +41,11 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="../cmlabs.interpolate.html">Interpolation (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.interpolate</span></code>)</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="../cmlabs.interpolate.html#lagrange-interpolation">Lagrange interpolation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cmlabs.interpolate.html#newton-interpolation">Newton interpolation</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="../cmlabs.interpolate.html#tests">Tests</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_lagrange_degree.html">cmlabs.interpolate.test_lagrange_degree</a></li>
-<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_lagrange_remainder_1.html">cmlabs.interpolate.test_lagrange_remainder_1</a></li>
-<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_lagrange_degree_2.html">cmlabs.interpolate.test_lagrange_degree_2</a></li>
-<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_lagrange_remainder_2.html">cmlabs.interpolate.test_lagrange_remainder_2</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">cmlabs.interpolate.test_lagrange_compare_with_newton</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#cmlabs.interpolate.test_lagrange_compare_with_newton"><code class="docutils literal notranslate"><span class="pre">test_lagrange_compare_with_newton()</span></code></a></li>
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">cmlabs.interpolate.test_lagrange_compare_with_newton</a></li>
 </ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_lagrange_from_docs_example.html">cmlabs.interpolate.test_lagrange_from_docs_example</a></li>
-<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_lagrange_remainder_from_docs_example.html">cmlabs.interpolate.test_lagrange_remainder_from_docs_example</a></li>
-<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_newton_from_docs_example.html">cmlabs.interpolate.test_newton_from_docs_example</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
+</div>
         </div>
       </div>
     </nav>
@@ -80,7 +60,6 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="../cmlabs.interpolate.html">Interpolation (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.interpolate</span></code>)</a></li>
       <li class="breadcrumb-item active">cmlabs.interpolate.test_lagrange_compare_with_newton</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/_autosummary/cmlabs.interpolate.test_lagrange_compare_with_newton.rst.txt" rel="nofollow"> View page source</a>
@@ -93,58 +72,12 @@
              
   <section id="cmlabs-interpolate-test-lagrange-compare-with-newton">
 <h1>cmlabs.interpolate.test_lagrange_compare_with_newton<a class="headerlink" href="#cmlabs-interpolate-test-lagrange-compare-with-newton" title="Link to this heading"></a></h1>
-<dl class="py function">
-<dt class="sig sig-object py" id="cmlabs.interpolate.test_lagrange_compare_with_newton">
-<span class="sig-prename descclassname"><span class="pre">cmlabs.interpolate.</span></span><span class="sig-name descname"><span class="pre">test_lagrange_compare_with_newton</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">degree</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cmlabs/interpolate/tests/test_interpolate.html#test_lagrange_compare_with_newton"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmlabs.interpolate.test_lagrange_compare_with_newton" title="Link to this definition"></a></dt>
-<dd><p>Compare Lagrange and Newton interpolation.</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\begin{gather}
-    L_n(x) = \sum_{i=0}^{n} l_i(x) f(x_i)\\
-    \\
-    L_n(x) = \sum_{i=0}^{n} f(x_0, x_1, \ldots, x_i) \omega_i(x)
-\end{gather}\end{split}\]</div>
-<section id="results">
-<h2>Results<a class="headerlink" href="#results" title="Link to this heading"></a></h2>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Test 5: Compare Lagrange And Newton Interpolation Degree 1</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># - X:  [0.5   0.556 0.611 ... 0.889 0.944 1.   ]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># - Y:  [0.102 0.148 0.194 ... 0.428 0.475 0.523]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># - x* =  0.77</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Nearest points: [0.722 0.778]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Nearest f(x) values: [0.287 0.334]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">lagrange</span><span class="p">([</span><span class="mf">0.722</span> <span class="mf">0.778</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.287</span> <span class="mf">0.334</span><span class="p">],</span> <span class="mf">0.77</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># 0.327530850170338</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">newton</span><span class="p">([</span><span class="mf">0.722</span> <span class="mf">0.778</span><span class="p">],</span> <span class="mf">0.77</span><span class="p">,</span> <span class="n">yvals</span><span class="o">=</span><span class="p">[</span><span class="mf">0.287</span> <span class="mf">0.334</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># 0.327530850170338</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Test 6: Compare Lagrange And Newton Interpolation Degree 2</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># - X:  [0.5   0.556 0.611 ... 0.889 0.944 1.   ]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># - Y:  [0.102 0.148 0.194 ... 0.428 0.475 0.523]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># - x* =  0.77</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Nearest points: [0.722 0.778 0.833]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Nearest f(x) values: [0.287 0.334 0.381]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">lagrange</span><span class="p">([</span><span class="mf">0.722</span> <span class="mf">0.778</span> <span class="mf">0.833</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.287</span> <span class="mf">0.334</span> <span class="mf">0.381</span><span class="p">],</span> <span class="mf">0.77</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># 0.3275203902670937</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">newton</span><span class="p">([</span><span class="mf">0.722</span> <span class="mf">0.778</span> <span class="mf">0.833</span><span class="p">],</span> <span class="mf">0.77</span><span class="p">,</span> <span class="n">yvals</span><span class="o">=</span><span class="p">[</span><span class="mf">0.287</span> <span class="mf">0.334</span> <span class="mf">0.381</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># 0.3275203902670936</span>
-</pre></div>
-</div>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<p><a class="reference internal" href="cmlabs.interpolate.lagrange.html#cmlabs.interpolate.lagrange" title="cmlabs.interpolate.lagrange"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lagrange</span></code></a>, <a class="reference internal" href="cmlabs.interpolate.newton.html#cmlabs.interpolate.newton" title="cmlabs.interpolate.newton"><code class="xref py py-obj docutils literal notranslate"><span class="pre">newton</span></code></a></p>
-</div>
-</section>
-</dd></dl>
-
 </section>
 
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="cmlabs.interpolate.test_lagrange_remainder_2.html" class="btn btn-neutral float-left" title="cmlabs.interpolate.test_lagrange_remainder_2" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="cmlabs.interpolate.test_lagrange_from_docs_example.html" class="btn btn-neutral float-right" title="cmlabs.interpolate.test_lagrange_from_docs_example" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-    </div>
+          <footer>
 
   <hr/>
 
