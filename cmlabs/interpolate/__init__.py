@@ -29,6 +29,19 @@ Newton interpolation
    divided_differences
    newton
 
+
+Finite differences interpolation
+================================
+
+.. autosummary::
+   :toctree: _autosummary
+   :nosignatures:
+
+   forward_differences
+   backward_differences
+   newtonfd
+
+
 Tests
 =====
 
