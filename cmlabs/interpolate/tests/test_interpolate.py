@@ -566,7 +566,7 @@ def test_newtonfd_from_docs_example():
     print("- X: ", xvals)
     print("- Y: ", yvals)
 
-    x = 1.5
+    x = 0.1
     print(f">>> x = {x}")
 
     print(f">>> newtonfd({xvals}, {x}, yvals={yvals})")

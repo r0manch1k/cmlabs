@@ -543,7 +543,7 @@ def newtonfd(xvals, x, yvals=None, coef=None):
             P_n(x) = \sum_{k=0}^{n} \frac{t(t-1)\ldots(t-k+1)}{k!} \Delta^k f(x_0) \\
             C^k_n = \frac{n(n-1)\ldots(n-k+1)}{k!}, \quad k \geq 2, \quad C^0_n = 1,
             \quad C^1_n = n \\
-            P_n(x) = \sum_{k=0}^{n} C^k_n \Delta^k f(x_0) \\
+            P_n(x) = \sum_{k=0}^{n} C^k_t \Delta^k f(x_0) \\
         \end{gather}
 
     Recommended to use this method to compute the polynomial value at :math:`x` near the
@@ -632,16 +632,16 @@ def newtonbd(xvals, x, yvals=None, coef=None):
             P_n(x) = \sum_{k=0}^{n} \frac{\nabla^k f(x_n)}{k!h^k} \omega_k(x) \\
         \end{gather}
 
-    Using a variable :math:`t = \frac{x - x_n}{h}` we can rewrite the polynomial as:
+    Using a variable :math:`s = \frac{x - x_n}{h}` we can rewrite the polynomial as:
 
     .. math::
 
         \begin{gather}
             P_n(x) = \sum_{k=0}^{n}
-            \frac{t(t+1)\ldots(t+k-1)}{k!} \nabla^k f(x_n) \\
-            C^k_n = \frac{n(n+1)\ldots(n+k-1)}{k!}, \quad k \geq 2, \quad C^0_n = 1,
-            \quad C^1_n = n \\
-            P_n(x) = \sum_{k=0}^{n} C^k_n \nabla^k f(x_n) \\
+            \frac{s(s+1)\ldots(s+k-1)}{k!} \nabla^k f(x_n) \\
+            C^k_{-n} = \frac{-n(-n-1)\ldots(-n-k+1)}{k!} = (-1)^k
+            \frac{n(n+1)\ldots(n+k-1)}{k!} \\
+            P_n(x) = \sum_{k=0}^{n} (-1)^k C^k_{-s} \nabla^k f(x_n) \\
         \end{gather}
 
     Recommended to use this method to compute the polynomial value at :math:`x` near the
@@ -655,7 +655,7 @@ def newtonbd(xvals, x, yvals=None, coef=None):
     >>> yvals = np.array([1, 3, 2, 5])
     >>> x = np.float32(2.5)
     >>> newtonbd(xvals, x, yvals=yvals)
-    2.5
+    2.5625
     """
     n = len(xvals) - 1
     h = xvals[1] - xvals[0]
@@ -671,10 +671,7 @@ def newtonbd(xvals, x, yvals=None, coef=None):
 
     res = coef[0]
 
-    # for k in range(1, n + 1):
-    #     res += sps.binom(t + k - 1, k) * coef[n - k - 1]
-
     for k in range(1, n + 1):
-        res += sps.binom(t, k) * coef[k]
+        res += (-1) ** k * sps.binom(-t, k) * coef[k]
 
     return res
