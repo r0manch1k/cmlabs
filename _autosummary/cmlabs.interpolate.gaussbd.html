@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>cmlabs.interpolate.finite_differences &mdash; cmlabs 0.0.1 documentation</title>
+  <title>cmlabs.interpolate.gaussbd &mdash; cmlabs 0.0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
@@ -21,8 +21,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="cmlabs.interpolate.forward_differences" href="cmlabs.interpolate.forward_differences.html" />
-    <link rel="prev" title="cmlabs.interpolate.newton" href="cmlabs.interpolate.newton.html" /> 
+    <link rel="next" title="cmlabs.interpolate.stirling" href="cmlabs.interpolate.stirling.html" />
+    <link rel="prev" title="cmlabs.interpolate.gaussfd" href="cmlabs.interpolate.gaussfd.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -48,16 +48,16 @@
 <li class="toctree-l1 current"><a class="reference internal" href="../cmlabs.interpolate.html">Interpolation (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.interpolate</span></code>)</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../cmlabs.interpolate.html#lagrange-newton-interpolation">Lagrange/Newton interpolation</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../cmlabs.interpolate.html#finite-differences-interpolation">Finite differences interpolation</a><ul class="current">
-<li class="toctree-l3 current"><a class="current reference internal" href="#">cmlabs.interpolate.finite_differences</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#cmlabs.interpolate.finite_differences"><code class="docutils literal notranslate"><span class="pre">finite_differences()</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.finite_differences.html">cmlabs.interpolate.finite_differences</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.forward_differences.html">cmlabs.interpolate.forward_differences</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.backward_differences.html">cmlabs.interpolate.backward_differences</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.newtonfd.html">cmlabs.interpolate.newtonfd</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.newtonbd.html">cmlabs.interpolate.newtonbd</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.gaussfd.html">cmlabs.interpolate.gaussfd</a></li>
-<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.gaussbd.html">cmlabs.interpolate.gaussbd</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">cmlabs.interpolate.gaussbd</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cmlabs.interpolate.gaussbd"><code class="docutils literal notranslate"><span class="pre">gaussbd()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.stirling.html">cmlabs.interpolate.stirling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.bessel.html">cmlabs.interpolate.bessel</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.interpolate.html">cmlabs.interpolate.interpolate</a></li>
@@ -83,9 +83,9 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../cmlabs.interpolate.html">Interpolation (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.interpolate</span></code>)</a></li>
-      <li class="breadcrumb-item active">cmlabs.interpolate.finite_differences</li>
+      <li class="breadcrumb-item active">cmlabs.interpolate.gaussbd</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/_autosummary/cmlabs.interpolate.finite_differences.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/_autosummary/cmlabs.interpolate.gaussbd.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -93,68 +93,60 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="cmlabs-interpolate-finite-differences">
-<h1>cmlabs.interpolate.finite_differences<a class="headerlink" href="#cmlabs-interpolate-finite-differences" title="Link to this heading"></a></h1>
+  <section id="cmlabs-interpolate-gaussbd">
+<h1>cmlabs.interpolate.gaussbd<a class="headerlink" href="#cmlabs-interpolate-gaussbd" title="Link to this heading"></a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="cmlabs.interpolate.finite_differences">
-<span class="sig-prename descclassname"><span class="pre">cmlabs.interpolate.</span></span><span class="sig-name descname"><span class="pre">finite_differences</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">yvals</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cmlabs/interpolate/_interpolate.html#finite_differences"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmlabs.interpolate.finite_differences" title="Link to this definition"></a></dt>
-<dd><p>Return the finite differences table.</p>
+<dt class="sig sig-object py" id="cmlabs.interpolate.gaussbd">
+<span class="sig-prename descclassname"><span class="pre">cmlabs.interpolate.</span></span><span class="sig-name descname"><span class="pre">gaussbd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xvals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yvals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coef</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cmlabs/interpolate/_interpolate.html#gaussbd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmlabs.interpolate.gaussbd" title="Link to this definition"></a></dt>
+<dd><p>Gauss’s backward interpolation formula.</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}\begin{gather}
-    \Delta^k f(x_i) = \Delta^{k-1} f(x_{i+1}) - \Delta^{k-1} f(x_i), \\
-    \nabla^k f(x_i) = \nabla^{k-1} f(x_i) - \nabla^{k-1} f(x_{i-1}), \\
-    \delta^k f_{i + \frac{1}{2}} =
-    \delta^{k-1} f(x_{i+1}) - \delta^{k-1} f(x_i)
-\end{gather}\end{split}\]</div>
+\[\begin{split}\begin{aligned}
+    P_n(x) &amp;= \nabla^0 f(x_m) + \\
+    &amp;+ \frac{t}{1!} \nabla^1 f(x_m) + \\
+    &amp;+ \frac{t(t+1)}{2!} \nabla^2 f(x_{m+1}) + \\
+    &amp;+ \frac{(t-1)t(t+1)}{3!} \nabla^3 f(x_{m+1}) + \\
+    &amp;+ \frac{(t-1)t(t+1)(t+2)}{4!} \nabla^4 f(x_{m+2}) + \\
+    &amp;+ \frac{(t-2)(t-1)t(t+1)(t+2)}{5!} \nabla^5 f(x_{m+2}) + \\
+    &amp;+ \frac{(t-2)(t-1)t(t+1)(t+2)(t+3)}{6!} \nabla^6 f(x_{m+3}) + \ldots
+\end{aligned}\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(x_m\)</span> is the midpoint of the data point (if even then <span class="math notranslate nohighlight">\(x_{n/2}\)</span>)
+and <span class="math notranslate nohighlight">\(t = \frac{x-x_m}{h}\)</span>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>yvals</strong> (<em>array_like</em><em>, </em><em>1-D</em>) – The y-coordinates of the data points.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xvals</strong> (<em>array_like</em><em>, </em><em>1-D</em>) – The sorted x-coordinates of the data points.</p></li>
+<li><p><strong>x</strong> (<em>float</em>) – The x-coordinate at which to evaluate the polynomial.</p></li>
+<li><p><strong>yvals</strong> (<em>array_like</em><em>, </em><em>1-D</em><em>, </em><em>optional</em>) – The y-coordinates of the data points, i.e., <span class="math notranslate nohighlight">\(f(x)\)</span>.</p></li>
+<li><p><strong>coef</strong> (<em>array_like</em><em>, </em><em>2-D</em><em>, </em><em>optional</em>) – The backward differences table.
+If not provided, the function will compute the finite differences table
+using the <cite>finite_differences(yvals)</cite> function.</p></li>
+<li><p><strong>m</strong> (<em>int</em><em>, </em><em>optional</em>) – The index of the midpoint of the data points.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>res</strong> – The finite differences table.</p>
+<dd class="field-even"><p><strong>res</strong> – The value of the polynomial at <span class="math notranslate nohighlight">\(x\)</span>.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>array_like, 2-D</p>
+<dd class="field-odd"><p>float</p>
 </dd>
 </dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="cmlabs.interpolate.finite_differences.html#cmlabs.interpolate.finite_differences" title="cmlabs.interpolate.finite_differences"><code class="xref py py-obj docutils literal notranslate"><span class="pre">finite_differences</span></code></a></p>
+</div>
 <p class="rubric">Notes</p>
-<p>The output is the table with following structure:</p>
+<p>Gauss’s backward interpolation formula is best applicable for determining
+the values near the middle of the table.</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}\left[\begin{gather}
-[\Delta^0 f(x_0) \quad \Delta^0 f(x_1) \quad \ldots \quad \Delta^0 f(x_n)] \\
-[\Delta^1 f(x_0) \quad \Delta^1 f(x_1) \quad \ldots \quad \Delta^1 f(x_{n-1})]\\
-[\Delta^2 f(x_0) \quad \Delta^2 f(x_1) \quad \ldots \quad \Delta^2 f(x_{n-2})]\\
-\vdots \\
-[\Delta^n f(x_0)]
-\end{gather}\right]\end{split}\]</div>
-<p>Or it can be treated as…</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\left[\begin{gather}
-[\nabla^0 f(x_0) \quad \nabla^0 f(x_1) \quad \ldots \quad \nabla^0 f(x_n)] \\
-[\nabla^1 f(x_1) \quad \nabla^1 f(x_1) \quad \ldots \quad \nabla^1 f(x_n)]\\
-[\nabla^2 f(x_2) \quad \nabla^2 f(x_1) \quad \ldots \quad \nabla^2 f(x_n)]\\
-\vdots \\
-[\nabla^n f(x_n)]
-\end{gather}\right]\end{split}\]</div>
-<p>Or…</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\left[\begin{gather}
-[\delta^0 f_{\frac{1}{2}} \quad \delta^0 f_{\frac{3}{2}} \quad \ldots
-\quad \delta^0 f_{(n-1) + \frac{1}{2}}] \\
-[\delta^1 f_{\frac{1}{2}} \quad \delta^1 f_{\frac{3}{2}} \quad \ldots \quad
-\delta^1 f_{(n-2) + \frac{1}{2}}]\\
-[\delta^2 f_{\frac{1}{2}} \quad \delta^2 f_{\frac{3}{2}} \quad \ldots \quad
-\delta^2 f_{(n-3) + \frac{1}{2}}]\\
-\vdots \\
-[\delta^n f_{\frac{1}{2}}]
-\end{gather}\right]\end{split}\]</div>
-<p>where <span class="math notranslate nohighlight">\(n = len(yvals) - 1\)</span>.</p>
+\[x = x_m + t h, \quad -\frac{1}{2} &lt; t &lt; 0\]</div>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">cmlabs.interpolate</span><span class="w"> </span><span class="kn">import</span> <span class="n">finite_differences</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">cmlabs.interpolate</span><span class="w"> </span><span class="kn">import</span> <span class="n">gaussbd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xvals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">yvals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">finite_differences</span><span class="p">(</span><span class="n">yvals</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">(</span><span class="mf">0.75</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gaussbd</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">yvals</span><span class="o">=</span><span class="n">yvals</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="mf">3.0546875</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -165,8 +157,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="cmlabs.interpolate.newton.html" class="btn btn-neutral float-left" title="cmlabs.interpolate.newton" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="cmlabs.interpolate.forward_differences.html" class="btn btn-neutral float-right" title="cmlabs.interpolate.forward_differences" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="cmlabs.interpolate.gaussfd.html" class="btn btn-neutral float-left" title="cmlabs.interpolate.gaussfd" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="cmlabs.interpolate.stirling.html" class="btn btn-neutral float-right" title="cmlabs.interpolate.stirling" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

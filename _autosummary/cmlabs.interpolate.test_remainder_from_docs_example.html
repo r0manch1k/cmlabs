@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>cmlabs.interpolate.test_lagrange_remainder_from_docs_example &mdash; cmlabs 0.0.1 documentation</title>
+  <title>cmlabs.interpolate.test_remainder_from_docs_example &mdash; cmlabs 0.0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
@@ -45,8 +45,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../cmlabs.interpolate.html">Interpolation (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.interpolate</span></code>)</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="../cmlabs.interpolate.html#lagrange-interpolation">Lagrange interpolation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cmlabs.interpolate.html#newton-interpolation">Newton interpolation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cmlabs.interpolate.html#lagrange-newton-interpolation">Lagrange/Newton interpolation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../cmlabs.interpolate.html#finite-differences-interpolation">Finite differences interpolation</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../cmlabs.interpolate.html#tests">Tests</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_lagrange_degree.html">cmlabs.interpolate.test_lagrange_degree</a></li>
@@ -54,16 +53,20 @@
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_lagrange_degree_2.html">cmlabs.interpolate.test_lagrange_degree_2</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_lagrange_remainder_2.html">cmlabs.interpolate.test_lagrange_remainder_2</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_lagrange_compare_with_newton.html">cmlabs.interpolate.test_lagrange_compare_with_newton</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_interpolate_remainder.html">cmlabs.interpolate.test_interpolate_remainder</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_lagrange_from_docs_example.html">cmlabs.interpolate.test_lagrange_from_docs_example</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">cmlabs.interpolate.test_lagrange_remainder_from_docs_example</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#cmlabs.interpolate.test_lagrange_remainder_from_docs_example"><code class="docutils literal notranslate"><span class="pre">test_lagrange_remainder_from_docs_example()</span></code></a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">cmlabs.interpolate.test_remainder_from_docs_example</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cmlabs.interpolate.test_remainder_from_docs_example"><code class="docutils literal notranslate"><span class="pre">test_remainder_from_docs_example()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_newton_from_docs_example.html">cmlabs.interpolate.test_newton_from_docs_example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_finite_differences_from_docs_example.html">cmlabs.interpolate.test_finite_differences_from_docs_example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_forward_differences_from_docs_example.html">cmlabs.interpolate.test_forward_differences_from_docs_example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_backward_differences_from_docs_example.html">cmlabs.interpolate.test_backward_differences_from_docs_example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_newtonfd_from_docs_example.html">cmlabs.interpolate.test_newtonfd_from_docs_example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_newtonbd_from_docs_example.html">cmlabs.interpolate.test_newtonbd_from_docs_example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_gaussfd_from_docs_example.html">cmlabs.interpolate.test_gaussfd_from_docs_example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_gaussbd_from_docs_example.html">cmlabs.interpolate.test_gaussbd_from_docs_example</a></li>
 </ul>
 </li>
 </ul>
@@ -85,9 +88,9 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../cmlabs.interpolate.html">Interpolation (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.interpolate</span></code>)</a></li>
-      <li class="breadcrumb-item active">cmlabs.interpolate.test_lagrange_remainder_from_docs_example</li>
+      <li class="breadcrumb-item active">cmlabs.interpolate.test_remainder_from_docs_example</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/_autosummary/cmlabs.interpolate.test_lagrange_remainder_from_docs_example.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/_autosummary/cmlabs.interpolate.test_remainder_from_docs_example.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -95,15 +98,15 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="cmlabs-interpolate-test-lagrange-remainder-from-docs-example">
-<h1>cmlabs.interpolate.test_lagrange_remainder_from_docs_example<a class="headerlink" href="#cmlabs-interpolate-test-lagrange-remainder-from-docs-example" title="Link to this heading"></a></h1>
+  <section id="cmlabs-interpolate-test-remainder-from-docs-example">
+<h1>cmlabs.interpolate.test_remainder_from_docs_example<a class="headerlink" href="#cmlabs-interpolate-test-remainder-from-docs-example" title="Link to this heading"></a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="cmlabs.interpolate.test_lagrange_remainder_from_docs_example">
-<span class="sig-prename descclassname"><span class="pre">cmlabs.interpolate.</span></span><span class="sig-name descname"><span class="pre">test_lagrange_remainder_from_docs_example</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cmlabs/interpolate/tests/test_interpolate.html#test_lagrange_remainder_from_docs_example"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmlabs.interpolate.test_lagrange_remainder_from_docs_example" title="Link to this definition"></a></dt>
-<dd><p>Lagrange remainder from docs example.</p>
+<dt class="sig sig-object py" id="cmlabs.interpolate.test_remainder_from_docs_example">
+<span class="sig-prename descclassname"><span class="pre">cmlabs.interpolate.</span></span><span class="sig-name descname"><span class="pre">test_remainder_from_docs_example</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cmlabs/interpolate/tests/test_interpolate.html#test_remainder_from_docs_example"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmlabs.interpolate.test_remainder_from_docs_example" title="Link to this definition"></a></dt>
+<dd><p>Remainder from docs example.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p><a class="reference internal" href="cmlabs.interpolate.lagrange_remainder.html#cmlabs.interpolate.lagrange_remainder" title="cmlabs.interpolate.lagrange_remainder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lagrange_remainder</span></code></a></p>
+<p><a class="reference internal" href="cmlabs.interpolate.remainder.html#cmlabs.interpolate.remainder" title="cmlabs.interpolate.remainder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">remainder</span></code></a></p>
 </div>
 </dd></dl>
 

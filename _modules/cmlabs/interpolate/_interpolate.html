@@ -71,7 +71,7 @@
   <h1>Source code for cmlabs.interpolate._interpolate</h1><div class="highlight"><pre>
 <span></span><span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s2">&quot;lagrange&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;lagrange_remainder&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;remainder&quot;</span><span class="p">,</span>
     <span class="s2">&quot;divided_differences&quot;</span><span class="p">,</span>
     <span class="s2">&quot;newton&quot;</span><span class="p">,</span>
     <span class="s2">&quot;finite_differences&quot;</span><span class="p">,</span>
@@ -80,6 +80,10 @@
     <span class="s2">&quot;newtonfd&quot;</span><span class="p">,</span>
     <span class="s2">&quot;newtonbd&quot;</span><span class="p">,</span>
     <span class="s2">&quot;gaussfd&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;gaussbd&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;stirling&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;bessel&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;interpolate&quot;</span><span class="p">,</span>
 <span class="p">]</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
@@ -146,12 +150,12 @@
 
 
 
-<div class="viewcode-block" id="lagrange_remainder">
-<a class="viewcode-back" href="../../../_autosummary/cmlabs.interpolate.lagrange_remainder.html#cmlabs.interpolate.lagrange_remainder">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">lagrange_remainder</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">):</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Remainder in Lagrange interpolation formula.</span>
+<div class="viewcode-block" id="remainder">
+<a class="viewcode-back" href="../../../_autosummary/cmlabs.interpolate.remainder.html#cmlabs.interpolate.remainder">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">remainder</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Remainder in interpolation formulas.</span>
 
-<span class="sd">    Common notation for the Lagrange interpolation polynomial is:</span>
+<span class="sd">    Common notation for the remainder value is:</span>
 
 <span class="sd">    .. math::</span>
 
@@ -161,7 +165,7 @@
 <span class="sd">                \xi \in (a, b) \\</span>
 <span class="sd">        \end{aligned}</span>
 
-<span class="sd">    where :math:`L_n(x)` is the Lagrange polynomial of degree `n`,</span>
+<span class="sd">    where :math:`L_n(x)` is the interpolation polynomial of degree `n`,</span>
 <span class="sd">    :math:`R_n(x)` is the remainder term and `n = len(xvals)-1`.</span>
 
 <span class="sd">    Parameters</span>
@@ -213,7 +217,7 @@
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; import numpy as np</span>
-<span class="sd">    &gt;&gt;&gt; from cmlabs.interpolate import lagrange, lagrange_remainder</span>
+<span class="sd">    &gt;&gt;&gt; from cmlabs.interpolate import lagrange, remainder</span>
 <span class="sd">    &gt;&gt;&gt; # f(x) = sin(x)</span>
 <span class="sd">    &gt;&gt;&gt; xvals = np.array([0, np.pi/2, np.pi/2])</span>
 <span class="sd">    &gt;&gt;&gt; yvals = np.array([0, 1/2, 1])</span>
@@ -223,10 +227,10 @@
 <span class="sd">    &gt;&gt;&gt; abs(np.sin(x) - lagrange(xvals, yvals, x))</span>
 <span class="sd">    0.007941567634910107</span>
 <span class="sd">    &gt;&gt;&gt; # Exact remainder</span>
-<span class="sd">    &gt;&gt;&gt; lagrange_remainder(xvals, M, x)</span>
+<span class="sd">    &gt;&gt;&gt; remainder(xvals, M, x)</span>
 <span class="sd">    0.010093189023535093</span>
 <span class="sd">    &gt;&gt;&gt; # Bound remainder</span>
-<span class="sd">    &gt;&gt;&gt; lagrange_remainder(xvals, M)</span>
+<span class="sd">    &gt;&gt;&gt; remainder(xvals, M)</span>
 <span class="sd">    0.020186378047070193</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -424,8 +428,10 @@
 <span class="sd">    .. math::</span>
 
 <span class="sd">        \begin{gather}</span>
-<span class="sd">            \Delta^k f(x_i) = f(x_{i+1}) - f(x_i), \\</span>
-<span class="sd">            \nabla^k f(x_i) = f(x_i) - f(x_{i-1})</span>
+<span class="sd">            \Delta^k f(x_i) = \Delta^{k-1} f(x_{i+1}) - \Delta^{k-1} f(x_i), \\</span>
+<span class="sd">            \nabla^k f(x_i) = \nabla^{k-1} f(x_i) - \nabla^{k-1} f(x_{i-1}), \\</span>
+<span class="sd">            \delta^k f_{i + \frac{1}{2}} =</span>
+<span class="sd">            \delta^{k-1} f(x_{i+1}) - \delta^{k-1} f(x_i)</span>
 <span class="sd">        \end{gather}</span>
 
 <span class="sd">    Parameters</span>
@@ -464,7 +470,22 @@
 <span class="sd">        [\nabla^n f(x_n)]</span>
 <span class="sd">        \end{gather}\right]</span>
 
-<span class="sd">    where `n = len(yvals) - 1`.</span>
+<span class="sd">    Or...</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \left[\begin{gather}</span>
+<span class="sd">        [\delta^0 f_{\frac{1}{2}} \quad \delta^0 f_{\frac{3}{2}} \quad \ldots</span>
+<span class="sd">        \quad \delta^0 f_{(n-1) + \frac{1}{2}}] \\</span>
+<span class="sd">        [\delta^1 f_{\frac{1}{2}} \quad \delta^1 f_{\frac{3}{2}} \quad \ldots \quad</span>
+<span class="sd">        \delta^1 f_{(n-2) + \frac{1}{2}}]\\</span>
+<span class="sd">        [\delta^2 f_{\frac{1}{2}} \quad \delta^2 f_{\frac{3}{2}} \quad \ldots \quad</span>
+<span class="sd">        \delta^2 f_{(n-3) + \frac{1}{2}}]\\</span>
+<span class="sd">        \vdots \\</span>
+<span class="sd">        [\delta^n f_{\frac{1}{2}}]</span>
+<span class="sd">        \end{gather}\right]</span>
+
+<span class="sd">    where :math:`n = len(yvals) - 1`.</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -799,7 +820,7 @@
 
 <span class="sd">        \begin{aligned}</span>
 <span class="sd">            P_n(x) &amp;= \Delta^0 f(x_m) + \\</span>
-<span class="sd">            &amp;+ t \Delta^1 f(x_m) + \\</span>
+<span class="sd">            &amp;+ \frac{t}{1!} \Delta^1 f(x_m) + \\</span>
 <span class="sd">            &amp;+ \frac{t(t-1)}{2!} \Delta^2 f(x_{m-1}) + \\</span>
 <span class="sd">            &amp;+ \frac{(t+1)t(t-1)}{3!} \Delta^3 f(x_{m-1}) + \\</span>
 <span class="sd">            &amp;+ \frac{(t+1)t(t-1)(t-2)}{4!} \Delta^4 f(x_{m-2}) + \\</span>
@@ -817,16 +838,13 @@
 <span class="sd">    x : float</span>
 <span class="sd">        The x-coordinate at which to evaluate the polynomial.</span>
 <span class="sd">    yvals : array_like, 1-D, optional</span>
-<span class="sd">        The y-coordinates of the data points, i.e., f(:math:`x`).</span>
-<span class="sd">        Only used if `coef` is not provided.</span>
+<span class="sd">        The y-coordinates of the data points, i.e., :math:`f(x)`.</span>
 <span class="sd">    coef : array_like, 2-D, optional</span>
 <span class="sd">        The forward differences table.</span>
 <span class="sd">        If not provided, the function will compute the finite differences table</span>
-<span class="sd">        using the `finite_differences` function.</span>
+<span class="sd">        using the `finite_differences(yvals)` function.</span>
 <span class="sd">    m : int, optional</span>
 <span class="sd">        The index of the midpoint of the data points.</span>
-<span class="sd">        If not provided, the function will compute it using the formula:</span>
-<span class="sd">        :math:`m = \frac{n}{2}` if `n` is even, otherwise :math:`m = \frac{n+1}{2}`.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -852,15 +870,16 @@
 <span class="sd">    &gt;&gt;&gt; from cmlabs.interpolate import gaussfd</span>
 <span class="sd">    &gt;&gt;&gt; xvals = np.array([0, 1, 2, 3])</span>
 <span class="sd">    &gt;&gt;&gt; yvals = np.array([1, 3, 2, 5])</span>
-<span class="sd">    &gt;&gt;&gt; x = np.float32(1.5)</span>
+<span class="sd">    &gt;&gt;&gt; x = np.float32(1.25)</span>
 <span class="sd">    &gt;&gt;&gt; gaussfd(xvals, x, yvals=yvals)</span>
+<span class="sd">    2.7578125</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">xvals</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
 
-    <span class="k">if</span> <span class="n">m</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">m</span> <span class="o">&gt;=</span> <span class="n">n</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">m</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">n</span> <span class="o">//</span> <span class="mi">2</span>
+    <span class="k">elif</span> <span class="n">m</span> <span class="o">&gt;=</span> <span class="n">n</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;m must be less than n&quot;</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">m</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">m</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span> <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">n</span> <span class="o">//</span> <span class="mi">2</span>
 
     <span class="n">h</span> <span class="o">=</span> <span class="n">xvals</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">xvals</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">t</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">xvals</span><span class="p">[</span><span class="n">m</span><span class="p">])</span> <span class="o">/</span> <span class="n">h</span>
@@ -873,23 +892,464 @@
     <span class="k">elif</span> <span class="n">coef</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Either yvals or coef must be provided&quot;</span><span class="p">)</span>
 
-    <span class="n">res</span> <span class="o">=</span> <span class="n">coef</span><span class="p">[</span><span class="n">m</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">coef</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">m</span><span class="p">]</span>
 
     <span class="n">prod</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="c1"># sign = 1</span>
+    <span class="n">fact</span> <span class="o">=</span> <span class="mi">1</span>
 
-    <span class="c1"># TODO: dodelat&#39;</span>
-    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">coef</span><span class="p">)):</span>
-        <span class="n">index</span> <span class="o">=</span> <span class="n">m</span> <span class="o">-</span> <span class="p">(</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>
-
-        <span class="c1"># prod *= t + sign * ((k - 1) // 2)</span>
-        <span class="c1"># sign *= -1</span>
-        <span class="n">prod</span> <span class="o">*=</span> <span class="p">(</span><span class="n">t</span> <span class="o">-</span> <span class="p">(</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span> <span class="k">if</span> <span class="n">k</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="p">(</span><span class="n">t</span> <span class="o">+</span> <span class="p">(</span><span class="n">k</span> <span class="o">//</span> <span class="mi">2</span><span class="p">))</span>
-
-        <span class="n">term</span> <span class="o">=</span> <span class="p">(</span><span class="n">prod</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">factorial</span><span class="p">(</span><span class="n">k</span><span class="p">))</span> <span class="o">*</span> <span class="n">coef</span><span class="p">[</span><span class="n">index</span><span class="p">][</span><span class="n">k</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">k</span> <span class="o">//</span> <span class="mi">2</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">m</span> <span class="o">-</span> <span class="n">d</span>
+        <span class="n">prod</span> <span class="o">*=</span> <span class="p">(</span><span class="n">t</span> <span class="o">-</span> <span class="n">d</span><span class="p">)</span> <span class="k">if</span> <span class="n">k</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="p">(</span><span class="n">t</span> <span class="o">+</span> <span class="n">d</span><span class="p">)</span>
+        <span class="n">fact</span> <span class="o">*=</span> <span class="n">k</span>
+        <span class="n">term</span> <span class="o">=</span> <span class="p">(</span><span class="n">prod</span> <span class="o">/</span> <span class="n">fact</span><span class="p">)</span> <span class="o">*</span> <span class="n">coef</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
         <span class="n">res</span> <span class="o">+=</span> <span class="n">term</span>
 
     <span class="k">return</span> <span class="n">res</span></div>
+
+
+
+<div class="viewcode-block" id="gaussbd">
+<a class="viewcode-back" href="../../../_autosummary/cmlabs.interpolate.gaussbd.html#cmlabs.interpolate.gaussbd">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">gaussbd</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">yvals</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">coef</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Gauss’s backward interpolation formula.</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \begin{aligned}</span>
+<span class="sd">            P_n(x) &amp;= \nabla^0 f(x_m) + \\</span>
+<span class="sd">            &amp;+ \frac{t}{1!} \nabla^1 f(x_m) + \\</span>
+<span class="sd">            &amp;+ \frac{t(t+1)}{2!} \nabla^2 f(x_{m+1}) + \\</span>
+<span class="sd">            &amp;+ \frac{(t-1)t(t+1)}{3!} \nabla^3 f(x_{m+1}) + \\</span>
+<span class="sd">            &amp;+ \frac{(t-1)t(t+1)(t+2)}{4!} \nabla^4 f(x_{m+2}) + \\</span>
+<span class="sd">            &amp;+ \frac{(t-2)(t-1)t(t+1)(t+2)}{5!} \nabla^5 f(x_{m+2}) + \\</span>
+<span class="sd">            &amp;+ \frac{(t-2)(t-1)t(t+1)(t+2)(t+3)}{6!} \nabla^6 f(x_{m+3}) + \ldots</span>
+<span class="sd">        \end{aligned}</span>
+
+<span class="sd">    where :math:`x_m` is the midpoint of the data point (if even then :math:`x_{n/2}`)</span>
+<span class="sd">    and :math:`t = \frac{x-x_m}{h}`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    xvals : array_like, 1-D</span>
+<span class="sd">        The sorted x-coordinates of the data points.</span>
+<span class="sd">    x : float</span>
+<span class="sd">        The x-coordinate at which to evaluate the polynomial.</span>
+<span class="sd">    yvals : array_like, 1-D, optional</span>
+<span class="sd">        The y-coordinates of the data points, i.e., :math:`f(x)`.</span>
+<span class="sd">    coef : array_like, 2-D, optional</span>
+<span class="sd">        The backward differences table.</span>
+<span class="sd">        If not provided, the function will compute the finite differences table</span>
+<span class="sd">        using the `finite_differences(yvals)` function.</span>
+<span class="sd">    m : int, optional</span>
+<span class="sd">        The index of the midpoint of the data points.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    res: float</span>
+<span class="sd">        The value of the polynomial at :math:`x`.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    finite_differences</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Gauss’s backward interpolation formula is best applicable for determining</span>
+<span class="sd">    the values near the middle of the table.</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        x = x_m + t h, \quad -\frac{1}{2} &lt; t &lt; 0</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; from cmlabs.interpolate import gaussbd</span>
+<span class="sd">    &gt;&gt;&gt; xvals = np.array([0, 1, 2, 3])</span>
+<span class="sd">    &gt;&gt;&gt; yvals = np.array([1, 3, 2, 5])</span>
+<span class="sd">    &gt;&gt;&gt; x = np.float32(0.75)</span>
+<span class="sd">    &gt;&gt;&gt; gaussbd(xvals, x, yvals=yvals)</span>
+<span class="sd">    &gt;&gt;&gt; 3.0546875</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">xvals</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+
+    <span class="k">if</span> <span class="n">m</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">n</span> <span class="o">//</span> <span class="mi">2</span>
+    <span class="k">elif</span> <span class="n">m</span> <span class="o">&gt;=</span> <span class="n">n</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;m must be less than n&quot;</span><span class="p">)</span>
+
+    <span class="n">h</span> <span class="o">=</span> <span class="n">xvals</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">xvals</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">xvals</span><span class="p">[</span><span class="n">m</span><span class="p">])</span> <span class="o">/</span> <span class="n">h</span>
+
+    <span class="k">if</span> <span class="n">coef</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">n</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">coef</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;coef must have the same length as xvals and yvals&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">yvals</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">coef</span> <span class="o">=</span> <span class="n">finite_differences</span><span class="p">(</span><span class="n">yvals</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">coef</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Either yvals or coef must be provided&quot;</span><span class="p">)</span>
+
+    <span class="n">res</span> <span class="o">=</span> <span class="n">coef</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">m</span><span class="p">]</span>
+
+    <span class="n">prod</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">fact</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">k</span> <span class="o">//</span> <span class="mi">2</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">m</span> <span class="o">-</span> <span class="p">(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>
+        <span class="n">prod</span> <span class="o">*=</span> <span class="p">(</span><span class="n">t</span> <span class="o">+</span> <span class="n">d</span><span class="p">)</span> <span class="k">if</span> <span class="n">k</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="p">(</span><span class="n">t</span> <span class="o">-</span> <span class="n">d</span><span class="p">)</span>
+        <span class="n">fact</span> <span class="o">*=</span> <span class="n">k</span>
+        <span class="n">term</span> <span class="o">=</span> <span class="p">(</span><span class="n">prod</span> <span class="o">/</span> <span class="n">fact</span><span class="p">)</span> <span class="o">*</span> <span class="n">coef</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">res</span> <span class="o">+=</span> <span class="n">term</span>
+
+    <span class="k">return</span> <span class="n">res</span></div>
+
+
+
+<div class="viewcode-block" id="stirling">
+<a class="viewcode-back" href="../../../_autosummary/cmlabs.interpolate.stirling.html#cmlabs.interpolate.stirling">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">stirling</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">yvals</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">coef</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Stirling&#39;s interpolation formula.</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \begin{aligned}</span>
+<span class="sd">            P_n(x) &amp;= \Delta^0 f(x_m) + \\</span>
+<span class="sd">            &amp;+ \frac{t}{1!} \left[\frac{\Delta^1 f(x_{m-1}) +</span>
+<span class="sd">            \Delta^1 f(x_m)}{2}\right] + \\</span>
+<span class="sd">            &amp;+ \frac{t^2}{2!} \Delta^2 f(x_{m-1}) + \\</span>
+<span class="sd">            &amp;+ \frac{t(t^2-1)}{3!} \left[\frac{\Delta^3 f(x_{m-2}) +</span>
+<span class="sd">            \Delta^3 f(x_{m-1})}{2}\right] + \\</span>
+<span class="sd">            &amp;+ \frac{t^2(t^2-1)}{4!} \Delta^4 f(x_{m-2}) + \\</span>
+<span class="sd">            &amp;+ \frac{t(t^2-1)(t^2-2^2)}{5!} \left[\frac{\Delta^5 f(x_{m-3}) +</span>
+<span class="sd">            \Delta^5 f(x_{m-2})}{2}\right] + \\</span>
+<span class="sd">            &amp;+ \frac{t^2(t^2-1)(t^2-2^2)}{6!} \Delta^6 f(x_{m-3}) + \\</span>
+<span class="sd">            &amp;+ \ldots + \\</span>
+<span class="sd">            &amp;+ \frac{t(t^2-1)(t^2-2^2)(t^2-3^2)\ldots\left[t^2-(n-1)^2\right]}{(2n-1)!}</span>
+<span class="sd">            \left[\frac{\Delta^{2n-1} f(x_0) + \Delta^{2n-1} f(x_1)}{2}\right] + \\</span>
+<span class="sd">            &amp;+ \frac{t^2(t^2-1)(t^2-2^2)\ldots\left[t^2-(n-1)^2\right]}{(2n)!}</span>
+<span class="sd">            \Delta^{2n} f(x_0)</span>
+<span class="sd">        \end{aligned}</span>
+
+<span class="sd">    where :math:`t = x - x_0` and :math:`n = len(xvals) - 1`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    xvals : array_like, 1-D</span>
+<span class="sd">        The sorted x-coordinates of the data points.</span>
+<span class="sd">    x : float</span>
+<span class="sd">        The x-coordinate at which to evaluate the polynomial.</span>
+<span class="sd">    yvals : array_like, 1-D, optional</span>
+<span class="sd">        The y-coordinates of the data points, i.e., :math:`f(x)`.</span>
+<span class="sd">    coef : array_like, 2-D, optional</span>
+<span class="sd">        The backward differences table.</span>
+<span class="sd">        If not provided, the function will compute the finite differences table</span>
+<span class="sd">        using the `finite_differences(yvals)` function.</span>
+<span class="sd">    m : int, optional</span>
+<span class="sd">        The index of the midpoint of the data points.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    res: float</span>
+<span class="sd">        The value of the polynomial at :math:`x`.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    finite_differences</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    After taking the arithmetic</span>
+<span class="sd">    mean of Gauss forward and backward interpolation we will obtain Stirling&#39;s</span>
+<span class="sd">    Interpolation formula. This formula is used for an odd number of equally spaced</span>
+<span class="sd">    values.</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        x = x_m + t h, \quad -\frac{1}{4} &lt; t &lt; \frac{1}{4}</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; from cmlabs.interpolate import stirling</span>
+<span class="sd">    &gt;&gt;&gt; xvals = np.array([0, 1, 2, 3, 4])</span>
+<span class="sd">    &gt;&gt;&gt; yvals = np.array([1, 3, 2, 5, 3])</span>
+<span class="sd">    &gt;&gt;&gt; x = np.float32(2.15)</span>
+<span class="sd">    &gt;&gt;&gt; stirling(xvals, x, yvals=yvals)</span>
+<span class="sd">    &gt;&gt;&gt; 2.2488649999999994</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">xvals</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+
+    <span class="k">if</span> <span class="n">m</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">n</span> <span class="o">//</span> <span class="mi">2</span>
+    <span class="k">elif</span> <span class="n">m</span> <span class="o">&gt;=</span> <span class="n">n</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;m must be less than n&quot;</span><span class="p">)</span>
+
+    <span class="n">h</span> <span class="o">=</span> <span class="n">xvals</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">xvals</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">xvals</span><span class="p">[</span><span class="n">m</span><span class="p">])</span> <span class="o">/</span> <span class="n">h</span>
+
+    <span class="k">if</span> <span class="n">coef</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">n</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">coef</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;coef must have the same length as xvals and yvals&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">yvals</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">coef</span> <span class="o">=</span> <span class="n">finite_differences</span><span class="p">(</span><span class="n">yvals</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">coef</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Either yvals or coef must be provided&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;n must be odd&quot;</span><span class="p">)</span>
+
+    <span class="n">res</span> <span class="o">=</span> <span class="n">coef</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">m</span><span class="p">]</span>
+    <span class="n">fact</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">tp</span> <span class="o">=</span> <span class="n">t</span>
+
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">fact</span> <span class="o">*=</span> <span class="n">k</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">m</span> <span class="o">-</span> <span class="p">(</span><span class="n">k</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">k</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">delta_k</span> <span class="o">=</span> <span class="p">(</span><span class="n">coef</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">coef</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">i</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span>
+            <span class="n">tp</span> <span class="o">*=</span> <span class="n">t</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">k</span><span class="o">**</span><span class="mi">2</span> <span class="k">if</span> <span class="n">k</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">delta_k</span> <span class="o">=</span> <span class="n">coef</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">tp</span> <span class="o">*=</span> <span class="n">t</span>
+        <span class="n">term</span> <span class="o">=</span> <span class="p">(</span><span class="n">tp</span> <span class="o">/</span> <span class="n">fact</span><span class="p">)</span> <span class="o">*</span> <span class="n">delta_k</span>
+        <span class="n">res</span> <span class="o">+=</span> <span class="n">term</span>
+
+    <span class="k">return</span> <span class="n">res</span></div>
+
+
+
+<div class="viewcode-block" id="bessel">
+<a class="viewcode-back" href="../../../_autosummary/cmlabs.interpolate.bessel.html#cmlabs.interpolate.bessel">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">bessel</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">yvals</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">coef</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Bessel&#39;s interpolation formula.</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \begin{aligned}</span>
+<span class="sd">            P_n(x) &amp;= \frac{f(x_m) + f(x_{m+1})}{2} + \\</span>
+<span class="sd">            &amp;+ (t - \frac{1}{2}) \Delta^1 f(x_m) + \\</span>
+<span class="sd">            &amp;+ \frac{t(t-1)}{2!} \left[\frac{\Delta^2 f(x_{m-1}) +</span>
+<span class="sd">            \Delta^2 f(x_m)}{2}\right] + \\</span>
+<span class="sd">            &amp;+ \ldots + \\</span>
+<span class="sd">            &amp;+ \frac{t(t^2-1)\ldots\left[t^2-(n-1)^2\right](t-n)}{(2n)!}</span>
+<span class="sd">            \left[\frac{\Delta^{2n} f(x_0) + \Delta^{2n} f(x_1)}{2}\right] + \\</span>
+<span class="sd">            &amp;+ \frac{t(t^2-1)\ldots\left[t^2-(n-1)^2\right](t-n)</span>
+<span class="sd">            (t-\frac{1}{2})}{(2n+1)!} \Delta^{2n+1} f(x_0)</span>
+<span class="sd">        \end{aligned}</span>
+
+<span class="sd">    where :math:`x_m` is the midpoint of the data point (if even then :math:`x_{n/2}`)</span>
+<span class="sd">    and :math:`t = \frac{x - x_m}{h}`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    xvals : array_like, 1-D</span>
+<span class="sd">        The sorted x-coordinates of the data points.</span>
+<span class="sd">    x : float</span>
+<span class="sd">        The x-coordinate at which to evaluate the polynomial.</span>
+<span class="sd">    yvals : array_like, 1-D, optional</span>
+<span class="sd">        The y-coordinates of the data points, i.e., :math:`f(x)`.</span>
+<span class="sd">    coef : array_like, 2-D, optional</span>
+<span class="sd">        The backward differences table.</span>
+<span class="sd">        If not provided, the function will compute the finite differences</span>
+<span class="sd">        table using the `finite_differences(yvals)` function.</span>
+<span class="sd">    m : int, optional</span>
+<span class="sd">        The index of the midpoint of the data points.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    res: float</span>
+<span class="sd">        The value of the polynomial at :math:`x`.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    finite_differences</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    This central difference</span>
+<span class="sd">    formula is acquiredafter taking the arithmetic mean of Gauss&#39;s forward and</span>
+<span class="sd">    backward interpolation formula with some modifications.</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        x = x_m + t h, \quad \frac{1}{4} &lt; t &lt; \frac{3}{4}</span>
+
+<span class="sd">    Use often when the interpolating point lies near the middle of the table and</span>
+<span class="sd">    the number of arguments in the problem is even.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; from cmlabs.interpolate import bessel</span>
+<span class="sd">    &gt;&gt;&gt; xvals = np.array([0, 1, 2, 3])</span>
+<span class="sd">    &gt;&gt;&gt; yvals = np.array([1, 3, 2, 5])</span>
+<span class="sd">    &gt;&gt;&gt; x = np.float32(1.15)</span>
+<span class="sd">    &gt;&gt;&gt; bessel(xvals, x, yvals=yvals)</span>
+<span class="sd">    &gt;&gt;&gt; 2.8701875</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">xvals</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+
+    <span class="k">if</span> <span class="n">m</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">n</span> <span class="o">//</span> <span class="mi">2</span>
+    <span class="k">elif</span> <span class="n">m</span> <span class="o">&gt;=</span> <span class="n">n</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;m must be less than n&quot;</span><span class="p">)</span>
+
+    <span class="n">h</span> <span class="o">=</span> <span class="n">xvals</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">xvals</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">xvals</span><span class="p">[</span><span class="n">m</span><span class="p">])</span> <span class="o">/</span> <span class="n">h</span>
+
+    <span class="k">if</span> <span class="n">coef</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">n</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">coef</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;coef must have the same length as xvals and yvals&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">yvals</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">coef</span> <span class="o">=</span> <span class="n">finite_differences</span><span class="p">(</span><span class="n">yvals</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">coef</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Either yvals or coef must be provided&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;n must be odd&quot;</span><span class="p">)</span>
+
+    <span class="n">res</span> <span class="o">=</span> <span class="p">(</span><span class="n">coef</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">m</span><span class="p">]</span> <span class="o">+</span> <span class="n">coef</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">m</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="n">fact</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">tp</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">m</span> <span class="o">-</span> <span class="p">(</span><span class="n">k</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">fact</span> <span class="o">*=</span> <span class="n">k</span>
+        <span class="k">if</span> <span class="n">k</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">delta_k</span> <span class="o">=</span> <span class="n">coef</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">tp</span> <span class="o">*</span> <span class="p">(</span><span class="n">t</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">delta_k</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">delta_k</span> <span class="o">=</span> <span class="p">(</span><span class="n">coef</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">coef</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span>
+            <span class="n">tp</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">k</span> <span class="o">//</span> <span class="mi">2</span><span class="p">):</span>
+                <span class="n">tp</span> <span class="o">*=</span> <span class="n">t</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">j</span><span class="o">**</span><span class="mi">2</span>
+            <span class="n">tp</span> <span class="o">*=</span> <span class="n">t</span> <span class="o">*</span> <span class="p">(</span><span class="n">t</span> <span class="o">-</span> <span class="n">k</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">tp</span> <span class="o">*</span> <span class="n">delta_k</span>
+        <span class="n">term</span> <span class="o">=</span> <span class="n">p</span> <span class="o">/</span> <span class="n">fact</span>
+        <span class="n">res</span> <span class="o">+=</span> <span class="n">term</span>
+
+    <span class="k">return</span> <span class="n">res</span></div>
+
+
+
+<div class="viewcode-block" id="interpolate">
+<a class="viewcode-back" href="../../../_autosummary/cmlabs.interpolate.interpolate.html#cmlabs.interpolate.interpolate">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">interpolate</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">yvals</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">coef</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Interpolate the value of a function at a given point.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    xvals : array_like, 1-D</span>
+<span class="sd">        The sorted x-coordinates of the data points.</span>
+<span class="sd">    x : float</span>
+<span class="sd">        The x-coordinate at which to evaluate the polynomial.</span>
+<span class="sd">    yvals : array_like, 1-D, optional</span>
+<span class="sd">        The y-coordinates of the data points, i.e., f(:math:`x`).</span>
+<span class="sd">        Only used if `coef` is not provided.</span>
+<span class="sd">    coef : array_like, 1-D or 2-D, optional</span>
+<span class="sd">        The coefficients of the polynomial.</span>
+<span class="sd">    method : str, optional</span>
+<span class="sd">        The interpolation method to use. Can be one of:</span>
+<span class="sd">        - &#39;auto&#39; (default)</span>
+<span class="sd">        - &#39;lagrange&#39;</span>
+<span class="sd">        - &#39;newton&#39;</span>
+<span class="sd">        - &#39;newtonfd&#39;</span>
+<span class="sd">        - &#39;newtonbd&#39;</span>
+<span class="sd">        - &#39;gaussfd&#39;</span>
+<span class="sd">        - &#39;gaussbd&#39;</span>
+<span class="sd">        - &#39;stirling&#39;</span>
+<span class="sd">        - &#39;bessel&#39;</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    res: float</span>
+<span class="sd">        The value of the polynomial at :math:`x`.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    divided_differences</span>
+<span class="sd">    finite_differences</span>
+<span class="sd">    lagrange</span>
+<span class="sd">    newton</span>
+<span class="sd">    newtonfd</span>
+<span class="sd">    newtonbd</span>
+<span class="sd">    gaussfd</span>
+<span class="sd">    gaussbd</span>
+<span class="sd">    stirling</span>
+<span class="sd">    bessel</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The output is the value of the polynomial at :math:`x` using the specified method or</span>
+<span class="sd">    the most efficient method if `method` is &#39;auto&#39;.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; from cmlabs.interpolate import interpolate</span>
+<span class="sd">    &gt;&gt;&gt; xvals = np.array([0, 1, 2, 3])</span>
+<span class="sd">    &gt;&gt;&gt; yvals = np.array([1, 3, 2, 5])</span>
+<span class="sd">    &gt;&gt;&gt; x = np.float32(1.15)</span>
+<span class="sd">    &gt;&gt;&gt; interpolate(xvals, x, yvals=yvals)</span>
+<span class="sd">    &gt;&gt;&gt; 2.8701875</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;lagrange&quot;</span> <span class="ow">and</span> <span class="n">yvals</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">lagrange</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">yvals</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;newton&quot;</span> <span class="ow">and</span> <span class="n">yvals</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">newton</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">yvals</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;newtonfd&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">newtonfd</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">yvals</span><span class="o">=</span><span class="n">yvals</span><span class="p">,</span> <span class="n">coef</span><span class="o">=</span><span class="n">coef</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;newtonbd&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">newtonbd</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">yvals</span><span class="o">=</span><span class="n">yvals</span><span class="p">,</span> <span class="n">coef</span><span class="o">=</span><span class="n">coef</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;gaussfd&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">gaussfd</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">yvals</span><span class="o">=</span><span class="n">yvals</span><span class="p">,</span> <span class="n">coef</span><span class="o">=</span><span class="n">coef</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;gaussbd&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">gaussbd</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">yvals</span><span class="o">=</span><span class="n">yvals</span><span class="p">,</span> <span class="n">coef</span><span class="o">=</span><span class="n">coef</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;stirling&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">stirling</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">yvals</span><span class="o">=</span><span class="n">yvals</span><span class="p">,</span> <span class="n">coef</span><span class="o">=</span><span class="n">coef</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;bessel&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">bessel</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">yvals</span><span class="o">=</span><span class="n">yvals</span><span class="p">,</span> <span class="n">coef</span><span class="o">=</span><span class="n">coef</span><span class="p">)</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">xvals</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">xvals</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">xvals</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">equally_spaced</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">xvals</span><span class="p">),</span> <span class="n">h</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">equally_spaced</span> <span class="ow">and</span> <span class="n">yvals</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">newton</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">yvals</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+
+    <span class="n">mid</span> <span class="o">=</span> <span class="n">xvals</span><span class="p">[</span><span class="n">n</span> <span class="o">//</span> <span class="mi">2</span><span class="p">]</span>
+
+    <span class="n">t</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">xvals</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="n">h</span>
+    <span class="n">t_back</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">xvals</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="n">h</span>
+    <span class="n">t_center</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">mid</span><span class="p">)</span> <span class="o">/</span> <span class="n">h</span>
+
+    <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;</span> <span class="n">t</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using Newton&#39;s forward interpolation formula for </span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">newtonfd</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">yvals</span><span class="o">=</span><span class="n">yvals</span><span class="p">,</span> <span class="n">coef</span><span class="o">=</span><span class="n">coef</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="o">-</span><span class="mi">1</span> <span class="o">&lt;</span> <span class="n">t_back</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using Newton&#39;s backward interpolation formula for </span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">newtonbd</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">yvals</span><span class="o">=</span><span class="n">yvals</span><span class="p">,</span> <span class="n">coef</span><span class="o">=</span><span class="n">coef</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">abs</span><span class="p">(</span><span class="n">t_center</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mf">0.25</span> <span class="ow">and</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using Stirling&#39;s interpolation formula for </span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">stirling</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">yvals</span><span class="o">=</span><span class="n">yvals</span><span class="p">,</span> <span class="n">coef</span><span class="o">=</span><span class="n">coef</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="mf">0.25</span> <span class="o">&lt;</span> <span class="nb">abs</span><span class="p">(</span><span class="n">t_center</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mf">0.75</span> <span class="ow">and</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using Bessel&#39;s interpolation formula for </span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">bessel</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">yvals</span><span class="o">=</span><span class="n">yvals</span><span class="p">,</span> <span class="n">coef</span><span class="o">=</span><span class="n">coef</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">abs</span><span class="p">(</span><span class="n">t_center</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mf">1.0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">t_center</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using Gauss&#39;s forward interpolation formula for </span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">gaussfd</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">yvals</span><span class="o">=</span><span class="n">yvals</span><span class="p">,</span> <span class="n">coef</span><span class="o">=</span><span class="n">coef</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using Gauss&#39;s backward interpolation formula for </span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">gaussbd</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">yvals</span><span class="o">=</span><span class="n">yvals</span><span class="p">,</span> <span class="n">coef</span><span class="o">=</span><span class="n">coef</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">yvals</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using Lagrange&#39;s interpolation formula for </span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">lagrange</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">yvals</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Something went wrong, please check the input values.&quot;</span><span class="p">)</span></div>
 
 </pre></div>
 

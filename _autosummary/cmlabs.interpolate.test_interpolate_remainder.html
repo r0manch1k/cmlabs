@@ -1,0 +1,196 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cmlabs.interpolate.test_interpolate_remainder &mdash; cmlabs 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="cmlabs.interpolate.test_lagrange_from_docs_example" href="cmlabs.interpolate.test_lagrange_from_docs_example.html" />
+    <link rel="prev" title="cmlabs.interpolate.test_lagrange_compare_with_newton" href="cmlabs.interpolate.test_lagrange_compare_with_newton.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            cmlabs
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../cmlabs.interpolate.html">Interpolation (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.interpolate</span></code>)</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../cmlabs.interpolate.html#lagrange-newton-interpolation">Lagrange/Newton interpolation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cmlabs.interpolate.html#finite-differences-interpolation">Finite differences interpolation</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../cmlabs.interpolate.html#tests">Tests</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_lagrange_degree.html">cmlabs.interpolate.test_lagrange_degree</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_lagrange_remainder_1.html">cmlabs.interpolate.test_lagrange_remainder_1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_lagrange_degree_2.html">cmlabs.interpolate.test_lagrange_degree_2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_lagrange_remainder_2.html">cmlabs.interpolate.test_lagrange_remainder_2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_lagrange_compare_with_newton.html">cmlabs.interpolate.test_lagrange_compare_with_newton</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">cmlabs.interpolate.test_interpolate_remainder</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cmlabs.interpolate.test_interpolate_remainder"><code class="docutils literal notranslate"><span class="pre">test_interpolate_remainder()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_lagrange_from_docs_example.html">cmlabs.interpolate.test_lagrange_from_docs_example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_remainder_from_docs_example.html">cmlabs.interpolate.test_remainder_from_docs_example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_newton_from_docs_example.html">cmlabs.interpolate.test_newton_from_docs_example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_finite_differences_from_docs_example.html">cmlabs.interpolate.test_finite_differences_from_docs_example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_forward_differences_from_docs_example.html">cmlabs.interpolate.test_forward_differences_from_docs_example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_backward_differences_from_docs_example.html">cmlabs.interpolate.test_backward_differences_from_docs_example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_newtonfd_from_docs_example.html">cmlabs.interpolate.test_newtonfd_from_docs_example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_newtonbd_from_docs_example.html">cmlabs.interpolate.test_newtonbd_from_docs_example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_gaussfd_from_docs_example.html">cmlabs.interpolate.test_gaussfd_from_docs_example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_gaussbd_from_docs_example.html">cmlabs.interpolate.test_gaussbd_from_docs_example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">cmlabs</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../cmlabs.interpolate.html">Interpolation (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.interpolate</span></code>)</a></li>
+      <li class="breadcrumb-item active">cmlabs.interpolate.test_interpolate_remainder</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/_autosummary/cmlabs.interpolate.test_interpolate_remainder.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="cmlabs-interpolate-test-interpolate-remainder">
+<h1>cmlabs.interpolate.test_interpolate_remainder<a class="headerlink" href="#cmlabs-interpolate-test-interpolate-remainder" title="Link to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="cmlabs.interpolate.test_interpolate_remainder">
+<span class="sig-prename descclassname"><span class="pre">cmlabs.interpolate.</span></span><span class="sig-name descname"><span class="pre">test_interpolate_remainder</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cmlabs/interpolate/tests/test_interpolate.html#test_interpolate_remainder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmlabs.interpolate.test_interpolate_remainder" title="Link to this definition"></a></dt>
+<dd><p>Estimate the remainder of interpolation.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+    R_n(x) &amp;= f(x) - L_n(x) \\
+    &amp;= \frac{f^{(n+1)}(\xi)}{(n+1)!} \cdot \omega_{n+1}(x) \\
+\end{aligned}\end{split}\]</div>
+<p>for <span class="math notranslate nohighlight">\(n = 9\)</span> have</p>
+<div class="math notranslate nohighlight">
+\[\begin{aligned}
+    (x + \log_{10}(x + 2))^{(10)} = \frac{362880}{\ln(10) \cdot (x + 2)^{10}}
+\end{aligned}\]</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>lagrange
+newton
+newtonfd
+newtonbd
+gaussfd
+gaussbd
+stirling
+bessel
+interpolate</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Test 7: Estimate Remainder Of Interpolation</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># - X:  [0.5   0.556 0.611 ... 0.889 0.944 1.   ]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># - Y:  [0.102 0.148 0.194 ... 0.428 0.475 0.523]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># - x** =  0.52</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># - x*** =  0.97</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># - x**** =  0.73</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># M_min = 2.6689153346043457</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># M_max = 16.52522028557161</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">interpolate</span><span class="p">([</span><span class="mf">0.5</span>   <span class="mf">0.556</span> <span class="mf">0.611</span> <span class="o">...</span> <span class="mf">0.889</span> <span class="mf">0.944</span> <span class="mf">1.</span>   <span class="p">],</span> <span class="mf">0.52</span><span class="p">,</span> <span class="n">yvals</span><span class="o">=</span><span class="p">[</span><span class="mf">0.102</span> <span class="mf">0.148</span> <span class="mf">0.194</span> <span class="o">...</span> <span class="mf">0.428</span> <span class="mf">0.475</span> <span class="mf">0.523</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Using Newton&#39;s forward interpolation formula for 0.52</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># 0.1185994592184786</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># R_min = 8.579275443070178e-15</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># R_max = 5.312061223865951e-14</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="mf">8.579275443070178e-15</span> <span class="o">&lt;=</span> <span class="mf">2.2662427490161008e-14</span> <span class="o">&lt;=</span> <span class="mf">5.312061223865951e-14</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kc">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">interpolate</span><span class="p">([</span><span class="mf">0.5</span>   <span class="mf">0.556</span> <span class="mf">0.611</span> <span class="o">...</span> <span class="mf">0.889</span> <span class="mf">0.944</span> <span class="mf">1.</span>   <span class="p">],</span> <span class="mf">0.97</span><span class="p">,</span> <span class="n">yvals</span><span class="o">=...</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Using Newton&#39;s backward interpolation formula for 0.97</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># 0.4972435506828018</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># R_min = 6.312938757056343e-15</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># R_max = 3.9088052834446335e-14</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="mf">6.312938757056343e-15</span> <span class="o">&lt;=</span> <span class="mf">1.4155343563970746e-14</span> <span class="o">&lt;=</span> <span class="mf">3.9088052834446335e-14</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kc">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">interpolate</span><span class="p">([</span><span class="mf">0.5</span>   <span class="mf">0.556</span> <span class="mf">0.611</span> <span class="o">...</span> <span class="mf">0.889</span> <span class="mf">0.944</span> <span class="mf">1.</span>   <span class="p">],</span> <span class="mf">0.73</span><span class="p">,</span> <span class="n">yvals</span><span class="o">=...</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Using Gauss&#39;s forward interpolation formula for 0.73</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># 0.29383735295924407</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># R_min = 7.849181383895046e-17</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># R_max = 4.860006226068698e-16</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="mf">7.849181383895046e-17</span> <span class="o">&lt;=</span> <span class="mf">1.1102230246251565e-16</span> <span class="o">&lt;=</span> <span class="mf">4.860006226068698e-16</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kc">True</span>
+</pre></div>
+</div>
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="cmlabs.interpolate.test_lagrange_compare_with_newton.html" class="btn btn-neutral float-left" title="cmlabs.interpolate.test_lagrange_compare_with_newton" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="cmlabs.interpolate.test_lagrange_from_docs_example.html" class="btn btn-neutral float-right" title="cmlabs.interpolate.test_lagrange_from_docs_example" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Roman Sokolovsky.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

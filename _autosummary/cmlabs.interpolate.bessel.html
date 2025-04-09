@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>cmlabs.interpolate.gaussfd &mdash; cmlabs 0.0.1 documentation</title>
+  <title>cmlabs.interpolate.bessel &mdash; cmlabs 0.0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
@@ -21,8 +21,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="cmlabs.interpolate.gaussbd" href="cmlabs.interpolate.gaussbd.html" />
-    <link rel="prev" title="cmlabs.interpolate.newtonbd" href="cmlabs.interpolate.newtonbd.html" /> 
+    <link rel="next" title="cmlabs.interpolate.interpolate" href="cmlabs.interpolate.interpolate.html" />
+    <link rel="prev" title="cmlabs.interpolate.stirling" href="cmlabs.interpolate.stirling.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -53,13 +53,13 @@
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.backward_differences.html">cmlabs.interpolate.backward_differences</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.newtonfd.html">cmlabs.interpolate.newtonfd</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.newtonbd.html">cmlabs.interpolate.newtonbd</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">cmlabs.interpolate.gaussfd</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#cmlabs.interpolate.gaussfd"><code class="docutils literal notranslate"><span class="pre">gaussfd()</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.gaussfd.html">cmlabs.interpolate.gaussfd</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.gaussbd.html">cmlabs.interpolate.gaussbd</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.stirling.html">cmlabs.interpolate.stirling</a></li>
-<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.bessel.html">cmlabs.interpolate.bessel</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">cmlabs.interpolate.bessel</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cmlabs.interpolate.bessel"><code class="docutils literal notranslate"><span class="pre">bessel()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.interpolate.html">cmlabs.interpolate.interpolate</a></li>
 </ul>
 </li>
@@ -83,9 +83,9 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../cmlabs.interpolate.html">Interpolation (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.interpolate</span></code>)</a></li>
-      <li class="breadcrumb-item active">cmlabs.interpolate.gaussfd</li>
+      <li class="breadcrumb-item active">cmlabs.interpolate.bessel</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/_autosummary/cmlabs.interpolate.gaussfd.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/_autosummary/cmlabs.interpolate.bessel.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -93,33 +93,35 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="cmlabs-interpolate-gaussfd">
-<h1>cmlabs.interpolate.gaussfd<a class="headerlink" href="#cmlabs-interpolate-gaussfd" title="Link to this heading"></a></h1>
+  <section id="cmlabs-interpolate-bessel">
+<h1>cmlabs.interpolate.bessel<a class="headerlink" href="#cmlabs-interpolate-bessel" title="Link to this heading"></a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="cmlabs.interpolate.gaussfd">
-<span class="sig-prename descclassname"><span class="pre">cmlabs.interpolate.</span></span><span class="sig-name descname"><span class="pre">gaussfd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xvals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yvals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coef</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cmlabs/interpolate/_interpolate.html#gaussfd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmlabs.interpolate.gaussfd" title="Link to this definition"></a></dt>
-<dd><p>Gauss’s forward interpolation formula.</p>
+<dt class="sig sig-object py" id="cmlabs.interpolate.bessel">
+<span class="sig-prename descclassname"><span class="pre">cmlabs.interpolate.</span></span><span class="sig-name descname"><span class="pre">bessel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xvals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yvals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coef</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cmlabs/interpolate/_interpolate.html#bessel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmlabs.interpolate.bessel" title="Link to this definition"></a></dt>
+<dd><p>Bessel’s interpolation formula.</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\begin{aligned}
-    P_n(x) &amp;= \Delta^0 f(x_m) + \\
-    &amp;+ \frac{t}{1!} \Delta^1 f(x_m) + \\
-    &amp;+ \frac{t(t-1)}{2!} \Delta^2 f(x_{m-1}) + \\
-    &amp;+ \frac{(t+1)t(t-1)}{3!} \Delta^3 f(x_{m-1}) + \\
-    &amp;+ \frac{(t+1)t(t-1)(t-2)}{4!} \Delta^4 f(x_{m-2}) + \\
-    &amp;+ \frac{(t+2)(t+1)t(t-1)(t-2)}{5!} \Delta^5 f(x_{m-2}) + \\
-    &amp;+ \frac{(t+2)(t+1)t(t-1)(t-2)(t-3)}{6!} \Delta^6 f(x_{m-3}) + \ldots
+    P_n(x) &amp;= \frac{f(x_m) + f(x_{m+1})}{2} + \\
+    &amp;+ (t - \frac{1}{2}) \Delta^1 f(x_m) + \\
+    &amp;+ \frac{t(t-1)}{2!} \left[\frac{\Delta^2 f(x_{m-1}) +
+    \Delta^2 f(x_m)}{2}\right] + \\
+    &amp;+ \ldots + \\
+    &amp;+ \frac{t(t^2-1)\ldots\left[t^2-(n-1)^2\right](t-n)}{(2n)!}
+    \left[\frac{\Delta^{2n} f(x_0) + \Delta^{2n} f(x_1)}{2}\right] + \\
+    &amp;+ \frac{t(t^2-1)\ldots\left[t^2-(n-1)^2\right](t-n)
+    (t-\frac{1}{2})}{(2n+1)!} \Delta^{2n+1} f(x_0)
 \end{aligned}\end{split}\]</div>
 <p>where <span class="math notranslate nohighlight">\(x_m\)</span> is the midpoint of the data point (if even then <span class="math notranslate nohighlight">\(x_{n/2}\)</span>)
-and <span class="math notranslate nohighlight">\(t = \frac{x-x_m}{h}\)</span>.</p>
+and <span class="math notranslate nohighlight">\(t = \frac{x - x_m}{h}\)</span>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>xvals</strong> (<em>array_like</em><em>, </em><em>1-D</em>) – The sorted x-coordinates of the data points.</p></li>
 <li><p><strong>x</strong> (<em>float</em>) – The x-coordinate at which to evaluate the polynomial.</p></li>
 <li><p><strong>yvals</strong> (<em>array_like</em><em>, </em><em>1-D</em><em>, </em><em>optional</em>) – The y-coordinates of the data points, i.e., <span class="math notranslate nohighlight">\(f(x)\)</span>.</p></li>
-<li><p><strong>coef</strong> (<em>array_like</em><em>, </em><em>2-D</em><em>, </em><em>optional</em>) – The forward differences table.
-If not provided, the function will compute the finite differences table
-using the <cite>finite_differences(yvals)</cite> function.</p></li>
+<li><p><strong>coef</strong> (<em>array_like</em><em>, </em><em>2-D</em><em>, </em><em>optional</em>) – The backward differences table.
+If not provided, the function will compute the finite differences
+table using the <cite>finite_differences(yvals)</cite> function.</p></li>
 <li><p><strong>m</strong> (<em>int</em><em>, </em><em>optional</em>) – The index of the midpoint of the data points.</p></li>
 </ul>
 </dd>
@@ -135,18 +137,21 @@ using the <cite>finite_differences(yvals)</cite> function.</p></li>
 <p><a class="reference internal" href="cmlabs.interpolate.finite_differences.html#cmlabs.interpolate.finite_differences" title="cmlabs.interpolate.finite_differences"><code class="xref py py-obj docutils literal notranslate"><span class="pre">finite_differences</span></code></a></p>
 </div>
 <p class="rubric">Notes</p>
-<p>Gauss’s forward interpolation formula is best applicable for determining
-the values near the middle of the table.</p>
+<p>This central difference
+formula is acquiredafter taking the arithmetic mean of Gauss’s forward and
+backward interpolation formula with some modifications.</p>
 <div class="math notranslate nohighlight">
-\[x = x_m + t h, \quad 0 &lt; t &lt; \frac{1}{2}\]</div>
+\[x = x_m + t h, \quad \frac{1}{4} &lt; t &lt; \frac{3}{4}\]</div>
+<p>Use often when the interpolating point lies near the middle of the table and
+the number of arguments in the problem is even.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">cmlabs.interpolate</span><span class="w"> </span><span class="kn">import</span> <span class="n">gaussfd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">cmlabs.interpolate</span><span class="w"> </span><span class="kn">import</span> <span class="n">bessel</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">xvals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">yvals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">(</span><span class="mf">1.25</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">gaussfd</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">yvals</span><span class="o">=</span><span class="n">yvals</span><span class="p">)</span>
-<span class="go">2.7578125</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">(</span><span class="mf">1.15</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bessel</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">yvals</span><span class="o">=</span><span class="n">yvals</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="mf">2.8701875</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -157,8 +162,8 @@ the values near the middle of the table.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="cmlabs.interpolate.newtonbd.html" class="btn btn-neutral float-left" title="cmlabs.interpolate.newtonbd" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="cmlabs.interpolate.gaussbd.html" class="btn btn-neutral float-right" title="cmlabs.interpolate.gaussbd" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="cmlabs.interpolate.stirling.html" class="btn btn-neutral float-left" title="cmlabs.interpolate.stirling" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="cmlabs.interpolate.interpolate.html" class="btn btn-neutral float-right" title="cmlabs.interpolate.interpolate" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

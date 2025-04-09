@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>cmlabs.interpolate.lagrange_remainder &mdash; cmlabs 0.0.1 documentation</title>
+  <title>cmlabs.interpolate.remainder &mdash; cmlabs 0.0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
@@ -46,15 +46,16 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../cmlabs.interpolate.html">Interpolation (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.interpolate</span></code>)</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="../cmlabs.interpolate.html#lagrange-interpolation">Lagrange interpolation</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../cmlabs.interpolate.html#lagrange-newton-interpolation">Lagrange/Newton interpolation</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.lagrange.html">cmlabs.interpolate.lagrange</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">cmlabs.interpolate.lagrange_remainder</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#cmlabs.interpolate.lagrange_remainder"><code class="docutils literal notranslate"><span class="pre">lagrange_remainder()</span></code></a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">cmlabs.interpolate.remainder</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cmlabs.interpolate.remainder"><code class="docutils literal notranslate"><span class="pre">remainder()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.divided_differences.html">cmlabs.interpolate.divided_differences</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.newton.html">cmlabs.interpolate.newton</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../cmlabs.interpolate.html#newton-interpolation">Newton interpolation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../cmlabs.interpolate.html#finite-differences-interpolation">Finite differences interpolation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../cmlabs.interpolate.html#tests">Tests</a></li>
 </ul>
@@ -76,9 +77,9 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../cmlabs.interpolate.html">Interpolation (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.interpolate</span></code>)</a></li>
-      <li class="breadcrumb-item active">cmlabs.interpolate.lagrange_remainder</li>
+      <li class="breadcrumb-item active">cmlabs.interpolate.remainder</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/_autosummary/cmlabs.interpolate.lagrange_remainder.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/_autosummary/cmlabs.interpolate.remainder.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -86,20 +87,20 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="cmlabs-interpolate-lagrange-remainder">
-<h1>cmlabs.interpolate.lagrange_remainder<a class="headerlink" href="#cmlabs-interpolate-lagrange-remainder" title="Link to this heading"></a></h1>
+  <section id="cmlabs-interpolate-remainder">
+<h1>cmlabs.interpolate.remainder<a class="headerlink" href="#cmlabs-interpolate-remainder" title="Link to this heading"></a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="cmlabs.interpolate.lagrange_remainder">
-<span class="sig-prename descclassname"><span class="pre">cmlabs.interpolate.</span></span><span class="sig-name descname"><span class="pre">lagrange_remainder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xvals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">M</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cmlabs/interpolate/_interpolate.html#lagrange_remainder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmlabs.interpolate.lagrange_remainder" title="Link to this definition"></a></dt>
-<dd><p>Remainder in Lagrange interpolation formula.</p>
-<p>Common notation for the Lagrange interpolation polynomial is:</p>
+<dt class="sig sig-object py" id="cmlabs.interpolate.remainder">
+<span class="sig-prename descclassname"><span class="pre">cmlabs.interpolate.</span></span><span class="sig-name descname"><span class="pre">remainder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xvals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">M</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cmlabs/interpolate/_interpolate.html#remainder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmlabs.interpolate.remainder" title="Link to this definition"></a></dt>
+<dd><p>Remainder in interpolation formulas.</p>
+<p>Common notation for the remainder value is:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\begin{aligned}
 R_n(x) &amp;= f(x) - L_n(x)
         = \frac{f^{(n+1)}(\xi)}{(n+1)!} \prod_{i=0}^{n} (x - x_i), \quad
         \xi \in (a, b) \\
 \end{aligned}\end{split}\]</div>
-<p>where <span class="math notranslate nohighlight">\(L_n(x)\)</span> is the Lagrange polynomial of degree <cite>n</cite>,
+<p>where <span class="math notranslate nohighlight">\(L_n(x)\)</span> is the interpolation polynomial of degree <cite>n</cite>,
 <span class="math notranslate nohighlight">\(R_n(x)\)</span> is the remainder term and <cite>n = len(xvals)-1</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -143,7 +144,7 @@ using the formula:</p>
 <p>This formula follows from the properties of Chebyshev polynomials.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">cmlabs.interpolate</span><span class="w"> </span><span class="kn">import</span> <span class="n">lagrange</span><span class="p">,</span> <span class="n">lagrange_remainder</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">cmlabs.interpolate</span><span class="w"> </span><span class="kn">import</span> <span class="n">lagrange</span><span class="p">,</span> <span class="n">remainder</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># f(x) = sin(x)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">xvals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">yvals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
@@ -153,10 +154,10 @@ using the formula:</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">lagrange</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">yvals</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
 <span class="go">0.007941567634910107</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># Exact remainder</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">lagrange_remainder</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">remainder</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
 <span class="go">0.010093189023535093</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># Bound remainder</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">lagrange_remainder</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">M</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">remainder</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">M</span><span class="p">)</span>
 <span class="go">0.020186378047070193</span>
 </pre></div>
 </div>
