@@ -2,7 +2,7 @@ import pytest
 import numpy as np
 from cmlabs.interpolate import (
     lagrange,
-    lagrange_remainder,
+    remainder,
     newton,
     finite_differences,
     forward_differences,
@@ -10,6 +10,10 @@ from cmlabs.interpolate import (
     newtonfd,
     newtonbd,
     gaussfd,
+    gaussbd,
+    stirling,
+    bessel,
+    interpolate,
 )
 
 __all__ = [
@@ -18,13 +22,17 @@ __all__ = [
     "test_lagrange_degree_2",
     "test_lagrange_remainder_2",
     "test_lagrange_compare_with_newton",
+    "test_interpolate_remainder",
     "test_lagrange_from_docs_example",
-    "test_lagrange_remainder_from_docs_example",
+    "test_remainder_from_docs_example",
     "test_newton_from_docs_example",
+    "test_finite_differences_from_docs_example",
     "test_forward_differences_from_docs_example",
     "test_backward_differences_from_docs_example",
     "test_newtonfd_from_docs_example",
     "test_newtonbd_from_docs_example",
+    "test_gaussfd_from_docs_example",
+    "test_gaussbd_from_docs_example",
 ]
 
 
@@ -176,10 +184,10 @@ def test_lagrange_remainder_1():
     r_exp = lagrange(nearest_x, nearest_y, df["x*"]) - df["f"](df["x*"])
     print(r_exp)
 
-    r_exp_min = lagrange_remainder(nearest_x, f_der_2_min, df["x*"])
+    r_exp_min = remainder(nearest_x, f_der_2_min, df["x*"])
     print(f"R_min: {r_exp_min}")
 
-    r_exp_max = lagrange_remainder(nearest_x, f_der_2_max, df["x*"])
+    r_exp_max = remainder(nearest_x, f_der_2_max, df["x*"])
     print(f"R_max: {r_exp_max}")
 
     print(f">>> |{r_exp_min}| <= |{r_exp}| <= |{r_exp_max}|")
@@ -319,10 +327,10 @@ def test_lagrange_remainder_2():
     r_exp = lagrange(nearest_x, nearest_y, df["x*"]) - df["f"](df["x*"])
     print(r_exp)
 
-    r_exp_min = lagrange_remainder(nearest_x, f_der_3_min, df["x*"])
+    r_exp_min = remainder(nearest_x, f_der_3_min, df["x*"])
     print(f"R_min: {r_exp_min}")
 
-    r_exp_max = lagrange_remainder(nearest_x, f_der_3_max, df["x*"])
+    r_exp_max = remainder(nearest_x, f_der_3_max, df["x*"])
     print(f"R_max: {r_exp_max}")
 
     print(f">>> |{r_exp_min}| <= |{r_exp}| <= |{r_exp_max}|")
@@ -409,6 +417,130 @@ def test_lagrange_compare_with_newton(degree):
     ), "Lagrange and Newton results are not close"
 
 
+def test_interpolate_remainder():
+    r"""Estimate the remainder of interpolation.
+
+    .. math::
+
+        \begin{aligned}
+            R_n(x) &= f(x) - L_n(x) \\
+            &= \frac{f^{(n+1)}(\xi)}{(n+1)!} \cdot \omega_{n+1}(x) \\
+        \end{aligned}
+
+    for :math:`n = 9` have
+
+    .. math::
+
+        \begin{aligned}
+            (x + \log_{10}(x + 2))^{(10)} = \frac{362880}{\ln(10) \cdot (x + 2)^{10}}
+        \end{aligned}
+
+    See Also
+    --------
+    lagrange
+    newton
+    newtonfd
+    newtonbd
+    gaussfd
+    gaussbd
+    stirling
+    bessel
+    interpolate
+
+    Results
+    -------
+    >>> # Test 7: Estimate Remainder Of Interpolation
+    >>> # - X:  [0.5   0.556 0.611 ... 0.889 0.944 1.   ]
+    >>> # - Y:  [0.102 0.148 0.194 ... 0.428 0.475 0.523]
+    >>> # - x** =  0.52
+    >>> # - x*** =  0.97
+    >>> # - x**** =  0.73
+    >>> # M_min = 2.6689153346043457
+    >>> # M_max = 16.52522028557161
+    >>> interpolate([0.5   0.556 0.611 ... 0.889 0.944 1.   ], 0.52, yvals=[0.102 0.148 0.194 ... 0.428 0.475 0.523])
+    >>> # Using Newton's forward interpolation formula for 0.52
+    >>> # 0.1185994592184786
+    >>> # R_min = 8.579275443070178e-15
+    >>> # R_max = 5.312061223865951e-14
+    >>> 8.579275443070178e-15 <= 2.2662427490161008e-14 <= 5.312061223865951e-14
+    >>> True
+    >>> interpolate([0.5   0.556 0.611 ... 0.889 0.944 1.   ], 0.97, yvals=...)
+    >>> # Using Newton's backward interpolation formula for 0.97
+    >>> # 0.4972435506828018
+    >>> # R_min = 6.312938757056343e-15
+    >>> # R_max = 3.9088052834446335e-14
+    >>> 6.312938757056343e-15 <= 1.4155343563970746e-14 <= 3.9088052834446335e-14
+    >>> True
+    >>> interpolate([0.5   0.556 0.611 ... 0.889 0.944 1.   ], 0.73, yvals=...)
+    >>> # Using Gauss's forward interpolation formula for 0.73
+    >>> # 0.29383735295924407
+    >>> # R_min = 7.849181383895046e-17
+    >>> # R_max = 4.860006226068698e-16
+    >>> 7.849181383895046e-17 <= 1.1102230246251565e-16 <= 4.860006226068698e-16
+    >>> True
+    """
+    print("\n")
+    print("Test 7: Estimate Remainder Of Interpolation")
+    print("- X: ", df["X"])
+    print("- Y: ", df["Y"])
+    print("- x** = ", df["x**"])
+    print("- x*** = ", df["x***"])
+    print("- x**** = ", df["x****"])
+
+    M_min = 362880 / ((df["X"][-1] + 2) ** 10 * np.log(10))
+    M_max = 362880 / ((df["X"][0] + 2) ** 10 * np.log(10))
+    print(f"M_min = {M_min}")
+    print(f"M_max = {M_max}")
+
+    print(f">>> interpolate({df['X']}, {df['x**']}, yvals={df['Y']})")
+
+    l_1 = interpolate(df["X"], df["x**"], yvals=df["Y"])
+    print(l_1)
+
+    r_min = abs(remainder(df["X"], M_min, df["x**"]))
+    r_max = abs(remainder(df["X"], M_max, df["x**"]))
+    print(f"R_min = {r_min}")
+    print(f"R_max = {r_max}")
+
+    r_exp = abs(df["f"](df["x**"]) - l_1)
+    print(f">>> {r_min} <= {r_exp} <= {r_max}")
+    print(r_min <= r_exp <= r_max)
+
+    assert r_min <= r_exp <= r_max, "Remainder is out of bounds"
+
+    print(f">>> interpolate({df['X']}, {df['x***']}, yvals={df['Y']})")
+
+    l_2 = interpolate(df["X"], df["x***"], yvals=df["Y"])
+    print(l_2)
+
+    r_min = abs(remainder(df["X"], M_min, df["x***"]))
+    r_max = abs(remainder(df["X"], M_max, df["x***"]))
+    print(f"R_min = {r_min}")
+    print(f"R_max = {r_max}")
+
+    r_exp = abs(df["f"](df["x***"]) - l_2)
+    print(f">>> {r_min} <= {r_exp} <= {r_max}")
+    print(r_min <= r_exp <= r_max)
+
+    assert r_min <= r_exp <= r_max, "Remainder is out of bounds"
+
+    print(f">>> interpolate({df['X']}, {df['x****']}, yvals={df['Y']})")
+
+    l_3 = interpolate(df["X"], df["x****"], yvals=df["Y"])
+    print(l_3)
+
+    r_min = abs(remainder(df["X"], M_min, df["x****"]))
+    r_max = abs(remainder(df["X"], M_max, df["x****"]))
+    print(f"R_min = {r_min}")
+    print(f"R_max = {r_max}")
+
+    r_exp = abs(df["f"](df["x****"]) - l_3)
+    print(f">>> {r_min} <= {r_exp} <= {r_max}")
+    print(r_min <= r_exp <= r_max)
+
+    assert r_min <= r_exp <= r_max, "Remainder is out of bounds"
+
+
 def test_lagrange_from_docs_example():
     r"""Lagrange interpolation from docs example.
 
@@ -434,16 +566,16 @@ def test_lagrange_from_docs_example():
     assert isinstance(f_obs, float), "Result is not a float"
 
 
-def test_lagrange_remainder_from_docs_example():
-    r"""Lagrange remainder from docs example.
+def test_remainder_from_docs_example():
+    r"""Remainder from docs example.
 
     See Also
     --------
-    lagrange_remainder
+    remainder
 
     """
     print("\n")
-    print("Test N: Lagrange Remainder From Docs Example")
+    print("Test N: Remainder From Docs Example")
     print("- f(x) = sin(x)")
 
     xvals = np.array([0, np.pi / 6, np.pi / 2])
@@ -464,14 +596,14 @@ def test_lagrange_remainder_from_docs_example():
 
     print(f">>> lagrange_remainder(X, {M}, {x})")
 
-    r_obs = lagrange_remainder(xvals, M, x)
+    r_obs = remainder(xvals, M, x)
     print(r_obs)
 
     assert abs(r_exp) <= r_obs, "Remainder is out of bounds"
 
     print(f">>> lagrange_remainder(X, {M})")
 
-    r_obs = lagrange_remainder(xvals, M)
+    r_obs = remainder(xvals, M)
     print(r_obs)
 
     assert abs(r_exp) <= r_obs, "Remainder is out of bounds"
@@ -638,12 +770,120 @@ def test_gaussfd_from_docs_example():
     print("- X: ", xvals)
     print("- Y: ", yvals)
 
-    x = 1.5
+    x = 1.25
     print(f">>> x = {x}")
 
     print(f">>> gaussfd({xvals}, {x}, yvals={yvals})")
 
     f_obs = gaussfd(xvals, x, yvals=yvals)
+    print(f_obs)
+
+    assert isinstance(f_obs, float), "Result is not a float"
+
+
+def test_gaussbd_from_docs_example():
+    r"""Gauss’s backward interpolation formula from docs example.
+
+    See Also
+    --------
+    gaussbd
+
+    """
+    print("\n")
+    print("Test N: Gauss Backward Differences From Docs Example")
+
+    xvals = np.array([0, 1, 2, 3])
+    yvals = np.array([1, 3, 2, 5])
+    print("- X: ", xvals)
+    print("- Y: ", yvals)
+
+    x = 0.75
+    print(f">>> x = {x}")
+
+    print(f">>> gaussbd({xvals}, {x}, yvals={yvals})")
+
+    f_obs = gaussbd(xvals, x, yvals=yvals)
+    print(f_obs)
+
+    assert isinstance(f_obs, float), "Result is not a float"
+
+
+def test_stirling_from_docs_example():
+    r"""Stirling's interpolation formula from docs example.
+
+    See Also
+    --------
+    stirling
+
+    """
+    print("\n")
+    print("Test N: Stirling Interpolation From Docs Example")
+
+    xvals = np.array([0, 1, 2, 3, 4])
+    yvals = np.array([1, 3, 2, 5, 3])
+    print("- X: ", xvals)
+    print("- Y: ", yvals)
+
+    x = 2.15
+    print(f">>> x = {x}")
+
+    print(f">>> stirling({xvals}, {x}, yvals={yvals})")
+
+    f_obs = stirling(xvals, x, yvals=yvals)
+    print(f_obs)
+
+    assert isinstance(f_obs, float), "Result is not a float"
+
+
+def test_bessel_from_docs_example():
+    r"""Bessel's interpolation formula from docs example.
+
+    See Also
+    --------
+    bessel
+
+    """
+    print("\n")
+    print("Test N: Bessel Interpolation From Docs Example")
+
+    xvals = np.array([0, 1, 2, 3])
+    yvals = np.array([1, 3, 2, 5])
+    print("- X: ", xvals)
+    print("- Y: ", yvals)
+
+    x = 1.15
+    print(f">>> x = {x}")
+
+    print(f">>> bessel({xvals}, {x}, yvals={yvals})")
+
+    f_obs = bessel(xvals, x, yvals=yvals)
+    print(f_obs)
+
+    assert isinstance(f_obs, float), "Result is not a float"
+
+
+def test_interpolate_from_docs_example():
+    r"""Interpolation from docs example.
+
+    See Also
+    --------
+    interpolate
+
+    """
+    print("\n")
+    print("Test N: Interpolation From Docs Example")
+
+    xvals = np.array([0, 1, 2, 3])
+    yvals = np.array([1, 3, 2, 5])
+    print("- X: ", xvals)
+    print("- Y: ", yvals)
+
+    x = 1.15
+    print(f">>> x = {x}")
+
+    print(f">>> interpolate({xvals}, {x}, yvals={yvals})")
+
+    f_obs = interpolate(xvals, x, yvals=yvals)
     print(f_obs)
 
     assert isinstance(f_obs, float), "Result is not a float"

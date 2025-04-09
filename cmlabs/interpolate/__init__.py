@@ -8,24 +8,15 @@ Interpolation (:mod:`cmlabs.interpolate`)
 The `cmlabs.interpolate` module provides a collection of interpolation methods and
 related utilities.
 
-Lagrange interpolation
-======================
+Lagrange/Newton interpolation
+=============================
 
 .. autosummary::
    :toctree: _autosummary
    :nosignatures:
 
    lagrange
-   lagrange_remainder
-
-
-Newton interpolation
-====================
-
-.. autosummary::
-   :toctree: _autosummary
-   :nosignatures:
-
+   remainder
    divided_differences
    newton
 
@@ -43,6 +34,10 @@ Finite differences interpolation
    newtonfd
    newtonbd
    gaussfd
+   gaussbd
+   stirling
+   bessel
+   interpolate
 
 
 Tests
@@ -57,13 +52,17 @@ Tests
    test_lagrange_degree_2
    test_lagrange_remainder_2
    test_lagrange_compare_with_newton
+   test_interpolate_remainder
    test_lagrange_from_docs_example
-   test_lagrange_remainder_from_docs_example
+   test_remainder_from_docs_example
    test_newton_from_docs_example
+   test_finite_differences_from_docs_example
    test_forward_differences_from_docs_example
    test_backward_differences_from_docs_example
    test_newtonfd_from_docs_example
    test_newtonbd_from_docs_example
+   test_gaussfd_from_docs_example
+   test_gaussbd_from_docs_example
 
 """
 

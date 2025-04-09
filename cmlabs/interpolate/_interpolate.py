@@ -1,6 +1,6 @@
 __all__ = [
     "lagrange",
-    "lagrange_remainder",
+    "remainder",
     "divided_differences",
     "newton",
     "finite_differences",
@@ -9,6 +9,10 @@ __all__ = [
     "newtonfd",
     "newtonbd",
     "gaussfd",
+    "gaussbd",
+    "stirling",
+    "bessel",
+    "interpolate",
 ]
 
 import numpy as np
@@ -72,10 +76,10 @@ def lagrange(xvals, yvals, x):
     return L_n
 
 
-def lagrange_remainder(xvals, M, x=None, method="auto"):
-    r"""Remainder in Lagrange interpolation formula.
+def remainder(xvals, M, x=None, method="auto"):
+    r"""Remainder in interpolation formulas.
 
-    Common notation for the Lagrange interpolation polynomial is:
+    Common notation for the remainder value is:
 
     .. math::
 
@@ -85,7 +89,7 @@ def lagrange_remainder(xvals, M, x=None, method="auto"):
                 \xi \in (a, b) \\
         \end{aligned}
 
-    where :math:`L_n(x)` is the Lagrange polynomial of degree `n`,
+    where :math:`L_n(x)` is the interpolation polynomial of degree `n`,
     :math:`R_n(x)` is the remainder term and `n = len(xvals)-1`.
 
     Parameters
@@ -137,7 +141,7 @@ def lagrange_remainder(xvals, M, x=None, method="auto"):
     Examples
     --------
     >>> import numpy as np
-    >>> from cmlabs.interpolate import lagrange, lagrange_remainder
+    >>> from cmlabs.interpolate import lagrange, remainder
     >>> # f(x) = sin(x)
     >>> xvals = np.array([0, np.pi/2, np.pi/2])
     >>> yvals = np.array([0, 1/2, 1])
@@ -147,10 +151,10 @@ def lagrange_remainder(xvals, M, x=None, method="auto"):
     >>> abs(np.sin(x) - lagrange(xvals, yvals, x))
     0.007941567634910107
     >>> # Exact remainder
-    >>> lagrange_remainder(xvals, M, x)
+    >>> remainder(xvals, M, x)
     0.010093189023535093
     >>> # Bound remainder
-    >>> lagrange_remainder(xvals, M)
+    >>> remainder(xvals, M)
     0.020186378047070193
 
     """
@@ -339,8 +343,10 @@ def finite_differences(yvals):
     .. math::
 
         \begin{gather}
-            \Delta^k f(x_i) = f(x_{i+1}) - f(x_i), \\
-            \nabla^k f(x_i) = f(x_i) - f(x_{i-1})
+            \Delta^k f(x_i) = \Delta^{k-1} f(x_{i+1}) - \Delta^{k-1} f(x_i), \\
+            \nabla^k f(x_i) = \nabla^{k-1} f(x_i) - \nabla^{k-1} f(x_{i-1}), \\
+            \delta^k f_{i + \frac{1}{2}} =
+            \delta^{k-1} f(x_{i+1}) - \delta^{k-1} f(x_i)
         \end{gather}
 
     Parameters
@@ -379,7 +385,22 @@ def finite_differences(yvals):
         [\nabla^n f(x_n)]
         \end{gather}\right]
 
-    where `n = len(yvals) - 1`.
+    Or...
+
+    .. math::
+
+        \left[\begin{gather}
+        [\delta^0 f_{\frac{1}{2}} \quad \delta^0 f_{\frac{3}{2}} \quad \ldots
+        \quad \delta^0 f_{(n-1) + \frac{1}{2}}] \\
+        [\delta^1 f_{\frac{1}{2}} \quad \delta^1 f_{\frac{3}{2}} \quad \ldots \quad
+        \delta^1 f_{(n-2) + \frac{1}{2}}]\\
+        [\delta^2 f_{\frac{1}{2}} \quad \delta^2 f_{\frac{3}{2}} \quad \ldots \quad
+        \delta^2 f_{(n-3) + \frac{1}{2}}]\\
+        \vdots \\
+        [\delta^n f_{\frac{1}{2}}]
+        \end{gather}\right]
+
+    where :math:`n = len(yvals) - 1`.
 
     Examples
     --------
@@ -699,7 +720,7 @@ def gaussfd(xvals, x, yvals=None, coef=None, m=None):
 
         \begin{aligned}
             P_n(x) &= \Delta^0 f(x_m) + \\
-            &+ t \Delta^1 f(x_m) + \\
+            &+ \frac{t}{1!} \Delta^1 f(x_m) + \\
             &+ \frac{t(t-1)}{2!} \Delta^2 f(x_{m-1}) + \\
             &+ \frac{(t+1)t(t-1)}{3!} \Delta^3 f(x_{m-1}) + \\
             &+ \frac{(t+1)t(t-1)(t-2)}{4!} \Delta^4 f(x_{m-2}) + \\
@@ -717,16 +738,13 @@ def gaussfd(xvals, x, yvals=None, coef=None, m=None):
     x : float
         The x-coordinate at which to evaluate the polynomial.
     yvals : array_like, 1-D, optional
-        The y-coordinates of the data points, i.e., f(:math:`x`).
-        Only used if `coef` is not provided.
+        The y-coordinates of the data points, i.e., :math:`f(x)`.
     coef : array_like, 2-D, optional
         The forward differences table.
         If not provided, the function will compute the finite differences table
-        using the `finite_differences` function.
+        using the `finite_differences(yvals)` function.
     m : int, optional
         The index of the midpoint of the data points.
-        If not provided, the function will compute it using the formula:
-        :math:`m = \frac{n}{2}` if `n` is even, otherwise :math:`m = \frac{n+1}{2}`.
 
     Returns
     -------
@@ -752,15 +770,16 @@ def gaussfd(xvals, x, yvals=None, coef=None, m=None):
     >>> from cmlabs.interpolate import gaussfd
     >>> xvals = np.array([0, 1, 2, 3])
     >>> yvals = np.array([1, 3, 2, 5])
-    >>> x = np.float32(1.5)
+    >>> x = np.float32(1.25)
     >>> gaussfd(xvals, x, yvals=yvals)
+    2.7578125
     """
     n = len(xvals) - 1
 
-    if m is not None and m >= n:
+    if m is None:
+        m = n // 2
+    elif m >= n:
         raise ValueError("m must be less than n")
-    elif m is None:
-        m = (n + 1) // 2 if n % 2 == 0 else n // 2
 
     h = xvals[1] - xvals[0]
     t = (x - xvals[m]) / h
@@ -773,20 +792,449 @@ def gaussfd(xvals, x, yvals=None, coef=None, m=None):
     elif coef is None:
         raise ValueError("Either yvals or coef must be provided")
 
-    res = coef[m][0]
+    res = coef[0][m]
 
     prod = 1
-    # sign = 1
+    fact = 1
 
-    # TODO: dodelat'
-    for k in range(1, len(coef)):
-        index = m - (k - 1) // 2
-
-        # prod *= t + sign * ((k - 1) // 2)
-        # sign *= -1
-        prod *= (t - (k - 1) // 2) if k % 2 == 0 else (t + (k // 2))
-
-        term = (prod / math.factorial(k)) * coef[index][k]
+    for k in range(1, n + 1):
+        d = k // 2
+        i = m - d
+        prod *= (t - d) if k % 2 == 0 else (t + d)
+        fact *= k
+        term = (prod / fact) * coef[k][i]
         res += term
 
     return res
+
+
+def gaussbd(xvals, x, yvals=None, coef=None, m=None):
+    r"""Gauss’s backward interpolation formula.
+
+    .. math::
+
+        \begin{aligned}
+            P_n(x) &= \nabla^0 f(x_m) + \\
+            &+ \frac{t}{1!} \nabla^1 f(x_m) + \\
+            &+ \frac{t(t+1)}{2!} \nabla^2 f(x_{m+1}) + \\
+            &+ \frac{(t-1)t(t+1)}{3!} \nabla^3 f(x_{m+1}) + \\
+            &+ \frac{(t-1)t(t+1)(t+2)}{4!} \nabla^4 f(x_{m+2}) + \\
+            &+ \frac{(t-2)(t-1)t(t+1)(t+2)}{5!} \nabla^5 f(x_{m+2}) + \\
+            &+ \frac{(t-2)(t-1)t(t+1)(t+2)(t+3)}{6!} \nabla^6 f(x_{m+3}) + \ldots
+        \end{aligned}
+
+    where :math:`x_m` is the midpoint of the data point (if even then :math:`x_{n/2}`)
+    and :math:`t = \frac{x-x_m}{h}`.
+
+    Parameters
+    ----------
+    xvals : array_like, 1-D
+        The sorted x-coordinates of the data points.
+    x : float
+        The x-coordinate at which to evaluate the polynomial.
+    yvals : array_like, 1-D, optional
+        The y-coordinates of the data points, i.e., :math:`f(x)`.
+    coef : array_like, 2-D, optional
+        The backward differences table.
+        If not provided, the function will compute the finite differences table
+        using the `finite_differences(yvals)` function.
+    m : int, optional
+        The index of the midpoint of the data points.
+
+    Returns
+    -------
+    res: float
+        The value of the polynomial at :math:`x`.
+
+    See Also
+    --------
+    finite_differences
+
+    Notes
+    -----
+    Gauss’s backward interpolation formula is best applicable for determining
+    the values near the middle of the table.
+
+    .. math::
+
+        x = x_m + t h, \quad -\frac{1}{2} < t < 0
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> from cmlabs.interpolate import gaussbd
+    >>> xvals = np.array([0, 1, 2, 3])
+    >>> yvals = np.array([1, 3, 2, 5])
+    >>> x = np.float32(0.75)
+    >>> gaussbd(xvals, x, yvals=yvals)
+    >>> 3.0546875
+    """
+    n = len(xvals) - 1
+
+    if m is None:
+        m = n // 2
+    elif m >= n:
+        raise ValueError("m must be less than n")
+
+    h = xvals[1] - xvals[0]
+    t = (x - xvals[m]) / h
+
+    if coef is not None and n != len(coef):
+        raise ValueError("coef must have the same length as xvals and yvals")
+
+    if yvals is not None:
+        coef = finite_differences(yvals)
+    elif coef is None:
+        raise ValueError("Either yvals or coef must be provided")
+
+    res = coef[0][m]
+
+    prod = 1
+    fact = 1
+
+    for k in range(1, n + 1):
+        d = k // 2
+        i = m - (k + 1) // 2
+        prod *= (t + d) if k % 2 == 0 else (t - d)
+        fact *= k
+        term = (prod / fact) * coef[k][i]
+        res += term
+
+    return res
+
+
+def stirling(xvals, x, yvals=None, coef=None, m=None):
+    r"""Stirling's interpolation formula.
+
+    .. math::
+
+        \begin{aligned}
+            P_n(x) &= \Delta^0 f(x_m) + \\
+            &+ \frac{t}{1!} \left[\frac{\Delta^1 f(x_{m-1}) +
+            \Delta^1 f(x_m)}{2}\right] + \\
+            &+ \frac{t^2}{2!} \Delta^2 f(x_{m-1}) + \\
+            &+ \frac{t(t^2-1)}{3!} \left[\frac{\Delta^3 f(x_{m-2}) +
+            \Delta^3 f(x_{m-1})}{2}\right] + \\
+            &+ \frac{t^2(t^2-1)}{4!} \Delta^4 f(x_{m-2}) + \\
+            &+ \frac{t(t^2-1)(t^2-2^2)}{5!} \left[\frac{\Delta^5 f(x_{m-3}) +
+            \Delta^5 f(x_{m-2})}{2}\right] + \\
+            &+ \frac{t^2(t^2-1)(t^2-2^2)}{6!} \Delta^6 f(x_{m-3}) + \\
+            &+ \ldots + \\
+            &+ \frac{t(t^2-1)(t^2-2^2)(t^2-3^2)\ldots\left[t^2-(n-1)^2\right]}{(2n-1)!}
+            \left[\frac{\Delta^{2n-1} f(x_0) + \Delta^{2n-1} f(x_1)}{2}\right] + \\
+            &+ \frac{t^2(t^2-1)(t^2-2^2)\ldots\left[t^2-(n-1)^2\right]}{(2n)!}
+            \Delta^{2n} f(x_0)
+        \end{aligned}
+
+    where :math:`t = x - x_0` and :math:`n = len(xvals) - 1`.
+
+    Parameters
+    ----------
+    xvals : array_like, 1-D
+        The sorted x-coordinates of the data points.
+    x : float
+        The x-coordinate at which to evaluate the polynomial.
+    yvals : array_like, 1-D, optional
+        The y-coordinates of the data points, i.e., :math:`f(x)`.
+    coef : array_like, 2-D, optional
+        The backward differences table.
+        If not provided, the function will compute the finite differences table
+        using the `finite_differences(yvals)` function.
+    m : int, optional
+        The index of the midpoint of the data points.
+
+    Returns
+    -------
+    res: float
+        The value of the polynomial at :math:`x`.
+
+    See Also
+    --------
+    finite_differences
+
+    Notes
+    -----
+    After taking the arithmetic
+    mean of Gauss forward and backward interpolation we will obtain Stirling's
+    Interpolation formula. This formula is used for an odd number of equally spaced
+    values.
+
+    .. math::
+
+        x = x_m + t h, \quad -\frac{1}{4} < t < \frac{1}{4}
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> from cmlabs.interpolate import stirling
+    >>> xvals = np.array([0, 1, 2, 3, 4])
+    >>> yvals = np.array([1, 3, 2, 5, 3])
+    >>> x = np.float32(2.15)
+    >>> stirling(xvals, x, yvals=yvals)
+    >>> 2.2488649999999994
+    """
+    n = len(xvals) - 1
+
+    if m is None:
+        m = n // 2
+    elif m >= n:
+        raise ValueError("m must be less than n")
+
+    h = xvals[1] - xvals[0]
+    t = (x - xvals[m]) / h
+
+    if coef is not None and n != len(coef):
+        raise ValueError("coef must have the same length as xvals and yvals")
+
+    if yvals is not None:
+        coef = finite_differences(yvals)
+    elif coef is None:
+        raise ValueError("Either yvals or coef must be provided")
+
+    if n % 2 != 0:
+        raise ValueError("n must be odd")
+
+    res = coef[0][m]
+    fact = 1
+    tp = t
+
+    for k in range(1, n + 1):
+        fact *= k
+        i = m - (k // 2)
+        if k % 2 == 1:
+            delta_k = (coef[k][i - 1] + coef[k][i]) / 2
+            tp *= t**2 - k**2 if k > 1 else 1
+        else:
+            delta_k = coef[k][i]
+            tp *= t
+        term = (tp / fact) * delta_k
+        res += term
+
+    return res
+
+
+def bessel(xvals, x, yvals=None, coef=None, m=None):
+    r"""Bessel's interpolation formula.
+
+    .. math::
+
+        \begin{aligned}
+            P_n(x) &= \frac{f(x_m) + f(x_{m+1})}{2} + \\
+            &+ (t - \frac{1}{2}) \Delta^1 f(x_m) + \\
+            &+ \frac{t(t-1)}{2!} \left[\frac{\Delta^2 f(x_{m-1}) +
+            \Delta^2 f(x_m)}{2}\right] + \\
+            &+ \ldots + \\
+            &+ \frac{t(t^2-1)\ldots\left[t^2-(n-1)^2\right](t-n)}{(2n)!}
+            \left[\frac{\Delta^{2n} f(x_0) + \Delta^{2n} f(x_1)}{2}\right] + \\
+            &+ \frac{t(t^2-1)\ldots\left[t^2-(n-1)^2\right](t-n)
+            (t-\frac{1}{2})}{(2n+1)!} \Delta^{2n+1} f(x_0)
+        \end{aligned}
+
+    where :math:`x_m` is the midpoint of the data point (if even then :math:`x_{n/2}`)
+    and :math:`t = \frac{x - x_m}{h}`.
+
+    Parameters
+    ----------
+    xvals : array_like, 1-D
+        The sorted x-coordinates of the data points.
+    x : float
+        The x-coordinate at which to evaluate the polynomial.
+    yvals : array_like, 1-D, optional
+        The y-coordinates of the data points, i.e., :math:`f(x)`.
+    coef : array_like, 2-D, optional
+        The backward differences table.
+        If not provided, the function will compute the finite differences
+        table using the `finite_differences(yvals)` function.
+    m : int, optional
+        The index of the midpoint of the data points.
+
+    Returns
+    -------
+    res: float
+        The value of the polynomial at :math:`x`.
+
+    See Also
+    --------
+    finite_differences
+
+    Notes
+    -----
+    This central difference
+    formula is acquiredafter taking the arithmetic mean of Gauss's forward and
+    backward interpolation formula with some modifications.
+
+    .. math::
+
+        x = x_m + t h, \quad \frac{1}{4} < t < \frac{3}{4}
+
+    Use often when the interpolating point lies near the middle of the table and
+    the number of arguments in the problem is even.
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> from cmlabs.interpolate import bessel
+    >>> xvals = np.array([0, 1, 2, 3])
+    >>> yvals = np.array([1, 3, 2, 5])
+    >>> x = np.float32(1.15)
+    >>> bessel(xvals, x, yvals=yvals)
+    >>> 2.8701875
+    """
+    n = len(xvals) - 1
+
+    if m is None:
+        m = n // 2
+    elif m >= n:
+        raise ValueError("m must be less than n")
+
+    h = xvals[1] - xvals[0]
+    t = (x - xvals[m]) / h
+
+    if coef is not None and n != len(coef):
+        raise ValueError("coef must have the same length as xvals and yvals")
+
+    if yvals is not None:
+        coef = finite_differences(yvals)
+    elif coef is None:
+        raise ValueError("Either yvals or coef must be provided")
+
+    if n % 2 == 0:
+        raise ValueError("n must be odd")
+
+    res = (coef[0][m] + coef[0][m + 1]) / 2
+    fact = 1
+    tp = 1
+
+    for k in range(1, n + 1):
+        i = m - (k // 2)
+        fact *= k
+        if k % 2 == 1:
+            delta_k = coef[k][i]
+            p = tp * (t - 1 / 2) * delta_k
+        else:
+            delta_k = (coef[k][i] + coef[k][i + 1]) / 2
+            tp = 1
+            for j in range(1, k // 2):
+                tp *= t**2 - j**2
+            tp *= t * (t - k // 2)
+            p = tp * delta_k
+        term = p / fact
+        res += term
+
+    return res
+
+
+def interpolate(xvals, x, yvals=None, coef=None, method="auto"):
+    r"""Interpolate the value of a function at a given point.
+
+    Parameters
+    ----------
+    xvals : array_like, 1-D
+        The sorted x-coordinates of the data points.
+    x : float
+        The x-coordinate at which to evaluate the polynomial.
+    yvals : array_like, 1-D, optional
+        The y-coordinates of the data points, i.e., f(:math:`x`).
+        Only used if `coef` is not provided.
+    coef : array_like, 1-D or 2-D, optional
+        The coefficients of the polynomial.
+    method : str, optional
+        The interpolation method to use. Can be one of:
+        - 'auto' (default)
+        - 'lagrange'
+        - 'newton'
+        - 'newtonfd'
+        - 'newtonbd'
+        - 'gaussfd'
+        - 'gaussbd'
+        - 'stirling'
+        - 'bessel'
+
+    Returns
+    -------
+    res: float
+        The value of the polynomial at :math:`x`.
+
+    See Also
+    --------
+    divided_differences
+    finite_differences
+    lagrange
+    newton
+    newtonfd
+    newtonbd
+    gaussfd
+    gaussbd
+    stirling
+    bessel
+
+    Notes
+    -----
+    The output is the value of the polynomial at :math:`x` using the specified method or
+    the most efficient method if `method` is 'auto'.
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> from cmlabs.interpolate import interpolate
+    >>> xvals = np.array([0, 1, 2, 3])
+    >>> yvals = np.array([1, 3, 2, 5])
+    >>> x = np.float32(1.15)
+    >>> interpolate(xvals, x, yvals=yvals)
+    >>> 2.8701875
+
+    """
+    if method == "lagrange" and yvals is not None:
+        return lagrange(xvals, yvals, x)
+    if method == "newton" and yvals is not None:
+        return newton(xvals, yvals, x)
+    elif method == "newtonfd":
+        return newtonfd(xvals, x, yvals=yvals, coef=coef)
+    elif method == "newtonbd":
+        return newtonbd(xvals, x, yvals=yvals, coef=coef)
+    elif method == "gaussfd":
+        return gaussfd(xvals, x, yvals=yvals, coef=coef)
+    elif method == "gaussbd":
+        return gaussbd(xvals, x, yvals=yvals, coef=coef)
+    elif method == "stirling":
+        return stirling(xvals, x, yvals=yvals, coef=coef)
+    elif method == "bessel":
+        return bessel(xvals, x, yvals=yvals, coef=coef)
+
+    n = len(xvals) - 1
+    h = xvals[1] - xvals[0]
+    equally_spaced = np.allclose(np.diff(xvals), h)
+
+    if not equally_spaced and yvals:
+        return newton(xvals, yvals, x)
+
+    mid = xvals[n // 2]
+
+    t = (x - xvals[0]) / h
+    t_back = (x - xvals[-1]) / h
+    t_center = (x - mid) / h
+
+    if 0 < t < 1:
+        print(f"Using Newton's forward interpolation formula for {x}")
+        return newtonfd(xvals, x, yvals=yvals, coef=coef)
+    elif -1 < t_back < 0:
+        print(f"Using Newton's backward interpolation formula for {x}")
+        return newtonbd(xvals, x, yvals=yvals, coef=coef)
+    elif abs(t_center) <= 0.25 and n % 2 == 0:
+        print(f"Using Stirling's interpolation formula for {x}")
+        return stirling(xvals, x, yvals=yvals, coef=coef)
+    elif 0.25 < abs(t_center) <= 0.75 and n % 2 != 0:
+        print(f"Using Bessel's interpolation formula for {x}")
+        return bessel(xvals, x, yvals=yvals, coef=coef)
+    elif abs(t_center) <= 1.0:
+        if t_center > 0:
+            print(f"Using Gauss's forward interpolation formula for {x}")
+            return gaussfd(xvals, x, yvals=yvals, coef=coef)
+        else:
+            print(f"Using Gauss's backward interpolation formula for {x}")
+            return gaussbd(xvals, x, yvals=yvals, coef=coef)
+    elif yvals is not None:
+        print(f"Using Lagrange's interpolation formula for {x}")
+        lagrange(xvals, yvals, x)
+
+    return ValueError("Something went wrong, please check the input values.")
