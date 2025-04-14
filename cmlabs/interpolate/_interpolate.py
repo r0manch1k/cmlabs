@@ -98,10 +98,10 @@ def remainder(xvals, M, x=None, method="auto"):
         The x-coordinates of the data points.
     M : float
         The bound for the (n+1)-th derivative of the function.
-    x : float, optional
+    x : float, optional, default: None
         The x-coordinate at which to evaluate the polynomial.
         Only used if `method` is 'exact'.
-    mehtod : {'auto', 'exact', 'bound'}, optional
+    mehtod : {'auto', 'exact', 'bound'}, optional, default: 'auto'
         Defines the method to compute the remainder.
         The following options are available (default is 'bound'):
 
@@ -223,7 +223,7 @@ def divided_differences(xvals, yvals):
             [f(x_0), f(x_1), \ldots, f(x_n)] &\to
             [f(x_0), f(x_0, x_1), \ldots, f(x_{n-1}, x_n)] \\
             [f(x_0), f(x_0, x_1), \ldots, f(x_{n-1}, x_n)] &\to
-            [f(x_0), f(x_0, x_1), f(x_0, x_1, x_3), \ldots, f(x_{n-2}, x_{n-1}, x_n)] \\
+            [f(x_0), f(x_0, x_1), \ldots, f(x_{n-2}, x_{n-1}, x_n)] \\
             &\vdots \\
             [f(x_0), f(x_0, x_1), \ldots, f(x_1, x_2, \ldots, x_n)] &\to
             [f(x_0), f(x_0, x_1), \ldots, f(x_0, x_1, \ldots, x_n)]
@@ -344,9 +344,7 @@ def finite_differences(yvals):
 
         \begin{gather}
             \Delta^k f(x_i) = \Delta^{k-1} f(x_{i+1}) - \Delta^{k-1} f(x_i), \\
-            \nabla^k f(x_i) = \nabla^{k-1} f(x_i) - \nabla^{k-1} f(x_{i-1}), \\
-            \delta^k f_{i + \frac{1}{2}} =
-            \delta^{k-1} f(x_{i+1}) - \delta^{k-1} f(x_i)
+            \nabla^k f(x_i) = \nabla^{k-1} f(x_i) - \nabla^{k-1} f(x_{i-1})
         \end{gather}
 
     Parameters
@@ -386,19 +384,6 @@ def finite_differences(yvals):
         \end{gather}\right]
 
     Or...
-
-    .. math::
-
-        \left[\begin{gather}
-        [\delta^0 f_{\frac{1}{2}} \quad \delta^0 f_{\frac{3}{2}} \quad \ldots
-        \quad \delta^0 f_{(n-1) + \frac{1}{2}}] \\
-        [\delta^1 f_{\frac{1}{2}} \quad \delta^1 f_{\frac{3}{2}} \quad \ldots \quad
-        \delta^1 f_{(n-2) + \frac{1}{2}}]\\
-        [\delta^2 f_{\frac{1}{2}} \quad \delta^2 f_{\frac{3}{2}} \quad \ldots \quad
-        \delta^2 f_{(n-3) + \frac{1}{2}}]\\
-        \vdots \\
-        [\delta^n f_{\frac{1}{2}}]
-        \end{gather}\right]
 
     where :math:`n = len(yvals) - 1`.
 
@@ -520,7 +505,7 @@ def newtonfd(xvals, x, yvals=None, coef=None):
 
         \begin{gather}
             P_n(x) = \sum_{k=0}^{n} \frac{\Delta^k f(x_0)}{k!h^k} \omega_k(x) \\
-            P_n(x) = \sum_{k=0}^{n} C^k_t \Delta^k f(x_0)
+            P_n(x_0 + th) = \sum_{k=0}^{n} C^k_t \Delta^k f(x_0)
         \end{gather}
 
     where :math:`\Delta^k f_0` is the forward difference of the function.
@@ -531,10 +516,10 @@ def newtonfd(xvals, x, yvals=None, coef=None):
         The sorted x-coordinates of the data points.
     x : float
         The x-coordinate at which to evaluate the polynomial.
-    yvals : array_like, 1-D, optional
+    yvals : array_like, 1-D, optional, default: None
         The y-coordinates of the data points, i.e., f(:math:`x`).
         Only used if `coef` is not provided.
-    coef : array_like, 1-D, optional
+    coef : array_like, 1-D, optional, default: None
         The forward differences list.
         If not provided, the function will compute the forward differences table
         using the `forward_differences`.
@@ -573,10 +558,10 @@ def newtonfd(xvals, x, yvals=None, coef=None):
     .. math::
 
         \begin{gather}
-            P_n(x) = \sum_{k=0}^{n} \frac{t(t-1)\ldots(t-k+1)}{k!} \Delta^k f(x_0) \\
+            P_n(x_0 + th) = \sum_{k=0}^{n} \frac{t(t-1)\ldots(t-k+1)}{k!} \Delta^k f(x_0) \\
             C^k_n = \frac{n(n-1)\ldots(n-k+1)}{k!}, \quad k \geq 2, \quad C^0_n = 1,
             \quad C^1_n = n \\
-            P_n(x) = \sum_{k=0}^{n} C^k_t \Delta^k f(x_0) \\
+            P_n(x_0 + th) = \sum_{k=0}^{n} C^k_t \Delta^k f(x_0) \\
         \end{gather}
 
     This method is beneficial for determining values of :math:`x` at the
@@ -620,7 +605,7 @@ def newtonbd(xvals, x, yvals=None, coef=None):
 
         \begin{gather}
             P_n(x) = \sum_{k=0}^{n} \frac{\nabla^k f(x_n)}{k!h^k} \omega_k(x) \\
-            P_n(x) = \sum_{k=0}^{n} C^k_t \nabla^k f(x_n)
+            P_n(x_n + th) = \sum_{k=0}^{n} C^k_t \nabla^k f(x_n)
         \end{gather}
 
     where :math:`\nabla^k f_n` is the backward difference of the function.
@@ -631,10 +616,10 @@ def newtonbd(xvals, x, yvals=None, coef=None):
         The sorted x-coordinates of the data points.
     x : float
         The x-coordinate at which to evaluate the polynomial.
-    yvals : array_like, 1-D, optional
+    yvals : array_like, 1-D, optional, default: None
         The y-coordinates of the data points, i.e., f(:math:`x`).
         Only used if `coef` is not provided.
-    coef : array_like, 1-D, optional
+    coef : array_like, 1-D, optional, default: None
         The backward differences list.
         If not provided, the function will compute the backward differences table
         using the `backward_differences`.
@@ -673,11 +658,11 @@ def newtonbd(xvals, x, yvals=None, coef=None):
     .. math::
 
         \begin{gather}
-            P_n(x) = \sum_{k=0}^{n}
-            \frac{s(s+1)\ldots(s+k-1)}{k!} \nabla^k f(x_n) \\
+            P_n(x_n + th) = \sum_{k=0}^{n}
+            \frac{t(t+1)\ldots(t+k-1)}{k!} \nabla^k f(x_n) \\
             C^k_{-n} = \frac{-n(-n-1)\ldots(-n-k+1)}{k!} = (-1)^k
             \frac{n(n+1)\ldots(n+k-1)}{k!} \\
-            P_n(x) = \sum_{k=0}^{n} (-1)^k C^k_{-s} \nabla^k f(x_n) \\
+            P_n(x) = \sum_{k=0}^{n} (-1)^k C^k_{-t} \nabla^k f(x_n) \\
         \end{gather}
 
     This method is beneficial for determining values of :math:`x` at the end of the
@@ -719,7 +704,7 @@ def gaussfd(xvals, x, yvals=None, coef=None, m=None):
     .. math::
 
         \begin{aligned}
-            P_n(x) &= \Delta^0 f(x_m) + \\
+            P_n(x_m + th) &= \Delta^0 f(x_m) + \\
             &+ \frac{t}{1!} \Delta^1 f(x_m) + \\
             &+ \frac{t(t-1)}{2!} \Delta^2 f(x_{m-1}) + \\
             &+ \frac{(t+1)t(t-1)}{3!} \Delta^3 f(x_{m-1}) + \\
@@ -737,13 +722,13 @@ def gaussfd(xvals, x, yvals=None, coef=None, m=None):
         The sorted x-coordinates of the data points.
     x : float
         The x-coordinate at which to evaluate the polynomial.
-    yvals : array_like, 1-D, optional
+    yvals : array_like, 1-D, optional, default: None
         The y-coordinates of the data points, i.e., :math:`f(x)`.
-    coef : array_like, 2-D, optional
+    coef : array_like, 2-D, optional, default: None
         The forward differences table.
         If not provided, the function will compute the finite differences table
         using the `finite_differences(yvals)` function.
-    m : int, optional
+    m : int, optional, default: None
         The index of the midpoint of the data points.
 
     Returns
@@ -814,7 +799,7 @@ def gaussbd(xvals, x, yvals=None, coef=None, m=None):
     .. math::
 
         \begin{aligned}
-            P_n(x) &= \nabla^0 f(x_m) + \\
+            P_n(x_m + th) &= \nabla^0 f(x_m) + \\
             &+ \frac{t}{1!} \nabla^1 f(x_m) + \\
             &+ \frac{t(t+1)}{2!} \nabla^2 f(x_{m+1}) + \\
             &+ \frac{(t-1)t(t+1)}{3!} \nabla^3 f(x_{m+1}) + \\
@@ -832,13 +817,13 @@ def gaussbd(xvals, x, yvals=None, coef=None, m=None):
         The sorted x-coordinates of the data points.
     x : float
         The x-coordinate at which to evaluate the polynomial.
-    yvals : array_like, 1-D, optional
+    yvals : array_like, 1-D, optional, default: None
         The y-coordinates of the data points, i.e., :math:`f(x)`.
-    coef : array_like, 2-D, optional
+    coef : array_like, 2-D, optional, default: None
         The backward differences table.
         If not provided, the function will compute the finite differences table
         using the `finite_differences(yvals)` function.
-    m : int, optional
+    m : int, optional, default: None
         The index of the midpoint of the data points.
 
     Returns
@@ -909,7 +894,7 @@ def stirling(xvals, x, yvals=None, coef=None, m=None):
     .. math::
 
         \begin{aligned}
-            P_n(x) &= \Delta^0 f(x_m) + \\
+            P_n(x_m + th) &= \Delta^0 f(x_m) + \\
             &+ \frac{t}{1!} \left[\frac{\Delta^1 f(x_{m-1}) +
             \Delta^1 f(x_m)}{2}\right] + \\
             &+ \frac{t^2}{2!} \Delta^2 f(x_{m-1}) + \\
@@ -934,13 +919,13 @@ def stirling(xvals, x, yvals=None, coef=None, m=None):
         The sorted x-coordinates of the data points.
     x : float
         The x-coordinate at which to evaluate the polynomial.
-    yvals : array_like, 1-D, optional
+    yvals : array_like, 1-D, optional, default: None
         The y-coordinates of the data points, i.e., :math:`f(x)`.
-    coef : array_like, 2-D, optional
+    coef : array_like, 2-D, optional, default: None
         The backward differences table.
         If not provided, the function will compute the finite differences table
         using the `finite_differences(yvals)` function.
-    m : int, optional
+    m : int, optional, default: None
         The index of the midpoint of the data points.
 
     Returns
@@ -1019,7 +1004,7 @@ def bessel(xvals, x, yvals=None, coef=None, m=None):
     .. math::
 
         \begin{aligned}
-            P_n(x) &= \frac{f(x_m) + f(x_{m+1})}{2} + \\
+            P_n(x_m + th) &= \frac{f(x_m) + f(x_{m+1})}{2} + \\
             &+ (t - \frac{1}{2}) \Delta^1 f(x_m) + \\
             &+ \frac{t(t-1)}{2!} \left[\frac{\Delta^2 f(x_{m-1}) +
             \Delta^2 f(x_m)}{2}\right] + \\
@@ -1039,13 +1024,13 @@ def bessel(xvals, x, yvals=None, coef=None, m=None):
         The sorted x-coordinates of the data points.
     x : float
         The x-coordinate at which to evaluate the polynomial.
-    yvals : array_like, 1-D, optional
+    yvals : array_like, 1-D, optional, default: None
         The y-coordinates of the data points, i.e., :math:`f(x)`.
-    coef : array_like, 2-D, optional
+    coef : array_like, 2-D, optional, default: None
         The backward differences table.
         If not provided, the function will compute the finite differences
         table using the `finite_differences(yvals)` function.
-    m : int, optional
+    m : int, optional, default: None
         The index of the midpoint of the data points.
 
     Returns
@@ -1138,17 +1123,18 @@ def interpolate(xvals, x, yvals=None, coef=None, method="auto"):
         Only used if `coef` is not provided.
     coef : array_like, 1-D or 2-D, optional
         The coefficients of the polynomial.
-    method : str, optional
+    method : str, optional, default: 'auto'
         The interpolation method to use. Can be one of:
-        - 'auto' (default)
-        - 'lagrange'
-        - 'newton'
-        - 'newtonfd'
-        - 'newtonbd'
-        - 'gaussfd'
-        - 'gaussbd'
-        - 'stirling'
-        - 'bessel'
+
+          * 'auto'
+          * 'lagrange'
+          * 'newton'
+          * 'newtonfd'
+          * 'newtonbd'
+          * 'gaussfd'
+          * 'gaussbd'
+          * 'stirling'
+          * 'bessel'
 
     Returns
     -------
@@ -1215,26 +1201,26 @@ def interpolate(xvals, x, yvals=None, coef=None, method="auto"):
     t_center = (x - mid) / h
 
     if 0 < t < 1:
-        print(f"Using Newton's forward interpolation formula for {x}")
+        print(f"Using Newton's forward interpolation formula for {x}...")
         return newtonfd(xvals, x, yvals=yvals, coef=coef)
     elif -1 < t_back < 0:
-        print(f"Using Newton's backward interpolation formula for {x}")
+        print(f"Using Newton's backward interpolation formula for {x}...")
         return newtonbd(xvals, x, yvals=yvals, coef=coef)
     elif abs(t_center) <= 0.25 and n % 2 == 0:
-        print(f"Using Stirling's interpolation formula for {x}")
+        print(f"Using Stirling's interpolation formula for {x}...")
         return stirling(xvals, x, yvals=yvals, coef=coef)
     elif 0.25 < abs(t_center) <= 0.75 and n % 2 != 0:
-        print(f"Using Bessel's interpolation formula for {x}")
+        print(f"Using Bessel's interpolation formula for {x}...")
         return bessel(xvals, x, yvals=yvals, coef=coef)
     elif abs(t_center) <= 1.0:
         if t_center > 0:
-            print(f"Using Gauss's forward interpolation formula for {x}")
+            print(f"Using Gauss's forward interpolation formula for {x}...")
             return gaussfd(xvals, x, yvals=yvals, coef=coef)
         else:
-            print(f"Using Gauss's backward interpolation formula for {x}")
+            print(f"Using Gauss's backward interpolation formula for {x}...")
             return gaussbd(xvals, x, yvals=yvals, coef=coef)
     elif yvals is not None:
-        print(f"Using Lagrange's interpolation formula for {x}")
+        print(f"Using Lagrange's interpolation formula for {x}...")
         lagrange(xvals, yvals, x)
 
     return ValueError("Something went wrong, please check the input values.")
