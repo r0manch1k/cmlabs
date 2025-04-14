@@ -102,9 +102,7 @@
 <div class="math notranslate nohighlight">
 \[\begin{split}\begin{gather}
     \Delta^k f(x_i) = \Delta^{k-1} f(x_{i+1}) - \Delta^{k-1} f(x_i), \\
-    \nabla^k f(x_i) = \nabla^{k-1} f(x_i) - \nabla^{k-1} f(x_{i-1}), \\
-    \delta^k f_{i + \frac{1}{2}} =
-    \delta^{k-1} f(x_{i+1}) - \delta^{k-1} f(x_i)
+    \nabla^k f(x_i) = \nabla^{k-1} f(x_i) - \nabla^{k-1} f(x_{i-1})
 \end{gather}\end{split}\]</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -137,17 +135,6 @@
 [\nabla^n f(x_n)]
 \end{gather}\right]\end{split}\]</div>
 <p>Or…</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\left[\begin{gather}
-[\delta^0 f_{\frac{1}{2}} \quad \delta^0 f_{\frac{3}{2}} \quad \ldots
-\quad \delta^0 f_{(n-1) + \frac{1}{2}}] \\
-[\delta^1 f_{\frac{1}{2}} \quad \delta^1 f_{\frac{3}{2}} \quad \ldots \quad
-\delta^1 f_{(n-2) + \frac{1}{2}}]\\
-[\delta^2 f_{\frac{1}{2}} \quad \delta^2 f_{\frac{3}{2}} \quad \ldots \quad
-\delta^2 f_{(n-3) + \frac{1}{2}}]\\
-\vdots \\
-[\delta^n f_{\frac{1}{2}}]
-\end{gather}\right]\end{split}\]</div>
 <p>where <span class="math notranslate nohighlight">\(n = len(yvals) - 1\)</span>.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>

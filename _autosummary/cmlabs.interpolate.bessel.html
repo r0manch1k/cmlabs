@@ -101,7 +101,7 @@
 <dd><p>Bessel’s interpolation formula.</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\begin{aligned}
-    P_n(x) &amp;= \frac{f(x_m) + f(x_{m+1})}{2} + \\
+    P_n(x_m + th) &amp;= \frac{f(x_m) + f(x_{m+1})}{2} + \\
     &amp;+ (t - \frac{1}{2}) \Delta^1 f(x_m) + \\
     &amp;+ \frac{t(t-1)}{2!} \left[\frac{\Delta^2 f(x_{m-1}) +
     \Delta^2 f(x_m)}{2}\right] + \\
@@ -118,11 +118,11 @@ and <span class="math notranslate nohighlight">\(t = \frac{x - x_m}{h}\)</span>.
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>xvals</strong> (<em>array_like</em><em>, </em><em>1-D</em>) – The sorted x-coordinates of the data points.</p></li>
 <li><p><strong>x</strong> (<em>float</em>) – The x-coordinate at which to evaluate the polynomial.</p></li>
-<li><p><strong>yvals</strong> (<em>array_like</em><em>, </em><em>1-D</em><em>, </em><em>optional</em>) – The y-coordinates of the data points, i.e., <span class="math notranslate nohighlight">\(f(x)\)</span>.</p></li>
-<li><p><strong>coef</strong> (<em>array_like</em><em>, </em><em>2-D</em><em>, </em><em>optional</em>) – The backward differences table.
+<li><p><strong>yvals</strong> (<em>array_like</em><em>, </em><em>1-D</em><em>, </em><em>optional</em><em>, </em><em>default: None</em>) – The y-coordinates of the data points, i.e., <span class="math notranslate nohighlight">\(f(x)\)</span>.</p></li>
+<li><p><strong>coef</strong> (<em>array_like</em><em>, </em><em>2-D</em><em>, </em><em>optional</em><em>, </em><em>default: None</em>) – The backward differences table.
 If not provided, the function will compute the finite differences
 table using the <cite>finite_differences(yvals)</cite> function.</p></li>
-<li><p><strong>m</strong> (<em>int</em><em>, </em><em>optional</em>) – The index of the midpoint of the data points.</p></li>
+<li><p><strong>m</strong> (<em>int</em><em>, </em><em>optional</em><em>, </em><em>default: None</em>) – The index of the midpoint of the data points.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>

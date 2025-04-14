@@ -174,10 +174,10 @@
 <span class="sd">        The x-coordinates of the data points.</span>
 <span class="sd">    M : float</span>
 <span class="sd">        The bound for the (n+1)-th derivative of the function.</span>
-<span class="sd">    x : float, optional</span>
+<span class="sd">    x : float, optional, default: None</span>
 <span class="sd">        The x-coordinate at which to evaluate the polynomial.</span>
 <span class="sd">        Only used if `method` is &#39;exact&#39;.</span>
-<span class="sd">    mehtod : {&#39;auto&#39;, &#39;exact&#39;, &#39;bound&#39;}, optional</span>
+<span class="sd">    mehtod : {&#39;auto&#39;, &#39;exact&#39;, &#39;bound&#39;}, optional, default: &#39;auto&#39;</span>
 <span class="sd">        Defines the method to compute the remainder.</span>
 <span class="sd">        The following options are available (default is &#39;bound&#39;):</span>
 
@@ -302,7 +302,7 @@
 <span class="sd">            [f(x_0), f(x_1), \ldots, f(x_n)] &amp;\to</span>
 <span class="sd">            [f(x_0), f(x_0, x_1), \ldots, f(x_{n-1}, x_n)] \\</span>
 <span class="sd">            [f(x_0), f(x_0, x_1), \ldots, f(x_{n-1}, x_n)] &amp;\to</span>
-<span class="sd">            [f(x_0), f(x_0, x_1), f(x_0, x_1, x_3), \ldots, f(x_{n-2}, x_{n-1}, x_n)] \\</span>
+<span class="sd">            [f(x_0), f(x_0, x_1), \ldots, f(x_{n-2}, x_{n-1}, x_n)] \\</span>
 <span class="sd">            &amp;\vdots \\</span>
 <span class="sd">            [f(x_0), f(x_0, x_1), \ldots, f(x_1, x_2, \ldots, x_n)] &amp;\to</span>
 <span class="sd">            [f(x_0), f(x_0, x_1), \ldots, f(x_0, x_1, \ldots, x_n)]</span>
@@ -429,9 +429,7 @@
 
 <span class="sd">        \begin{gather}</span>
 <span class="sd">            \Delta^k f(x_i) = \Delta^{k-1} f(x_{i+1}) - \Delta^{k-1} f(x_i), \\</span>
-<span class="sd">            \nabla^k f(x_i) = \nabla^{k-1} f(x_i) - \nabla^{k-1} f(x_{i-1}), \\</span>
-<span class="sd">            \delta^k f_{i + \frac{1}{2}} =</span>
-<span class="sd">            \delta^{k-1} f(x_{i+1}) - \delta^{k-1} f(x_i)</span>
+<span class="sd">            \nabla^k f(x_i) = \nabla^{k-1} f(x_i) - \nabla^{k-1} f(x_{i-1})</span>
 <span class="sd">        \end{gather}</span>
 
 <span class="sd">    Parameters</span>
@@ -471,19 +469,6 @@
 <span class="sd">        \end{gather}\right]</span>
 
 <span class="sd">    Or...</span>
-
-<span class="sd">    .. math::</span>
-
-<span class="sd">        \left[\begin{gather}</span>
-<span class="sd">        [\delta^0 f_{\frac{1}{2}} \quad \delta^0 f_{\frac{3}{2}} \quad \ldots</span>
-<span class="sd">        \quad \delta^0 f_{(n-1) + \frac{1}{2}}] \\</span>
-<span class="sd">        [\delta^1 f_{\frac{1}{2}} \quad \delta^1 f_{\frac{3}{2}} \quad \ldots \quad</span>
-<span class="sd">        \delta^1 f_{(n-2) + \frac{1}{2}}]\\</span>
-<span class="sd">        [\delta^2 f_{\frac{1}{2}} \quad \delta^2 f_{\frac{3}{2}} \quad \ldots \quad</span>
-<span class="sd">        \delta^2 f_{(n-3) + \frac{1}{2}}]\\</span>
-<span class="sd">        \vdots \\</span>
-<span class="sd">        [\delta^n f_{\frac{1}{2}}]</span>
-<span class="sd">        \end{gather}\right]</span>
 
 <span class="sd">    where :math:`n = len(yvals) - 1`.</span>
 
@@ -614,7 +599,7 @@
 
 <span class="sd">        \begin{gather}</span>
 <span class="sd">            P_n(x) = \sum_{k=0}^{n} \frac{\Delta^k f(x_0)}{k!h^k} \omega_k(x) \\</span>
-<span class="sd">            P_n(x) = \sum_{k=0}^{n} C^k_t \Delta^k f(x_0)</span>
+<span class="sd">            P_n(x_0 + th) = \sum_{k=0}^{n} C^k_t \Delta^k f(x_0)</span>
 <span class="sd">        \end{gather}</span>
 
 <span class="sd">    where :math:`\Delta^k f_0` is the forward difference of the function.</span>
@@ -625,10 +610,10 @@
 <span class="sd">        The sorted x-coordinates of the data points.</span>
 <span class="sd">    x : float</span>
 <span class="sd">        The x-coordinate at which to evaluate the polynomial.</span>
-<span class="sd">    yvals : array_like, 1-D, optional</span>
+<span class="sd">    yvals : array_like, 1-D, optional, default: None</span>
 <span class="sd">        The y-coordinates of the data points, i.e., f(:math:`x`).</span>
 <span class="sd">        Only used if `coef` is not provided.</span>
-<span class="sd">    coef : array_like, 1-D, optional</span>
+<span class="sd">    coef : array_like, 1-D, optional, default: None</span>
 <span class="sd">        The forward differences list.</span>
 <span class="sd">        If not provided, the function will compute the forward differences table</span>
 <span class="sd">        using the `forward_differences`.</span>
@@ -667,10 +652,10 @@
 <span class="sd">    .. math::</span>
 
 <span class="sd">        \begin{gather}</span>
-<span class="sd">            P_n(x) = \sum_{k=0}^{n} \frac{t(t-1)\ldots(t-k+1)}{k!} \Delta^k f(x_0) \\</span>
+<span class="sd">            P_n(x_0 + th) = \sum_{k=0}^{n} \frac{t(t-1)\ldots(t-k+1)}{k!} \Delta^k f(x_0) \\</span>
 <span class="sd">            C^k_n = \frac{n(n-1)\ldots(n-k+1)}{k!}, \quad k \geq 2, \quad C^0_n = 1,</span>
 <span class="sd">            \quad C^1_n = n \\</span>
-<span class="sd">            P_n(x) = \sum_{k=0}^{n} C^k_t \Delta^k f(x_0) \\</span>
+<span class="sd">            P_n(x_0 + th) = \sum_{k=0}^{n} C^k_t \Delta^k f(x_0) \\</span>
 <span class="sd">        \end{gather}</span>
 
 <span class="sd">    This method is beneficial for determining values of :math:`x` at the</span>
@@ -717,7 +702,7 @@
 
 <span class="sd">        \begin{gather}</span>
 <span class="sd">            P_n(x) = \sum_{k=0}^{n} \frac{\nabla^k f(x_n)}{k!h^k} \omega_k(x) \\</span>
-<span class="sd">            P_n(x) = \sum_{k=0}^{n} C^k_t \nabla^k f(x_n)</span>
+<span class="sd">            P_n(x_n + th) = \sum_{k=0}^{n} C^k_t \nabla^k f(x_n)</span>
 <span class="sd">        \end{gather}</span>
 
 <span class="sd">    where :math:`\nabla^k f_n` is the backward difference of the function.</span>
@@ -728,10 +713,10 @@
 <span class="sd">        The sorted x-coordinates of the data points.</span>
 <span class="sd">    x : float</span>
 <span class="sd">        The x-coordinate at which to evaluate the polynomial.</span>
-<span class="sd">    yvals : array_like, 1-D, optional</span>
+<span class="sd">    yvals : array_like, 1-D, optional, default: None</span>
 <span class="sd">        The y-coordinates of the data points, i.e., f(:math:`x`).</span>
 <span class="sd">        Only used if `coef` is not provided.</span>
-<span class="sd">    coef : array_like, 1-D, optional</span>
+<span class="sd">    coef : array_like, 1-D, optional, default: None</span>
 <span class="sd">        The backward differences list.</span>
 <span class="sd">        If not provided, the function will compute the backward differences table</span>
 <span class="sd">        using the `backward_differences`.</span>
@@ -770,11 +755,11 @@
 <span class="sd">    .. math::</span>
 
 <span class="sd">        \begin{gather}</span>
-<span class="sd">            P_n(x) = \sum_{k=0}^{n}</span>
-<span class="sd">            \frac{s(s+1)\ldots(s+k-1)}{k!} \nabla^k f(x_n) \\</span>
+<span class="sd">            P_n(x_n + th) = \sum_{k=0}^{n}</span>
+<span class="sd">            \frac{t(t+1)\ldots(t+k-1)}{k!} \nabla^k f(x_n) \\</span>
 <span class="sd">            C^k_{-n} = \frac{-n(-n-1)\ldots(-n-k+1)}{k!} = (-1)^k</span>
 <span class="sd">            \frac{n(n+1)\ldots(n+k-1)}{k!} \\</span>
-<span class="sd">            P_n(x) = \sum_{k=0}^{n} (-1)^k C^k_{-s} \nabla^k f(x_n) \\</span>
+<span class="sd">            P_n(x) = \sum_{k=0}^{n} (-1)^k C^k_{-t} \nabla^k f(x_n) \\</span>
 <span class="sd">        \end{gather}</span>
 
 <span class="sd">    This method is beneficial for determining values of :math:`x` at the end of the</span>
@@ -819,7 +804,7 @@
 <span class="sd">    .. math::</span>
 
 <span class="sd">        \begin{aligned}</span>
-<span class="sd">            P_n(x) &amp;= \Delta^0 f(x_m) + \\</span>
+<span class="sd">            P_n(x_m + th) &amp;= \Delta^0 f(x_m) + \\</span>
 <span class="sd">            &amp;+ \frac{t}{1!} \Delta^1 f(x_m) + \\</span>
 <span class="sd">            &amp;+ \frac{t(t-1)}{2!} \Delta^2 f(x_{m-1}) + \\</span>
 <span class="sd">            &amp;+ \frac{(t+1)t(t-1)}{3!} \Delta^3 f(x_{m-1}) + \\</span>
@@ -837,13 +822,13 @@
 <span class="sd">        The sorted x-coordinates of the data points.</span>
 <span class="sd">    x : float</span>
 <span class="sd">        The x-coordinate at which to evaluate the polynomial.</span>
-<span class="sd">    yvals : array_like, 1-D, optional</span>
+<span class="sd">    yvals : array_like, 1-D, optional, default: None</span>
 <span class="sd">        The y-coordinates of the data points, i.e., :math:`f(x)`.</span>
-<span class="sd">    coef : array_like, 2-D, optional</span>
+<span class="sd">    coef : array_like, 2-D, optional, default: None</span>
 <span class="sd">        The forward differences table.</span>
 <span class="sd">        If not provided, the function will compute the finite differences table</span>
 <span class="sd">        using the `finite_differences(yvals)` function.</span>
-<span class="sd">    m : int, optional</span>
+<span class="sd">    m : int, optional, default: None</span>
 <span class="sd">        The index of the midpoint of the data points.</span>
 
 <span class="sd">    Returns</span>
@@ -917,7 +902,7 @@
 <span class="sd">    .. math::</span>
 
 <span class="sd">        \begin{aligned}</span>
-<span class="sd">            P_n(x) &amp;= \nabla^0 f(x_m) + \\</span>
+<span class="sd">            P_n(x_m + th) &amp;= \nabla^0 f(x_m) + \\</span>
 <span class="sd">            &amp;+ \frac{t}{1!} \nabla^1 f(x_m) + \\</span>
 <span class="sd">            &amp;+ \frac{t(t+1)}{2!} \nabla^2 f(x_{m+1}) + \\</span>
 <span class="sd">            &amp;+ \frac{(t-1)t(t+1)}{3!} \nabla^3 f(x_{m+1}) + \\</span>
@@ -935,13 +920,13 @@
 <span class="sd">        The sorted x-coordinates of the data points.</span>
 <span class="sd">    x : float</span>
 <span class="sd">        The x-coordinate at which to evaluate the polynomial.</span>
-<span class="sd">    yvals : array_like, 1-D, optional</span>
+<span class="sd">    yvals : array_like, 1-D, optional, default: None</span>
 <span class="sd">        The y-coordinates of the data points, i.e., :math:`f(x)`.</span>
-<span class="sd">    coef : array_like, 2-D, optional</span>
+<span class="sd">    coef : array_like, 2-D, optional, default: None</span>
 <span class="sd">        The backward differences table.</span>
 <span class="sd">        If not provided, the function will compute the finite differences table</span>
 <span class="sd">        using the `finite_differences(yvals)` function.</span>
-<span class="sd">    m : int, optional</span>
+<span class="sd">    m : int, optional, default: None</span>
 <span class="sd">        The index of the midpoint of the data points.</span>
 
 <span class="sd">    Returns</span>
@@ -1015,7 +1000,7 @@
 <span class="sd">    .. math::</span>
 
 <span class="sd">        \begin{aligned}</span>
-<span class="sd">            P_n(x) &amp;= \Delta^0 f(x_m) + \\</span>
+<span class="sd">            P_n(x_m + th) &amp;= \Delta^0 f(x_m) + \\</span>
 <span class="sd">            &amp;+ \frac{t}{1!} \left[\frac{\Delta^1 f(x_{m-1}) +</span>
 <span class="sd">            \Delta^1 f(x_m)}{2}\right] + \\</span>
 <span class="sd">            &amp;+ \frac{t^2}{2!} \Delta^2 f(x_{m-1}) + \\</span>
@@ -1040,13 +1025,13 @@
 <span class="sd">        The sorted x-coordinates of the data points.</span>
 <span class="sd">    x : float</span>
 <span class="sd">        The x-coordinate at which to evaluate the polynomial.</span>
-<span class="sd">    yvals : array_like, 1-D, optional</span>
+<span class="sd">    yvals : array_like, 1-D, optional, default: None</span>
 <span class="sd">        The y-coordinates of the data points, i.e., :math:`f(x)`.</span>
-<span class="sd">    coef : array_like, 2-D, optional</span>
+<span class="sd">    coef : array_like, 2-D, optional, default: None</span>
 <span class="sd">        The backward differences table.</span>
 <span class="sd">        If not provided, the function will compute the finite differences table</span>
 <span class="sd">        using the `finite_differences(yvals)` function.</span>
-<span class="sd">    m : int, optional</span>
+<span class="sd">    m : int, optional, default: None</span>
 <span class="sd">        The index of the midpoint of the data points.</span>
 
 <span class="sd">    Returns</span>
@@ -1128,7 +1113,7 @@
 <span class="sd">    .. math::</span>
 
 <span class="sd">        \begin{aligned}</span>
-<span class="sd">            P_n(x) &amp;= \frac{f(x_m) + f(x_{m+1})}{2} + \\</span>
+<span class="sd">            P_n(x_m + th) &amp;= \frac{f(x_m) + f(x_{m+1})}{2} + \\</span>
 <span class="sd">            &amp;+ (t - \frac{1}{2}) \Delta^1 f(x_m) + \\</span>
 <span class="sd">            &amp;+ \frac{t(t-1)}{2!} \left[\frac{\Delta^2 f(x_{m-1}) +</span>
 <span class="sd">            \Delta^2 f(x_m)}{2}\right] + \\</span>
@@ -1148,13 +1133,13 @@
 <span class="sd">        The sorted x-coordinates of the data points.</span>
 <span class="sd">    x : float</span>
 <span class="sd">        The x-coordinate at which to evaluate the polynomial.</span>
-<span class="sd">    yvals : array_like, 1-D, optional</span>
+<span class="sd">    yvals : array_like, 1-D, optional, default: None</span>
 <span class="sd">        The y-coordinates of the data points, i.e., :math:`f(x)`.</span>
-<span class="sd">    coef : array_like, 2-D, optional</span>
+<span class="sd">    coef : array_like, 2-D, optional, default: None</span>
 <span class="sd">        The backward differences table.</span>
 <span class="sd">        If not provided, the function will compute the finite differences</span>
 <span class="sd">        table using the `finite_differences(yvals)` function.</span>
-<span class="sd">    m : int, optional</span>
+<span class="sd">    m : int, optional, default: None</span>
 <span class="sd">        The index of the midpoint of the data points.</span>
 
 <span class="sd">    Returns</span>
@@ -1250,17 +1235,18 @@
 <span class="sd">        Only used if `coef` is not provided.</span>
 <span class="sd">    coef : array_like, 1-D or 2-D, optional</span>
 <span class="sd">        The coefficients of the polynomial.</span>
-<span class="sd">    method : str, optional</span>
+<span class="sd">    method : str, optional, default: &#39;auto&#39;</span>
 <span class="sd">        The interpolation method to use. Can be one of:</span>
-<span class="sd">        - &#39;auto&#39; (default)</span>
-<span class="sd">        - &#39;lagrange&#39;</span>
-<span class="sd">        - &#39;newton&#39;</span>
-<span class="sd">        - &#39;newtonfd&#39;</span>
-<span class="sd">        - &#39;newtonbd&#39;</span>
-<span class="sd">        - &#39;gaussfd&#39;</span>
-<span class="sd">        - &#39;gaussbd&#39;</span>
-<span class="sd">        - &#39;stirling&#39;</span>
-<span class="sd">        - &#39;bessel&#39;</span>
+
+<span class="sd">          * &#39;auto&#39;</span>
+<span class="sd">          * &#39;lagrange&#39;</span>
+<span class="sd">          * &#39;newton&#39;</span>
+<span class="sd">          * &#39;newtonfd&#39;</span>
+<span class="sd">          * &#39;newtonbd&#39;</span>
+<span class="sd">          * &#39;gaussfd&#39;</span>
+<span class="sd">          * &#39;gaussbd&#39;</span>
+<span class="sd">          * &#39;stirling&#39;</span>
+<span class="sd">          * &#39;bessel&#39;</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -1327,26 +1313,26 @@
     <span class="n">t_center</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">mid</span><span class="p">)</span> <span class="o">/</span> <span class="n">h</span>
 
     <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;</span> <span class="n">t</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using Newton&#39;s forward interpolation formula for </span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using Newton&#39;s forward interpolation formula for </span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">newtonfd</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">yvals</span><span class="o">=</span><span class="n">yvals</span><span class="p">,</span> <span class="n">coef</span><span class="o">=</span><span class="n">coef</span><span class="p">)</span>
     <span class="k">elif</span> <span class="o">-</span><span class="mi">1</span> <span class="o">&lt;</span> <span class="n">t_back</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using Newton&#39;s backward interpolation formula for </span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using Newton&#39;s backward interpolation formula for </span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">newtonbd</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">yvals</span><span class="o">=</span><span class="n">yvals</span><span class="p">,</span> <span class="n">coef</span><span class="o">=</span><span class="n">coef</span><span class="p">)</span>
     <span class="k">elif</span> <span class="nb">abs</span><span class="p">(</span><span class="n">t_center</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mf">0.25</span> <span class="ow">and</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using Stirling&#39;s interpolation formula for </span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using Stirling&#39;s interpolation formula for </span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">stirling</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">yvals</span><span class="o">=</span><span class="n">yvals</span><span class="p">,</span> <span class="n">coef</span><span class="o">=</span><span class="n">coef</span><span class="p">)</span>
     <span class="k">elif</span> <span class="mf">0.25</span> <span class="o">&lt;</span> <span class="nb">abs</span><span class="p">(</span><span class="n">t_center</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mf">0.75</span> <span class="ow">and</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using Bessel&#39;s interpolation formula for </span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using Bessel&#39;s interpolation formula for </span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">bessel</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">yvals</span><span class="o">=</span><span class="n">yvals</span><span class="p">,</span> <span class="n">coef</span><span class="o">=</span><span class="n">coef</span><span class="p">)</span>
     <span class="k">elif</span> <span class="nb">abs</span><span class="p">(</span><span class="n">t_center</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mf">1.0</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">t_center</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using Gauss&#39;s forward interpolation formula for </span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using Gauss&#39;s forward interpolation formula for </span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">gaussfd</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">yvals</span><span class="o">=</span><span class="n">yvals</span><span class="p">,</span> <span class="n">coef</span><span class="o">=</span><span class="n">coef</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using Gauss&#39;s backward interpolation formula for </span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using Gauss&#39;s backward interpolation formula for </span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">gaussbd</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">yvals</span><span class="o">=</span><span class="n">yvals</span><span class="p">,</span> <span class="n">coef</span><span class="o">=</span><span class="n">coef</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">yvals</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using Lagrange&#39;s interpolation formula for </span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using Lagrange&#39;s interpolation formula for </span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
         <span class="n">lagrange</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">yvals</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Something went wrong, please check the input values.&quot;</span><span class="p">)</span></div>

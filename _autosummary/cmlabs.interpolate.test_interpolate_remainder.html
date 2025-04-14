@@ -21,7 +21,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="cmlabs.interpolate.test_lagrange_from_docs_example" href="cmlabs.interpolate.test_lagrange_from_docs_example.html" />
+    <link rel="next" title="cmlabs.interpolate.test_lagrange_derative" href="cmlabs.interpolate.test_lagrange_derative.html" />
     <link rel="prev" title="cmlabs.interpolate.test_lagrange_compare_with_newton" href="cmlabs.interpolate.test_lagrange_compare_with_newton.html" /> 
 </head>
 
@@ -58,6 +58,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#cmlabs.interpolate.test_interpolate_remainder"><code class="docutils literal notranslate"><span class="pre">test_interpolate_remainder()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_lagrange_derative.html">cmlabs.interpolate.test_lagrange_derative</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_lagrange_from_docs_example.html">cmlabs.interpolate.test_lagrange_from_docs_example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_remainder_from_docs_example.html">cmlabs.interpolate.test_remainder_from_docs_example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_newton_from_docs_example.html">cmlabs.interpolate.test_newton_from_docs_example</a></li>
@@ -115,17 +116,8 @@
 \[\begin{aligned}
     (x + \log_{10}(x + 2))^{(10)} = \frac{362880}{\ln(10) \cdot (x + 2)^{10}}
 \end{aligned}\]</div>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<p>lagrange
-newton
-newtonfd
-newtonbd
-gaussfd
-gaussbd
-stirling
-bessel
-interpolate</p>
+<section id="results">
+<h2>Results<a class="headerlink" href="#results" title="Link to this heading"></a></h2>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Test 7: Estimate Remainder Of Interpolation</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># - X:  [0.5   0.556 0.611 ... 0.889 0.944 1.   ]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># - Y:  [0.102 0.148 0.194 ... 0.428 0.475 0.523]</span>
@@ -134,7 +126,7 @@ interpolate</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># - x**** =  0.73</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># M_min = 2.6689153346043457</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># M_max = 16.52522028557161</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">interpolate</span><span class="p">([</span><span class="mf">0.5</span>   <span class="mf">0.556</span> <span class="mf">0.611</span> <span class="o">...</span> <span class="mf">0.889</span> <span class="mf">0.944</span> <span class="mf">1.</span>   <span class="p">],</span> <span class="mf">0.52</span><span class="p">,</span> <span class="n">yvals</span><span class="o">=</span><span class="p">[</span><span class="mf">0.102</span> <span class="mf">0.148</span> <span class="mf">0.194</span> <span class="o">...</span> <span class="mf">0.428</span> <span class="mf">0.475</span> <span class="mf">0.523</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">interpolate</span><span class="p">([</span><span class="mf">0.5</span>   <span class="mf">0.556</span> <span class="mf">0.611</span> <span class="o">...</span> <span class="mf">0.889</span> <span class="mf">0.944</span> <span class="mf">1.</span>   <span class="p">],</span> <span class="mf">0.52</span><span class="p">,</span> <span class="n">yvals</span><span class="o">=</span><span class="p">[</span><span class="o">...</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># Using Newton&#39;s forward interpolation formula for 0.52</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># 0.1185994592184786</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># R_min = 8.579275443070178e-15</span>
@@ -157,7 +149,11 @@ interpolate</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="kc">True</span>
 </pre></div>
 </div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="cmlabs.interpolate.lagrange.html#cmlabs.interpolate.lagrange" title="cmlabs.interpolate.lagrange"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lagrange</span></code></a>, <a class="reference internal" href="cmlabs.interpolate.newton.html#cmlabs.interpolate.newton" title="cmlabs.interpolate.newton"><code class="xref py py-obj docutils literal notranslate"><span class="pre">newton</span></code></a>, <a class="reference internal" href="cmlabs.interpolate.newtonfd.html#cmlabs.interpolate.newtonfd" title="cmlabs.interpolate.newtonfd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">newtonfd</span></code></a>, <a class="reference internal" href="cmlabs.interpolate.newtonbd.html#cmlabs.interpolate.newtonbd" title="cmlabs.interpolate.newtonbd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">newtonbd</span></code></a>, <a class="reference internal" href="cmlabs.interpolate.gaussfd.html#cmlabs.interpolate.gaussfd" title="cmlabs.interpolate.gaussfd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gaussfd</span></code></a>, <a class="reference internal" href="cmlabs.interpolate.gaussbd.html#cmlabs.interpolate.gaussbd" title="cmlabs.interpolate.gaussbd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gaussbd</span></code></a>, <a class="reference internal" href="cmlabs.interpolate.stirling.html#cmlabs.interpolate.stirling" title="cmlabs.interpolate.stirling"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stirling</span></code></a>, <a class="reference internal" href="cmlabs.interpolate.bessel.html#cmlabs.interpolate.bessel" title="cmlabs.interpolate.bessel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bessel</span></code></a>, <a class="reference internal" href="cmlabs.interpolate.interpolate.html#cmlabs.interpolate.interpolate" title="cmlabs.interpolate.interpolate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">interpolate</span></code></a></p>
 </div>
+</section>
 </dd></dl>
 
 </section>
@@ -167,7 +163,7 @@ interpolate</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="cmlabs.interpolate.test_lagrange_compare_with_newton.html" class="btn btn-neutral float-left" title="cmlabs.interpolate.test_lagrange_compare_with_newton" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="cmlabs.interpolate.test_lagrange_from_docs_example.html" class="btn btn-neutral float-right" title="cmlabs.interpolate.test_lagrange_from_docs_example" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="cmlabs.interpolate.test_lagrange_derative.html" class="btn btn-neutral float-right" title="cmlabs.interpolate.test_lagrange_derative" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

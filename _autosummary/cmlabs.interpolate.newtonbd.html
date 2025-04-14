@@ -102,7 +102,7 @@
 <div class="math notranslate nohighlight">
 \[\begin{split}\begin{gather}
     P_n(x) = \sum_{k=0}^{n} \frac{\nabla^k f(x_n)}{k!h^k} \omega_k(x) \\
-    P_n(x) = \sum_{k=0}^{n} C^k_t \nabla^k f(x_n)
+    P_n(x_n + th) = \sum_{k=0}^{n} C^k_t \nabla^k f(x_n)
 \end{gather}\end{split}\]</div>
 <p>where <span class="math notranslate nohighlight">\(\nabla^k f_n\)</span> is the backward difference of the function.</p>
 <dl class="field-list simple">
@@ -110,9 +110,9 @@
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>xvals</strong> (<em>array_like</em><em>, </em><em>1-D</em>) – The sorted x-coordinates of the data points.</p></li>
 <li><p><strong>x</strong> (<em>float</em>) – The x-coordinate at which to evaluate the polynomial.</p></li>
-<li><p><strong>yvals</strong> (<em>array_like</em><em>, </em><em>1-D</em><em>, </em><em>optional</em>) – The y-coordinates of the data points, i.e., f(<span class="math notranslate nohighlight">\(x\)</span>).
+<li><p><strong>yvals</strong> (<em>array_like</em><em>, </em><em>1-D</em><em>, </em><em>optional</em><em>, </em><em>default: None</em>) – The y-coordinates of the data points, i.e., f(<span class="math notranslate nohighlight">\(x\)</span>).
 Only used if <cite>coef</cite> is not provided.</p></li>
-<li><p><strong>coef</strong> (<em>array_like</em><em>, </em><em>1-D</em><em>, </em><em>optional</em>) – The backward differences list.
+<li><p><strong>coef</strong> (<em>array_like</em><em>, </em><em>1-D</em><em>, </em><em>optional</em><em>, </em><em>default: None</em>) – The backward differences list.
 If not provided, the function will compute the backward differences table
 using the <cite>backward_differences</cite>.</p></li>
 </ul>
@@ -144,11 +144,11 @@ proved by induction.</p>
 <p>Using a variable <span class="math notranslate nohighlight">\(s = \frac{x - x_n}{h}\)</span> we can rewrite the polynomial as:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\begin{gather}
-    P_n(x) = \sum_{k=0}^{n}
-    \frac{s(s+1)\ldots(s+k-1)}{k!} \nabla^k f(x_n) \\
+    P_n(x_n + th) = \sum_{k=0}^{n}
+    \frac{t(t+1)\ldots(t+k-1)}{k!} \nabla^k f(x_n) \\
     C^k_{-n} = \frac{-n(-n-1)\ldots(-n-k+1)}{k!} = (-1)^k
     \frac{n(n+1)\ldots(n+k-1)}{k!} \\
-    P_n(x) = \sum_{k=0}^{n} (-1)^k C^k_{-s} \nabla^k f(x_n) \\
+    P_n(x) = \sum_{k=0}^{n} (-1)^k C^k_{-t} \nabla^k f(x_n) \\
 \end{gather}\end{split}\]</div>
 <p>This method is beneficial for determining values of <span class="math notranslate nohighlight">\(x\)</span> at the end of the
 tabulated equally spaced set of values, i.e. <span class="math notranslate nohighlight">\(-1 &lt; t &lt; 0\)</span>. Also for

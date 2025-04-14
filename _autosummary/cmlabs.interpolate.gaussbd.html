@@ -101,7 +101,7 @@
 <dd><p>Gauss’s backward interpolation formula.</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\begin{aligned}
-    P_n(x) &amp;= \nabla^0 f(x_m) + \\
+    P_n(x_m + th) &amp;= \nabla^0 f(x_m) + \\
     &amp;+ \frac{t}{1!} \nabla^1 f(x_m) + \\
     &amp;+ \frac{t(t+1)}{2!} \nabla^2 f(x_{m+1}) + \\
     &amp;+ \frac{(t-1)t(t+1)}{3!} \nabla^3 f(x_{m+1}) + \\
@@ -116,11 +116,11 @@ and <span class="math notranslate nohighlight">\(t = \frac{x-x_m}{h}\)</span>.</
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>xvals</strong> (<em>array_like</em><em>, </em><em>1-D</em>) – The sorted x-coordinates of the data points.</p></li>
 <li><p><strong>x</strong> (<em>float</em>) – The x-coordinate at which to evaluate the polynomial.</p></li>
-<li><p><strong>yvals</strong> (<em>array_like</em><em>, </em><em>1-D</em><em>, </em><em>optional</em>) – The y-coordinates of the data points, i.e., <span class="math notranslate nohighlight">\(f(x)\)</span>.</p></li>
-<li><p><strong>coef</strong> (<em>array_like</em><em>, </em><em>2-D</em><em>, </em><em>optional</em>) – The backward differences table.
+<li><p><strong>yvals</strong> (<em>array_like</em><em>, </em><em>1-D</em><em>, </em><em>optional</em><em>, </em><em>default: None</em>) – The y-coordinates of the data points, i.e., <span class="math notranslate nohighlight">\(f(x)\)</span>.</p></li>
+<li><p><strong>coef</strong> (<em>array_like</em><em>, </em><em>2-D</em><em>, </em><em>optional</em><em>, </em><em>default: None</em>) – The backward differences table.
 If not provided, the function will compute the finite differences table
 using the <cite>finite_differences(yvals)</cite> function.</p></li>
-<li><p><strong>m</strong> (<em>int</em><em>, </em><em>optional</em>) – The index of the midpoint of the data points.</p></li>
+<li><p><strong>m</strong> (<em>int</em><em>, </em><em>optional</em><em>, </em><em>default: None</em>) – The index of the midpoint of the data points.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>

@@ -102,7 +102,7 @@
 <div class="math notranslate nohighlight">
 \[\begin{split}\begin{gather}
     P_n(x) = \sum_{k=0}^{n} \frac{\Delta^k f(x_0)}{k!h^k} \omega_k(x) \\
-    P_n(x) = \sum_{k=0}^{n} C^k_t \Delta^k f(x_0)
+    P_n(x_0 + th) = \sum_{k=0}^{n} C^k_t \Delta^k f(x_0)
 \end{gather}\end{split}\]</div>
 <p>where <span class="math notranslate nohighlight">\(\Delta^k f_0\)</span> is the forward difference of the function.</p>
 <dl class="field-list simple">
@@ -110,9 +110,9 @@
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>xvals</strong> (<em>array_like</em><em>, </em><em>1-D</em>) – The sorted x-coordinates of the data points.</p></li>
 <li><p><strong>x</strong> (<em>float</em>) – The x-coordinate at which to evaluate the polynomial.</p></li>
-<li><p><strong>yvals</strong> (<em>array_like</em><em>, </em><em>1-D</em><em>, </em><em>optional</em>) – The y-coordinates of the data points, i.e., f(<span class="math notranslate nohighlight">\(x\)</span>).
+<li><p><strong>yvals</strong> (<em>array_like</em><em>, </em><em>1-D</em><em>, </em><em>optional</em><em>, </em><em>default: None</em>) – The y-coordinates of the data points, i.e., f(<span class="math notranslate nohighlight">\(x\)</span>).
 Only used if <cite>coef</cite> is not provided.</p></li>
-<li><p><strong>coef</strong> (<em>array_like</em><em>, </em><em>1-D</em><em>, </em><em>optional</em>) – The forward differences list.
+<li><p><strong>coef</strong> (<em>array_like</em><em>, </em><em>1-D</em><em>, </em><em>optional</em><em>, </em><em>default: None</em>) – The forward differences list.
 If not provided, the function will compute the forward differences table
 using the <cite>forward_differences</cite>.</p></li>
 </ul>
@@ -144,10 +144,10 @@ proved by induction.</p>
 <p>Using a variable <span class="math notranslate nohighlight">\(t = \frac{x - x_0}{h}\)</span> we can rewrite the polynomial as:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\begin{gather}
-    P_n(x) = \sum_{k=0}^{n} \frac{t(t-1)\ldots(t-k+1)}{k!} \Delta^k f(x_0) \\
+    P_n(x_0 + th) = \sum_{k=0}^{n} \frac{t(t-1)\ldots(t-k+1)}{k!} \Delta^k f(x_0) \\
     C^k_n = \frac{n(n-1)\ldots(n-k+1)}{k!}, \quad k \geq 2, \quad C^0_n = 1,
     \quad C^1_n = n \\
-    P_n(x) = \sum_{k=0}^{n} C^k_t \Delta^k f(x_0) \\
+    P_n(x_0 + th) = \sum_{k=0}^{n} C^k_t \Delta^k f(x_0) \\
 \end{gather}\end{split}\]</div>
 <p>This method is beneficial for determining values of <span class="math notranslate nohighlight">\(x\)</span> at the
 beginning of a tabulated equally spaced set of values, i.e. <span class="math notranslate nohighlight">\(0 &lt; t &lt; 1\)</span>.
