@@ -15,6 +15,7 @@ from cmlabs.interpolate import (
     stirling,
     bessel,
     interpolate,
+    lagrange_derivative,
 )
 
 __all__ = [
@@ -24,7 +25,7 @@ __all__ = [
     "test_lagrange_remainder_2",
     "test_lagrange_compare_with_newton",
     "test_interpolate_remainder",
-    "test_lagrange_derative",
+    "test_lagrange_derivative",
     "test_lagrange_from_docs_example",
     "test_remainder_from_docs_example",
     "test_newton_from_docs_example",
@@ -543,7 +544,7 @@ def test_interpolate_remainder():
     assert r_min <= r_exp <= r_max, "Remainder is out of bounds"
 
 
-def test_lagrange_derative():
+def test_lagrange_derivative():
     r"""Lagrange derivative.
 
     .. math::
@@ -585,19 +586,23 @@ def test_lagrange_derative():
     --------
     lagrange
     remainder
+    lagrange_derivative
 
     Notes
     -----
     -
 
     Examples
-    -------
+    --------
     >>> # Test 8: Lagrange Derivative
     >>> # - X:  [0.5   0.556 0.611 ... 0.889 0.944 1.   ]
     >>> # - x_0 =  0.5
     >>> # - h = 0.05555555555555558
     >>> # - Y:  [0.102 0.148 0.194 ... 0.428 0.475 0.523]
     >>> # L_4_2(x_0) = 0.06947426144114938
+    >>> # OR WE CAN USE CUSTOM lagrange_derivative FUNCTION
+    >>> lagrange_derivative([0.5 ... 0.722], [0.102 ... 0.287], 0.5, k=2)
+    >>> # L_4_2(x_0) = 0.06947426144084545
     >>> # R_4_2_min = 6.1744127485294504e-06
     >>> # R_4_2_max = 1.5386508722671422e-05
     >>> # f''(x_0) = 0.06948711710452028
@@ -616,14 +621,20 @@ def test_lagrange_derative():
     h = df["X"][1] - df["X"][0]
     print(f"- h = {h}")
 
-    l_4_2 = (1 / h**2) * (
+    L_4_2 = (1 / h**2) * (
         (35 / 12) * df["Y"][0]
         - (26 / 3) * df["Y"][1]
         + (19 / 2) * df["Y"][2]
         - (14 / 3) * df["Y"][3]
         + (11 / 12) * df["Y"][4]
     )
-    print(f"L_4_2(x_0) = {l_4_2}")
+    print(f"L_4_2(x_0) = {L_4_2}")
+
+    print("OR WE CAN USE CUSTOM lagrange_derivative FUNCTION")
+    print(f">>> lagrange_derivative({df['X'][:5]}, {df['Y'][:5]}, {df['X'][0]}, k=2)")
+
+    L_4_2 = lagrange_derivative(df["X"][:5], df["Y"][:5], df["X"][0], k=2)
+    print(f"L_4_2(x_0) = {L_4_2}")
 
     r_4_2_min = abs(
         (-24 / ((df["X"][-1] + 2) ** 5 * np.log(10)))
@@ -648,7 +659,7 @@ def test_lagrange_derative():
     f_2 = 1 / ((df["X"][0] + 2) ** 2 * np.log(10))
     print(f"f''(x_0) = {f_2}")
 
-    r_4_2 = abs(l_4_2 - f_2)
+    r_4_2 = abs(L_4_2 - f_2)
     print(f"R_4_2 = {r_4_2}")
 
     print(f">>> {r_4_2_min} <= {r_4_2} <= {r_4_2_max}")
