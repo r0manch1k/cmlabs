@@ -11,6 +11,8 @@ Subpackages
 ::
 
  cmlabs.interpolate
+ cmlabs.differentiate
+ cmlabs.integrate
 """
 
 import importlib as _importlib
@@ -18,6 +20,8 @@ import importlib as _importlib
 
 submodules = [
     "interpolate",
+    "differentiate",
+    "integrate",
 ]
 
 __all__ = submodules + [

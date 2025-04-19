@@ -38,7 +38,6 @@ Finite differences interpolation
    stirling
    bessel
    interpolate
-   lagrange_derivative
 
 
 Tests
@@ -54,7 +53,6 @@ Tests
    test_lagrange_remainder_2
    test_lagrange_compare_with_newton
    test_interpolate_remainder
-   test_lagrange_derivative
    test_lagrange_from_docs_example
    test_remainder_from_docs_example
    test_newton_from_docs_example
