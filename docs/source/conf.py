@@ -39,6 +39,7 @@ extensions = [
     "sphinx_rtd_theme",
     "sphinx_autodoc_typehints",
     "matplotlib.sphinxext.plot_directive",
+    "sphinx_favicon",
 ]
 
 templates_path = ["_templates"]
@@ -51,3 +52,14 @@ exclude_patterns = []
 
 html_theme = "sphinx_rtd_theme"
 html_static_path = ["_static"]
+favicons = [
+    {"rel": "icon", "href": "icon.svg", "type": "image/svg+xml"},
+    {"rel": "icon", "sizes": "16x16", "href": "favicon-16x16.png", "type": "image/png"},
+    {"rel": "icon", "sizes": "32x32", "href": "favicon-32x32.png", "type": "image/png"},
+    {
+        "rel": "apple-touch-icon",
+        "sizes": "180x180",
+        "href": "apple-touch-icon.png",
+        "type": "image/png",
+    },
+]
