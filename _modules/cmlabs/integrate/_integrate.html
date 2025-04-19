@@ -1,0 +1,629 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cmlabs.integrate._integrate &mdash; cmlabs 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            cmlabs
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../cmlabs.interpolate.html">Interpolation (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.interpolate</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cmlabs.differentiate.html">Differentiation (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.differentiate</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cmlabs.integrate.html">Integration (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.integrate</span></code>)</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">cmlabs</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">cmlabs.integrate._integrate</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for cmlabs.integrate._integrate</h1><div class="highlight"><pre>
+<span></span><span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;rectangle&quot;</span><span class="p">,</span> <span class="s2">&quot;midpoint&quot;</span><span class="p">,</span> <span class="s2">&quot;trapezoid&quot;</span><span class="p">,</span> <span class="s2">&quot;simpsonq&quot;</span><span class="p">,</span> <span class="s2">&quot;simpsonc&quot;</span><span class="p">,</span> <span class="s2">&quot;weddles&quot;</span><span class="p">]</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+
+<div class="viewcode-block" id="rectangle">
+<a class="viewcode-back" href="../../../_autosummary/cmlabs.integrate.rectangle.html#cmlabs.integrate.rectangle">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">rectangle</span><span class="p">(</span>
+    <span class="n">xvals</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">yvals</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;left&quot;</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Composite rectangle method for numerical integration.</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \begin{gather}</span>
+<span class="sd">            \int_{a}^{b} f(x) \, dx \approx \sum_{i=0}^{n-1} f(x_i)</span>
+<span class="sd">            \cdot (x_{i+1} - x_i) \\</span>
+<span class="sd">            \int_{a}^{b} f(x) \, dx \approx \sum_{i=1}^{n} f(x_i) \cdot (x_i - x_{i-1})</span>
+<span class="sd">        \end{gather}</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    xvals : array_like, 1-D</span>
+<span class="sd">        The sorted x-coordinates of the data points.</span>
+<span class="sd">    yvals : array_like, 1-D</span>
+<span class="sd">        The y-coordinates of the data points, i.e., :math:`f(x)`.</span>
+<span class="sd">    method : str, optional, default: &#39;left&#39;</span>
+<span class="sd">        The method to use for the rectangle rule. Options are:</span>
+
+<span class="sd">          * &#39;left&#39;</span>
+<span class="sd">          * &#39;right&#39;</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        The approximate value of the integral.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The rectangle rule approximates the area under the curve by dividing it into</span>
+<span class="sd">    rectangles. The height of each rectangle is determined by the function value</span>
+<span class="sd">    at the left or right endpoint of the interval, depending on the chosen method.</span>
+
+<span class="sd">    These methods are first-order accurate. The error is approximately:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \begin{gather}</span>
+<span class="sd">            |R_n(f)| \leq \frac{M(b-a)}{2} h, \\</span>
+<span class="sd">            \max_{x \in [a, b]} |f&#39;(x)| \leq M</span>
+<span class="sd">        \end{gather}</span>
+
+<span class="sd">    where :math:`h` is the width of the rectangles and depends on the number of</span>
+<span class="sd">    intervals :math:`n`.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; # import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; # from cmlabs.integrate import rectangle</span>
+<span class="sd">    &gt;&gt;&gt; # xvals = np.array([0, 1, 2, 3])</span>
+<span class="sd">    &gt;&gt;&gt; # yvals = np.array([0, 1, 4, 9])</span>
+<span class="sd">    &gt;&gt;&gt; rectangle(xvals, yvals, method=&#39;left&#39;)</span>
+<span class="sd">    5.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">xvals</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">yvals</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;xvals and yvals must have the same length.&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">xvals</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;At least two points are required for integration.&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">method</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="s2">&quot;right&quot;</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Method must be &#39;left&#39; or &#39;right&#39;.&quot;</span><span class="p">)</span>
+
+    <span class="n">dx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">xvals</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;left&quot;</span><span class="p">:</span>
+        <span class="n">heights</span> <span class="o">=</span> <span class="n">yvals</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;right&quot;</span><span class="p">:</span>
+        <span class="n">heights</span> <span class="o">=</span> <span class="n">yvals</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+
+    <span class="n">areas</span> <span class="o">=</span> <span class="n">heights</span> <span class="o">*</span> <span class="n">dx</span>
+    <span class="n">integral</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">areas</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">integral</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="midpoint">
+<a class="viewcode-back" href="../../../_autosummary/cmlabs.integrate.midpoint.html#cmlabs.integrate.midpoint">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">midpoint</span><span class="p">(</span>
+    <span class="n">xvals</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">yvals</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Composite midpoint method for numerical integration.</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \begin{gather}</span>
+<span class="sd">            \int_{a}^{b} f(x) \, dx \approx \sum_{i=0}^{n-1}</span>
+<span class="sd">            f\left(\frac{x_i + x_{i+1}}{2}\right) (x_{i+1} - x_i)</span>
+<span class="sd">        \end{gather}</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    xvals : array_like, 1-D</span>
+<span class="sd">        The sorted x-coordinates of the data points.</span>
+<span class="sd">    yvals : array_like, 1-D</span>
+<span class="sd">        The y-coordinates of the data points, i.e., :math:`f(x)`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        The approximate value of the integral.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The midpoint rule approximates the area under the curve by dividing it into</span>
+<span class="sd">    rectangles. The height of each rectangle is determined by the function value</span>
+<span class="sd">    at the midpoint of the interval.</span>
+
+<span class="sd">    The :math:`\textit{xvals}` array is treated as</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        [x_0, x_{\frac{1}{2}}, x_1, x_{\frac{3}{2}}, x_2, \ldots, x_{\frac{n}{2}}]</span>
+
+<span class="sd">    so :math:`n` must be even. The same with the :math:`\textit{yvals}` array.</span>
+
+<span class="sd">    This method is second-order accurate. The error is approximately:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        |R_n(f)| \leq \frac{M(b-a)}{24} h^2, \quad \max_{x \in [a, b]} |f&#39;&#39;(x)| \leq M</span>
+
+<span class="sd">    where :math:`h` is the width of the rectangles and depends on the number of</span>
+<span class="sd">    intervals :math:`n`.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; # import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; # from cmlabs.integrate import midpoint</span>
+<span class="sd">    &gt;&gt;&gt; # xvals = np.array([0, 1, 2, 3, 4])</span>
+<span class="sd">    &gt;&gt;&gt; # yvals = np.array([0, 1, 4, 9, 16])</span>
+<span class="sd">    &gt;&gt;&gt; midpoint(xvals, yvals)</span>
+<span class="sd">    20.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">xvals</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">yvals</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;xvals and yvals must have the same length.&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">xvals</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;At least two points are required for integration.&quot;</span><span class="p">)</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">xvals</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+
+    <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;xvals must fit midpoint rule formula.&quot;</span><span class="p">)</span>
+
+    <span class="n">integral</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
+        <span class="n">integral</span> <span class="o">+=</span> <span class="p">(</span><span class="n">xvals</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">xvals</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span> <span class="o">*</span> <span class="n">yvals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">integral</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="trapezoid">
+<a class="viewcode-back" href="../../../_autosummary/cmlabs.integrate.trapezoid.html#cmlabs.integrate.trapezoid">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">trapezoid</span><span class="p">(</span>
+    <span class="n">xvals</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">yvals</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Composite trapezoid method for numerical integration.</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \begin{gather}</span>
+<span class="sd">            \int_{a}^{b} f(x) \, dx \approx \sum_{i=0}^{n-1}</span>
+<span class="sd">            \frac{f(x_i) + f(x_{i+1})}{2} (x_{i+1} - x_i)</span>
+<span class="sd">        \end{gather}</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    xvals : array_like, 1-D</span>
+<span class="sd">        The sorted x-coordinates of the data points.</span>
+<span class="sd">    yvals : array_like, 1-D</span>
+<span class="sd">        The y-coordinates of the data points, i.e., :math:`f(x)`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        The approximate value of the integral.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The trapezoid rule approximates the area under the curve by dividing it into</span>
+<span class="sd">    trapezoids. The height of each trapezoid is determined by the function value</span>
+<span class="sd">    at the endpoints of the interval.</span>
+
+<span class="sd">    This method is second-order accurate. The error is approximately:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        |R_n(f)| \leq \frac{M(b-a)}{12} h^2, \quad \max_{x \in [a, b]} |f&#39;&#39;(x)| \leq M</span>
+
+<span class="sd">    where :math:`h` is the width of the rectangles and depends on the number of</span>
+<span class="sd">    intervals :math:`n`.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; # import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; # from cmlabs.integrate import trapezoid</span>
+<span class="sd">    &gt;&gt;&gt; # xvals = np.array([0, 1, 2, 3])</span>
+<span class="sd">    &gt;&gt;&gt; # yvals = np.array([0, 1, 4, 9])</span>
+<span class="sd">    &gt;&gt;&gt; trapezoid(xvals, yvals)</span>
+<span class="sd">    9.5</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">xvals</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">yvals</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;xvals and yvals must have the same length.&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">xvals</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;At least two points are required for integration.&quot;</span><span class="p">)</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">xvals</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+
+    <span class="n">integral</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">integral</span> <span class="o">+=</span> <span class="p">(</span><span class="n">xvals</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">xvals</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">*</span> <span class="p">(</span><span class="n">yvals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">yvals</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="mf">2.0</span>
+
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">integral</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="simpsonq">
+<a class="viewcode-back" href="../../../_autosummary/cmlabs.integrate.simpsonq.html#cmlabs.integrate.simpsonq">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">simpsonq</span><span class="p">(</span>
+    <span class="n">xvals</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">yvals</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Composite Simpson&#39;s 1/3 method using quadratic polynomial.</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \begin{gather}</span>
+<span class="sd">            \int_{a}^{b} f(x) \, dx \approx \sum_{i=0}^{n-1}</span>
+<span class="sd">            \frac{h}{3} \left[</span>
+<span class="sd">            f(x_i) + 4f\left(\frac{x_i + x_{i+1}}{2}\right) + f(x_{i+1})\right]</span>
+<span class="sd">        \end{gather}</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    xvals : array_like, 1-D</span>
+<span class="sd">        The sorted x-coordinates of the data points.</span>
+<span class="sd">    yvals : array_like, 1-D</span>
+<span class="sd">        The y-coordinates of the data points, i.e., :math:`f(x)`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        The approximate value of the integral.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Simpson&#39;s 1/3 rule approximates the area under the curve by dividing it into</span>
+<span class="sd">    parabolas. The height of each parabola is determined by the function value</span>
+<span class="sd">    at the endpoints and the midpoint of the interval.</span>
+
+<span class="sd">    This method is fourth-order accurate. The error is approximately:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \begin{gather}</span>
+<span class="sd">            R_{2,i}(f) = \int_{x_i}^{x_{i+1}} \left(f(x) - L_{2, i}(x) \right) dx</span>
+<span class="sd">            = -\frac{h^5}{90}f^{(4)}(\xi_i) \\</span>
+<span class="sd">            R_n(f) = \sum_{i=0}^{n-1} R_{2,i}(f) =</span>
+<span class="sd">            \sum_{i=0}^{n-1} - \frac{h^5}{90}f^{(4)}(\xi_i),</span>
+<span class="sd">            \quad \xi_i \in [x_i, x_{i+1}] \\</span>
+<span class="sd">            R_n(f) = -\frac{h^5}{90} \cdot \frac{b-a}{2h} f^{(4)}(\xi) =</span>
+<span class="sd">            -\frac{f(\xi)(b-a)}{180} h^4, \quad \xi \in [a, b] \\</span>
+<span class="sd">            |R_n(f)| \leq \frac{M(b-a)}{180} h^4,</span>
+<span class="sd">            \quad \max_{x \in [a, b]} |f^{(4)}(x)| \leq M</span>
+<span class="sd">        \end{gather}</span>
+
+<span class="sd">    where :math:`h` is the width of the rectangles and depends on the number of</span>
+<span class="sd">    intervals :math:`n`.</span>
+
+<span class="sd">    The :math:`\textit{xvals}` array is treated as</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        [x_0, x_{\frac{1}{2}}, x_1, x_{\frac{3}{2}}, x_2, \ldots, x_{\frac{n}{2}}]</span>
+
+<span class="sd">    so :math:`n` must be even. The same with the :math:`\textit{yvals}` array.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; # import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; # from cmlabs.integrate import simpsonq</span>
+<span class="sd">    &gt;&gt;&gt; # xvals = np.array([0, 1, 2, 3, 4])</span>
+<span class="sd">    &gt;&gt;&gt; # yvals = np.array([0, 1, 4, 9, 16])</span>
+<span class="sd">    &gt;&gt;&gt; simpsonq(xvals, yvals)</span>
+<span class="sd">    21.333333333333332</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">xvals</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">yvals</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;xvals and yvals must have the same length.&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">xvals</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;At least two points are required for integration.&quot;</span><span class="p">)</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">xvals</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+
+    <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;xvals must fit Simpson&#39;s 1/3 rule formula.&quot;</span><span class="p">)</span>
+
+    <span class="n">h</span> <span class="o">=</span> <span class="p">(</span><span class="n">xvals</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">xvals</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="n">n</span>
+
+    <span class="n">integral</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
+        <span class="n">integral</span> <span class="o">+=</span> <span class="n">yvals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">yvals</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">yvals</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span>
+
+    <span class="n">integral</span> <span class="o">*=</span> <span class="n">h</span> <span class="o">/</span> <span class="mi">3</span>
+
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">integral</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="simpsonc">
+<a class="viewcode-back" href="../../../_autosummary/cmlabs.integrate.simpsonc.html#cmlabs.integrate.simpsonc">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">simpsonc</span><span class="p">(</span>
+    <span class="n">xvals</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">yvals</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Composite Simpson&#39;s 3/8 method using cubic polynomial.</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \begin{gather}</span>
+<span class="sd">            \int_{a}^{b} f(x) \, dx \approx \sum_{i=0}^{n-1}</span>
+<span class="sd">            \frac{3h}{8} \left[</span>
+<span class="sd">            f(x_i) + 3f\left(\frac{x_i + x_{i+1}}{3}\right) +</span>
+<span class="sd">            3f\left(\frac{2(x_i + x_{i+1})}{3}\right) + f(x_{i+1})\right]</span>
+<span class="sd">        \end{gather}</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    xvals : array_like, 1-D</span>
+<span class="sd">        The sorted x-coordinates of the data points.</span>
+<span class="sd">    yvals : array_like, 1-D</span>
+<span class="sd">        The y-coordinates of the data points, i.e., :math:`f(x)`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        The approximate value of the integral.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Simpson&#39;s 3/8 rule approximates the area under the curve by dividing it into</span>
+<span class="sd">    cubic polynomials. The height of each polynomial is determined by the function</span>
+<span class="sd">    value at the endpoints and midpoints of the interval.</span>
+
+<span class="sd">    This method is fourth-order accurate. The error is approximately:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \begin{gather}</span>
+<span class="sd">            R_{3,i}(f) = \int_{x_i}^{x_{i+1}} \left(f(x) - L_{3, i}(x) \right) dx</span>
+<span class="sd">            = -\frac{3h^5}{80}f^{(4)}(\xi_i) \\</span>
+<span class="sd">            R_n(f) = \sum_{i=0}^{n-1} R_{3,i}(f) =</span>
+<span class="sd">            \sum_{i=0}^{n-1} - \frac{3h^5}{80}f^{(4)}(\xi_i),</span>
+<span class="sd">            \quad \xi_i \in [x_i, x_{i+1}] \\</span>
+<span class="sd">            R_n(f) = -\frac{3h^5}{80} \cdot \frac{b-a}{3h} f^{(4)}(\xi) =</span>
+<span class="sd">            -\frac{f^{(4)}(\xi)(b-a)}{80} h^4, \quad \xi \in [a, b] \\</span>
+<span class="sd">            \quad \xi \in [a, b] \\</span>
+<span class="sd">            |R_n(f)| \leq \frac{M(b-a)}{80} h^4,</span>
+<span class="sd">            \quad \max_{x \in [a, b]} |f^{(4)}(x)| \leq M</span>
+<span class="sd">        \end{gather}</span>
+
+<span class="sd">    where :math:`h` is the width of the rectangles and depends on the number of</span>
+<span class="sd">    intervals :math:`n`.</span>
+
+<span class="sd">    The :math:`\textit{xvals}` array is treated as</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        [x_0, x_{\frac{1}{3}}, x_{\frac{2}{3}}, x_1, x_{\frac{4}{3}},</span>
+<span class="sd">        x_{\frac{5}{3}}, x_2, \ldots, x_{\frac{n}{3}}]</span>
+
+<span class="sd">    so :math:`n` must be a multiple of 3. The same with the :math:`\textit{yvals}`</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; # import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; # from cmlabs.integrate import simpsonc</span>
+<span class="sd">    &gt;&gt;&gt; # xvals = np.array([0, 1, 2, 3, 4, 5, 6])</span>
+<span class="sd">    &gt;&gt;&gt; # yvals = np.array([0, 1, 4, 9, 16, 25, 36])</span>
+<span class="sd">    &gt;&gt;&gt; simpsonc(xvals, yvals)</span>
+<span class="sd">    72.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">xvals</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">yvals</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;xvals and yvals must have the same length.&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">xvals</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;At least two points are required for integration.&quot;</span><span class="p">)</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">xvals</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+
+    <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;xvals must fit Simpson&#39;s 3/8 rule formula.&quot;</span><span class="p">)</span>
+
+    <span class="n">h</span> <span class="o">=</span> <span class="p">(</span><span class="n">xvals</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">xvals</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="n">n</span>
+
+    <span class="n">integral</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="mi">3</span><span class="p">):</span>
+        <span class="n">integral</span> <span class="o">+=</span> <span class="n">yvals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">yvals</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">yvals</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">yvals</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">3</span><span class="p">]</span>
+
+    <span class="n">integral</span> <span class="o">*=</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">h</span> <span class="o">/</span> <span class="mi">8</span>
+
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">integral</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="weddles">
+<a class="viewcode-back" href="../../../_autosummary/cmlabs.integrate.weddles.html#cmlabs.integrate.weddles">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">weddles</span><span class="p">(</span>
+    <span class="n">xvals</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">yvals</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Composite Weddle&#39;s method for numerical integration.</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \begin{aligned}</span>
+<span class="sd">            \int_{a}^{b} f(x) \, dx &amp; \approx \sum_{i=0}^{n-1}</span>
+<span class="sd">            \frac{3h}{10} \bigg[f(x_i) + 5f\left(\frac{x_i + x_{i+1}}{6}\right) +</span>
+<span class="sd">            f\left(\frac{2(x_i + x_{i+1})}{6}\right) + \\</span>
+<span class="sd">            &amp; \quad + 6f\left(\frac{3(x_i + x_{i+1})}{6}\right) +</span>
+<span class="sd">            f\left(\frac{4(x_i + x_{i+1})}{6}\right) +</span>
+<span class="sd">            5f\left(\frac{5(x_i + x_{i+1})}{6}\right) +</span>
+<span class="sd">            f(x_{i+1})\bigg]</span>
+<span class="sd">        \end{aligned}</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    xvals : array_like, 1-D</span>
+<span class="sd">        The sorted x-coordinates of the data points.</span>
+<span class="sd">    yvals : array_like, 1-D</span>
+<span class="sd">        The y-coordinates of the data points, i.e., :math:`f(x)`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        The approximate value of the integral.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Weddle&#39;s rule approximates the area under the curve by dividing it into</span>
+<span class="sd">    parabolas. The height of each parabola is determined by the function value</span>
+<span class="sd">    at the endpoints and the midpoint of the interval.</span>
+
+<span class="sd">    This method is sixth-order accurate. The error is approximately:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        |R_n(f)| \leq \frac{M(b-a)}{1400} h^6,</span>
+<span class="sd">        \quad \max_{x \in [a, b]} |f^{(6)}(x)| \leq M</span>
+
+<span class="sd">    where :math:`h` is the width of the rectangles and depends on the number of</span>
+<span class="sd">    intervals :math:`n`.</span>
+
+<span class="sd">    The :math:`\textit{xvals}` array is treated as</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        [x_0, x_{\frac{1}{6}}, x_{\frac{2}{6}}, x_{\frac{3}{6}},</span>
+<span class="sd">        x_{\frac{4}{6}}, x_{\frac{5}{6}}, x_1, \ldots, x_{\frac{n}{6}}]</span>
+
+<span class="sd">    so :math:`n` must be a multiple of 6. The same with the :math:`\textit{yvals}`</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; # import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; # from cmlabs.integrate import weddles</span>
+<span class="sd">    &gt;&gt;&gt; # xvals = np.array([0, 1, 2, 3, 4, 5, 6])</span>
+<span class="sd">    &gt;&gt;&gt; # yvals = np.array([0, 1, 4, 9, 16, 25, 36])</span>
+<span class="sd">    &gt;&gt;&gt; weddles(xvals, yvals)</span>
+<span class="sd">    72.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">xvals</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">yvals</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;xvals and yvals must have the same length.&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">xvals</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;At least two points are required for integration.&quot;</span><span class="p">)</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">xvals</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+
+    <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">6</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;xvals must fit Weddle&#39;s rule formula.&quot;</span><span class="p">)</span>
+
+    <span class="n">h</span> <span class="o">=</span> <span class="p">(</span><span class="n">xvals</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">xvals</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="n">n</span>
+
+    <span class="n">integral</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="mi">6</span><span class="p">):</span>
+        <span class="n">integral</span> <span class="o">+=</span> <span class="p">(</span>
+            <span class="n">yvals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="o">+</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">yvals</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="o">+</span> <span class="n">yvals</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span>
+            <span class="o">+</span> <span class="mi">6</span> <span class="o">*</span> <span class="n">yvals</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">3</span><span class="p">]</span>
+            <span class="o">+</span> <span class="n">yvals</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">4</span><span class="p">]</span>
+            <span class="o">+</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">yvals</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">5</span><span class="p">]</span>
+            <span class="o">+</span> <span class="n">yvals</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">6</span><span class="p">]</span>
+        <span class="p">)</span>
+
+    <span class="n">integral</span> <span class="o">*=</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">h</span> <span class="o">/</span> <span class="mi">10</span>
+
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">integral</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Roman Sokolovsky.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

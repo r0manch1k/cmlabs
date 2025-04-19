@@ -42,6 +42,8 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../cmlabs.interpolate.html">Interpolation (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.interpolate</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cmlabs.differentiate.html">Differentiation (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.differentiate</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cmlabs.integrate.html">Integration (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.integrate</span></code>)</a></li>
 </ul>
 
         </div>
@@ -84,13 +86,11 @@
     <span class="s2">&quot;stirling&quot;</span><span class="p">,</span>
     <span class="s2">&quot;bessel&quot;</span><span class="p">,</span>
     <span class="s2">&quot;interpolate&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;lagrange_derivative&quot;</span><span class="p">,</span>
 <span class="p">]</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">scipy.special</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sps</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">itertools</span>
 
 
 <div class="viewcode-block" id="lagrange">
@@ -1338,63 +1338,6 @@
         <span class="n">lagrange</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">yvals</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Something went wrong, please check the input values.&quot;</span><span class="p">)</span></div>
-
-
-
-<div class="viewcode-block" id="lagrange_derivative">
-<a class="viewcode-back" href="../../../_autosummary/cmlabs.interpolate.lagrange_derivative.html#cmlabs.interpolate.lagrange_derivative">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">lagrange_derivative</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">yvals</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Return the k-th derivative of the Lagrange polynomial.</span>
-
-<span class="sd">    .. math::</span>
-
-<span class="sd">        \begin{gather}</span>
-<span class="sd">            L_n^{(k)}(x) = \sum_{i=0}^{n} f(x_i) l_i^{(k)}(x) \\</span>
-<span class="sd">            l_i^{(k)}(x) = \left(\prod_{j=0, j \neq i}^{n}</span>
-<span class="sd">            \frac{x - x_j}{x_i - x_j}\right)^{(k)}</span>
-<span class="sd">        \end{gather}</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    xvals : array_like, 1-D</span>
-<span class="sd">        The sorted x-coordinates of the data points.</span>
-<span class="sd">    yvals : array_like, 1-D</span>
-<span class="sd">        The y-coordinates of the data points, i.e., f(:math:`x`).</span>
-<span class="sd">    x : float</span>
-<span class="sd">        The x-coordinate at which to evaluate the polynomial.</span>
-<span class="sd">    k : int</span>
-<span class="sd">        The order of the derivative.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    res: float</span>
-<span class="sd">        The value of the k-th derivative of the polynomial at :math:`x`.</span>
-
-<span class="sd">    See Also</span>
-<span class="sd">    --------</span>
-<span class="sd">    lagrange</span>
-
-<span class="sd">    Notes</span>
-<span class="sd">    -----</span>
-<span class="sd">    This function might be slow but it is useful for testing purposes.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">lagrange_basis_kth_derivative_numerator</span><span class="p">(</span><span class="n">indexes</span><span class="p">,</span> <span class="n">kth</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">kth</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">([(</span><span class="n">x</span> <span class="o">-</span> <span class="n">xvals</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">indexes</span><span class="p">])</span>
-        <span class="n">numerator</span> <span class="o">=</span> <span class="mf">0.0</span>
-        <span class="k">for</span> <span class="n">indexes_</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="n">indexes</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">indexes</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
-            <span class="n">numerator</span> <span class="o">+=</span> <span class="n">lagrange_basis_kth_derivative_numerator</span><span class="p">(</span><span class="n">indexes_</span><span class="p">,</span> <span class="n">kth</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">numerator</span>
-
-    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">xvals</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
-    <span class="n">res</span> <span class="o">=</span> <span class="mf">0.0</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-        <span class="n">indexes</span> <span class="o">=</span> <span class="p">[</span><span class="n">j</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">if</span> <span class="n">j</span> <span class="o">!=</span> <span class="n">i</span><span class="p">]</span>
-        <span class="n">li_derivative</span> <span class="o">=</span> <span class="n">lagrange_basis_kth_derivative_numerator</span><span class="p">(</span><span class="n">indexes</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
-        <span class="n">denumerator</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">([(</span><span class="n">xvals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">xvals</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">indexes</span><span class="p">])</span>
-        <span class="n">res</span> <span class="o">+=</span> <span class="p">(</span><span class="n">yvals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">li_derivative</span><span class="p">)</span> <span class="o">/</span> <span class="n">denumerator</span>
-    <span class="k">return</span> <span class="n">res</span></div>
 
 </pre></div>
 

@@ -9,7 +9,7 @@
     <link rel="icon" sizes="32x32" href="../_static/favicon-32x32.png" type="image/png">
     <link rel="apple-touch-icon" sizes="180x180" href="../_static/apple-touch-icon.png" type="image/png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>cmlabs.interpolate.lagrange_derivative &mdash; cmlabs 0.0.1 documentation</title>
+  <title>cmlabs.differentiate.lagrange_derivative &mdash; cmlabs 0.0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
@@ -24,8 +24,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="cmlabs.interpolate.test_lagrange_degree" href="cmlabs.interpolate.test_lagrange_degree.html" />
-    <link rel="prev" title="cmlabs.interpolate.interpolate" href="cmlabs.interpolate.interpolate.html" /> 
+    <link rel="next" title="cmlabs.differentiate.test_lagrange_derivative" href="cmlabs.differentiate.test_lagrange_derivative.html" />
+    <link rel="prev" title="Differentiation (cmlabs.differentiate)" href="../cmlabs.differentiate.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -48,28 +48,19 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="../cmlabs.interpolate.html">Interpolation (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.interpolate</span></code>)</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="../cmlabs.interpolate.html#lagrange-newton-interpolation">Lagrange/Newton interpolation</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="../cmlabs.interpolate.html#finite-differences-interpolation">Finite differences interpolation</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.finite_differences.html">cmlabs.interpolate.finite_differences</a></li>
-<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.forward_differences.html">cmlabs.interpolate.forward_differences</a></li>
-<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.backward_differences.html">cmlabs.interpolate.backward_differences</a></li>
-<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.newtonfd.html">cmlabs.interpolate.newtonfd</a></li>
-<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.newtonbd.html">cmlabs.interpolate.newtonbd</a></li>
-<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.gaussfd.html">cmlabs.interpolate.gaussfd</a></li>
-<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.gaussbd.html">cmlabs.interpolate.gaussbd</a></li>
-<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.stirling.html">cmlabs.interpolate.stirling</a></li>
-<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.bessel.html">cmlabs.interpolate.bessel</a></li>
-<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.interpolate.html">cmlabs.interpolate.interpolate</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">cmlabs.interpolate.lagrange_derivative</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#cmlabs.interpolate.lagrange_derivative"><code class="docutils literal notranslate"><span class="pre">lagrange_derivative()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cmlabs.interpolate.html">Interpolation (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.interpolate</span></code>)</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../cmlabs.differentiate.html">Differentiation (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.differentiate</span></code>)</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../cmlabs.differentiate.html#lagrange-differentiation">Lagrange differentiation</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">cmlabs.differentiate.lagrange_derivative</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cmlabs.differentiate.lagrange_derivative"><code class="docutils literal notranslate"><span class="pre">lagrange_derivative()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../cmlabs.interpolate.html#tests">Tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cmlabs.differentiate.html#tests">Tests</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../cmlabs.integrate.html">Integration (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.integrate</span></code>)</a></li>
 </ul>
 
         </div>
@@ -86,10 +77,10 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="../cmlabs.interpolate.html">Interpolation (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.interpolate</span></code>)</a></li>
-      <li class="breadcrumb-item active">cmlabs.interpolate.lagrange_derivative</li>
+          <li class="breadcrumb-item"><a href="../cmlabs.differentiate.html">Differentiation (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.differentiate</span></code>)</a></li>
+      <li class="breadcrumb-item active">cmlabs.differentiate.lagrange_derivative</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/_autosummary/cmlabs.interpolate.lagrange_derivative.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/_autosummary/cmlabs.differentiate.lagrange_derivative.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -97,11 +88,11 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="cmlabs-interpolate-lagrange-derivative">
-<h1>cmlabs.interpolate.lagrange_derivative<a class="headerlink" href="#cmlabs-interpolate-lagrange-derivative" title="Link to this heading"></a></h1>
+  <section id="cmlabs-differentiate-lagrange-derivative">
+<h1>cmlabs.differentiate.lagrange_derivative<a class="headerlink" href="#cmlabs-differentiate-lagrange-derivative" title="Link to this heading"></a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="cmlabs.interpolate.lagrange_derivative">
-<span class="sig-prename descclassname"><span class="pre">cmlabs.interpolate.</span></span><span class="sig-name descname"><span class="pre">lagrange_derivative</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xvals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yvals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cmlabs/interpolate/_interpolate.html#lagrange_derivative"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmlabs.interpolate.lagrange_derivative" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="cmlabs.differentiate.lagrange_derivative">
+<span class="sig-prename descclassname"><span class="pre">cmlabs.differentiate.</span></span><span class="sig-name descname"><span class="pre">lagrange_derivative</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xvals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yvals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cmlabs/differentiate/_differentiate.html#lagrange_derivative"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmlabs.differentiate.lagrange_derivative" title="Link to this definition"></a></dt>
 <dd><p>Return the k-th derivative of the Lagrange polynomial.</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\begin{gather}
@@ -127,7 +118,7 @@
 </dl>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p><a class="reference internal" href="cmlabs.interpolate.lagrange.html#cmlabs.interpolate.lagrange" title="cmlabs.interpolate.lagrange"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lagrange</span></code></a></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">lagrange</span></code></p>
 </div>
 <p class="rubric">Notes</p>
 <p>This function might be slow but it is useful for testing purposes.</p>
@@ -139,8 +130,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="cmlabs.interpolate.interpolate.html" class="btn btn-neutral float-left" title="cmlabs.interpolate.interpolate" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="cmlabs.interpolate.test_lagrange_degree.html" class="btn btn-neutral float-right" title="cmlabs.interpolate.test_lagrange_degree" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../cmlabs.differentiate.html" class="btn btn-neutral float-left" title="Differentiation (cmlabs.differentiate)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="cmlabs.differentiate.test_lagrange_derivative.html" class="btn btn-neutral float-right" title="cmlabs.differentiate.test_lagrange_derivative" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

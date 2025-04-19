@@ -1,0 +1,398 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cmlabs.integrate.tests.test_integrate &mdash; cmlabs 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/plot_directive.css" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            cmlabs
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../cmlabs.interpolate.html">Interpolation (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.interpolate</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../cmlabs.differentiate.html">Differentiation (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.differentiate</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../cmlabs.integrate.html">Integration (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.integrate</span></code>)</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">cmlabs</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">cmlabs.integrate.tests.test_integrate</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for cmlabs.integrate.tests.test_integrate</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">cmlabs.integrate</span><span class="w"> </span><span class="kn">import</span> <span class="n">rectangle</span><span class="p">,</span> <span class="n">midpoint</span><span class="p">,</span> <span class="n">trapezoid</span><span class="p">,</span> <span class="n">simpsonq</span><span class="p">,</span> <span class="n">simpsonc</span><span class="p">,</span> <span class="n">weddles</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;test_rectangle_error&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;test_rectangle_from_docs_example&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;test_midpoint_from_docs_example&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;test_trapezoid_from_docs_example&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;test_simpsonq_from_docs_example&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;test_simpsonc_from_docs_example&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;test_weddles_from_docs_example&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Test function for Lagrange interpolation.</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        f(x) = x - \log_{10}(x + 2)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
+
+
+<span class="n">df</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="n">f</span><span class="p">,</span>
+    <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span>
+    <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">&quot;eps&quot;</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>
+    <span class="s2">&quot;x*&quot;</span><span class="p">:</span> <span class="mf">0.77</span><span class="p">,</span>
+    <span class="s2">&quot;x**&quot;</span><span class="p">:</span> <span class="mf">0.52</span><span class="p">,</span>
+    <span class="s2">&quot;x***&quot;</span><span class="p">:</span> <span class="mf">0.97</span><span class="p">,</span>
+    <span class="s2">&quot;x****&quot;</span><span class="p">:</span> <span class="mf">0.73</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">set_printoptions</span><span class="p">(</span><span class="n">threshold</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">suppress</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="test_rectangle_error">
+<a class="viewcode-back" href="../../../../_autosummary/cmlabs.integrate.test_rectangle_error.html#cmlabs.integrate.test_rectangle_error">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_rectangle_error</span><span class="p">():</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Reach accuracy :math:`\epsilon` error for rectangle rule.</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \begin{gather}</span>
+<span class="sd">            |I_n - I_{2n}| \leq \epsilon, \\</span>
+<span class="sd">            |I_{2n} - I_{4n}| \leq \epsilon, \\</span>
+<span class="sd">            \ldots \\</span>
+<span class="sd">            |I_{2^k n} - I_{2^{k+1} n}| \leq \epsilon, \\</span>
+<span class="sd">        \end{gather}</span>
+
+<span class="sd">    where :math:`I_n` is the integral of the function :math:`f(x)` over the interval</span>
+<span class="sd">    :math:`[a, b]` using the rectangle rule with :math:`n`</span>
+<span class="sd">    subintervals, and :math:`\epsilon` is the desired accuracy.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \begin{gather}</span>
+<span class="sd">            \int_a^b f(x) \, dx = \int_{0.5}^{1} x - \log_{10}(x + 2) \, dx \\</span>
+<span class="sd">            = \frac{1\ln{10} + 20\ln{5} - 24\ln{3} - 20\ln{2} + 4}{8\ln{10}} \\</span>
+<span class="sd">            \approx 0.1556335</span>
+<span class="sd">        \end{gather}</span>
+
+<span class="sd">    Results</span>
+<span class="sd">    -------</span>
+<span class="sd">    &gt;&gt;&gt; # Test 1: Rectangle Rule Error</span>
+<span class="sd">    &gt;&gt;&gt; # - f(x) = x - lg(x + 2)</span>
+<span class="sd">    &gt;&gt;&gt; # - X_n:  [0.5   0.625 0.75  0.875 1.   ]</span>
+<span class="sd">    &gt;&gt;&gt; # - Y_1:  [0.102 0.206 0.311 0.416 0.523]</span>
+<span class="sd">    &gt;&gt;&gt; # - X_2n:  [0.5   0.556 0.611 ... 0.889 0.944 1.   ]</span>
+<span class="sd">    &gt;&gt;&gt; # - Y_2n:  [0.102 0.148 0.194 ... 0.428 0.475 0.523]</span>
+<span class="sd">    &gt;&gt;&gt; rectangle(X_n, Y_n, method=&#39;left&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; # - I_n:  0.12937001759125935</span>
+<span class="sd">    &gt;&gt;&gt; rectangle(X_2n, Y_2n, method=&#39;left&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; # - I_2n:  0.14395153508130418</span>
+<span class="sd">    &gt;&gt;&gt; # |I_n - I_2n|:  0.014581517490044826</span>
+<span class="sd">    &gt;&gt;&gt; # 0.014581517490044826 &lt;= 0.01</span>
+<span class="sd">    &gt;&gt;&gt; # False</span>
+<span class="sd">    &gt;&gt;&gt; # - X_4n:  [0.5   0.526 0.553 ... 0.947 0.974 1.   ]</span>
+<span class="sd">    &gt;&gt;&gt; # - Y_4n:  [0.102 0.124 0.146 ... 0.478 0.5   0.523]</span>
+<span class="sd">    &gt;&gt;&gt; rectangle(X_4n, Y_4n, method=&#39;left&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; # - I_4n:  0.15009808046684736</span>
+<span class="sd">    &gt;&gt;&gt; # |I_2n - I_4n|:  0.006146545385543184</span>
+<span class="sd">    &gt;&gt;&gt; # 0.006146545385543184 &lt;= 0.01</span>
+<span class="sd">    &gt;&gt;&gt; # True</span>
+<span class="sd">    &gt;&gt;&gt; # |I_2n - I_4n|:  0.006146545385543184</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    rectangle</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Test 1: Rectangle Rule Error&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- f(x) = x - lg(x + 2)&quot;</span><span class="p">)</span>
+
+    <span class="n">X_n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;b&quot;</span><span class="p">],</span> <span class="mi">5</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- X_n: &quot;</span><span class="p">,</span> <span class="n">X_n</span><span class="p">)</span>
+
+    <span class="n">Y_n</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;f&quot;</span><span class="p">](</span><span class="n">X_n</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- Y_1: &quot;</span><span class="p">,</span> <span class="n">Y_n</span><span class="p">)</span>
+
+    <span class="n">X_2n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;b&quot;</span><span class="p">],</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- X_2n: &quot;</span><span class="p">,</span> <span class="n">X_2n</span><span class="p">)</span>
+
+    <span class="n">Y_2n</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;f&quot;</span><span class="p">](</span><span class="n">X_2n</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- Y_2n: &quot;</span><span class="p">,</span> <span class="n">Y_2n</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&gt;&gt;&gt; rectangle(X_n, Y_n, method=&#39;left&#39;)&quot;</span><span class="p">)</span>
+
+    <span class="n">I_n</span> <span class="o">=</span> <span class="n">rectangle</span><span class="p">(</span><span class="n">X_n</span><span class="p">,</span> <span class="n">Y_n</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- I_n: &quot;</span><span class="p">,</span> <span class="n">I_n</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&gt;&gt;&gt; rectangle(X_2n, Y_2n, method=&#39;left&#39;)&quot;</span><span class="p">)</span>
+
+    <span class="n">I_2n</span> <span class="o">=</span> <span class="n">rectangle</span><span class="p">(</span><span class="n">X_2n</span><span class="p">,</span> <span class="n">Y_2n</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- I_2n: &quot;</span><span class="p">,</span> <span class="n">I_2n</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;|I_n - I_2n|: &quot;</span><span class="p">,</span> <span class="nb">abs</span><span class="p">(</span><span class="n">I_n</span> <span class="o">-</span> <span class="n">I_2n</span><span class="p">))</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">abs</span><span class="p">(</span><span class="n">I_n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">I_2n</span><span class="p">)</span><span class="si">}</span><span class="s2"> &lt;= </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;eps&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">I_n</span> <span class="o">-</span> <span class="n">I_2n</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;eps&quot;</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">I_n</span> <span class="o">-</span> <span class="n">I_2n</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;eps&quot;</span><span class="p">]:</span>
+        <span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="n">I_n</span> <span class="o">-</span> <span class="n">I_2n</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;eps&quot;</span><span class="p">],</span> <span class="sa">f</span><span class="s2">&quot;|I_n - I_2n| &gt; </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;eps&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">return</span>
+
+    <span class="n">X_4n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;b&quot;</span><span class="p">],</span> <span class="mi">20</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- X_4n: &quot;</span><span class="p">,</span> <span class="n">X_4n</span><span class="p">)</span>
+
+    <span class="n">Y_4n</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;f&quot;</span><span class="p">](</span><span class="n">X_4n</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- Y_4n: &quot;</span><span class="p">,</span> <span class="n">Y_4n</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&gt;&gt;&gt; rectangle(X_4n, Y_4n, method=&#39;left&#39;)&quot;</span><span class="p">)</span>
+
+    <span class="n">I_4n</span> <span class="o">=</span> <span class="n">rectangle</span><span class="p">(</span><span class="n">X_4n</span><span class="p">,</span> <span class="n">Y_4n</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- I_4n: &quot;</span><span class="p">,</span> <span class="n">I_4n</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;|I_2n - I_4n|: &quot;</span><span class="p">,</span> <span class="nb">abs</span><span class="p">(</span><span class="n">I_2n</span> <span class="o">-</span> <span class="n">I_4n</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">abs</span><span class="p">(</span><span class="n">I_2n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">I_4n</span><span class="p">)</span><span class="si">}</span><span class="s2"> &lt;= </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;eps&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">I_2n</span> <span class="o">-</span> <span class="n">I_4n</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;eps&quot;</span><span class="p">])</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;|I_2n - I_4n|: &quot;</span><span class="p">,</span> <span class="nb">abs</span><span class="p">(</span><span class="n">I_2n</span> <span class="o">-</span> <span class="n">I_4n</span><span class="p">))</span>
+    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">I_2n</span> <span class="o">-</span> <span class="n">I_4n</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;eps&quot;</span><span class="p">]:</span>
+        <span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="n">I_2n</span> <span class="o">-</span> <span class="n">I_4n</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;eps&quot;</span><span class="p">],</span> <span class="sa">f</span><span class="s2">&quot;|I_2n - I_4n| &gt; </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;eps&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">return</span></div>
+
+
+
+<div class="viewcode-block" id="test_rectangle_from_docs_example">
+<a class="viewcode-back" href="../../../../_autosummary/cmlabs.integrate.test_rectangle_from_docs_example.html#cmlabs.integrate.test_rectangle_from_docs_example">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_rectangle_from_docs_example</span><span class="p">():</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Test rectangle rule from docs example.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    rectangle</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Test N: Rectangle Rule From Docs Example&quot;</span><span class="p">)</span>
+    <span class="n">xvals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+    <span class="n">yvals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- X:&quot;</span><span class="p">,</span> <span class="n">xvals</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- Y:&quot;</span><span class="p">,</span> <span class="n">yvals</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&gt;&gt;&gt; rectangle(</span><span class="si">{</span><span class="n">xvals</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">yvals</span><span class="si">}</span><span class="s2">, method=&#39;left&#39;)&quot;</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">rectangle</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">yvals</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="nb">float</span><span class="p">),</span> <span class="s2">&quot;Result is not a float&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="test_midpoint_from_docs_example">
+<a class="viewcode-back" href="../../../../_autosummary/cmlabs.integrate.test_midpoint_from_docs_example.html#cmlabs.integrate.test_midpoint_from_docs_example">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_midpoint_from_docs_example</span><span class="p">():</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Test midpoint rule from docs example.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    midpoint</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Test N: Midpoint Rule From Docs Example&quot;</span><span class="p">)</span>
+    <span class="n">xvals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+    <span class="n">yvals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">16</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- X:&quot;</span><span class="p">,</span> <span class="n">xvals</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- Y:&quot;</span><span class="p">,</span> <span class="n">yvals</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&gt;&gt;&gt; midpoint(</span><span class="si">{</span><span class="n">xvals</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">yvals</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">midpoint</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">yvals</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="nb">float</span><span class="p">),</span> <span class="s2">&quot;Result is not a float&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="test_trapezoid_from_docs_example">
+<a class="viewcode-back" href="../../../../_autosummary/cmlabs.integrate.test_trapezoid_from_docs_example.html#cmlabs.integrate.test_trapezoid_from_docs_example">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_trapezoid_from_docs_example</span><span class="p">():</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Test trapezoid rule from docs example.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    trapezoid</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Test N: Trapezoid Rule From Docs Example&quot;</span><span class="p">)</span>
+    <span class="n">xvals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+    <span class="n">yvals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- X:&quot;</span><span class="p">,</span> <span class="n">xvals</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- Y:&quot;</span><span class="p">,</span> <span class="n">yvals</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&gt;&gt;&gt; trapezoid(</span><span class="si">{</span><span class="n">xvals</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">yvals</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">trapezoid</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">yvals</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="nb">float</span><span class="p">),</span> <span class="s2">&quot;Result is not a float&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="test_simpsonq_from_docs_example">
+<a class="viewcode-back" href="../../../../_autosummary/cmlabs.integrate.test_simpsonq_from_docs_example.html#cmlabs.integrate.test_simpsonq_from_docs_example">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_simpsonq_from_docs_example</span><span class="p">():</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Test Simpson&#39;s rule (quadratic) from docs example.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    simpsonq</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Test N: Simpson&#39;s Rule (Quadratic) From Docs Example&quot;</span><span class="p">)</span>
+    <span class="n">xvals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+    <span class="n">yvals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">16</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- X:&quot;</span><span class="p">,</span> <span class="n">xvals</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- Y:&quot;</span><span class="p">,</span> <span class="n">yvals</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&gt;&gt;&gt; simpsonq(</span><span class="si">{</span><span class="n">xvals</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">yvals</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">simpsonq</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">yvals</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="nb">float</span><span class="p">),</span> <span class="s2">&quot;Result is not a float&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="test_simpsonc_from_docs_example">
+<a class="viewcode-back" href="../../../../_autosummary/cmlabs.integrate.test_simpsonc_from_docs_example.html#cmlabs.integrate.test_simpsonc_from_docs_example">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_simpsonc_from_docs_example</span><span class="p">():</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Test Simpson&#39;s rule (cubic) from docs example.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    simpsonc</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Test N: Simpson&#39;s Rule (Cubic) From Docs Example&quot;</span><span class="p">)</span>
+    <span class="n">xvals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
+    <span class="n">yvals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">36</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- X:&quot;</span><span class="p">,</span> <span class="n">xvals</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- Y:&quot;</span><span class="p">,</span> <span class="n">yvals</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&gt;&gt;&gt; simpsonc(</span><span class="si">{</span><span class="n">xvals</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">yvals</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">simpsonc</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">yvals</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="nb">float</span><span class="p">),</span> <span class="s2">&quot;Result is not a float&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="test_weddles_from_docs_example">
+<a class="viewcode-back" href="../../../../_autosummary/cmlabs.integrate.test_weddles_from_docs_example.html#cmlabs.integrate.test_weddles_from_docs_example">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_weddles_from_docs_example</span><span class="p">():</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Test Weddle&#39;s rule from docs example.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    weddles</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Test N: Weddle&#39;s Rule From Docs Example&quot;</span><span class="p">)</span>
+    <span class="n">xvals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
+    <span class="n">yvals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">36</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- X:&quot;</span><span class="p">,</span> <span class="n">xvals</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- Y:&quot;</span><span class="p">,</span> <span class="n">yvals</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&gt;&gt;&gt; weddles(</span><span class="si">{</span><span class="n">xvals</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">yvals</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">weddles</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">yvals</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="nb">float</span><span class="p">),</span> <span class="s2">&quot;Result is not a float&quot;</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Roman Sokolovsky.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
