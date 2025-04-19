@@ -86,6 +86,7 @@
     <span class="n">stirling</span><span class="p">,</span>
     <span class="n">bessel</span><span class="p">,</span>
     <span class="n">interpolate</span><span class="p">,</span>
+    <span class="n">lagrange_derivative</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
@@ -95,7 +96,7 @@
     <span class="s2">&quot;test_lagrange_remainder_2&quot;</span><span class="p">,</span>
     <span class="s2">&quot;test_lagrange_compare_with_newton&quot;</span><span class="p">,</span>
     <span class="s2">&quot;test_interpolate_remainder&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;test_lagrange_derative&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;test_lagrange_derivative&quot;</span><span class="p">,</span>
     <span class="s2">&quot;test_lagrange_from_docs_example&quot;</span><span class="p">,</span>
     <span class="s2">&quot;test_remainder_from_docs_example&quot;</span><span class="p">,</span>
     <span class="s2">&quot;test_newton_from_docs_example&quot;</span><span class="p">,</span>
@@ -632,9 +633,9 @@
 
 
 
-<div class="viewcode-block" id="test_lagrange_derative">
-<a class="viewcode-back" href="../../../../_autosummary/cmlabs.interpolate.test_lagrange_derative.html#cmlabs.interpolate.test_lagrange_derative">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">test_lagrange_derative</span><span class="p">():</span>
+<div class="viewcode-block" id="test_lagrange_derivative">
+<a class="viewcode-back" href="../../../../_autosummary/cmlabs.interpolate.test_lagrange_derivative.html#cmlabs.interpolate.test_lagrange_derivative">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_lagrange_derivative</span><span class="p">():</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Lagrange derivative.</span>
 
 <span class="sd">    .. math::</span>
@@ -676,19 +677,23 @@
 <span class="sd">    --------</span>
 <span class="sd">    lagrange</span>
 <span class="sd">    remainder</span>
+<span class="sd">    lagrange_derivative</span>
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
 <span class="sd">    -</span>
 
 <span class="sd">    Examples</span>
-<span class="sd">    -------</span>
+<span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; # Test 8: Lagrange Derivative</span>
 <span class="sd">    &gt;&gt;&gt; # - X:  [0.5   0.556 0.611 ... 0.889 0.944 1.   ]</span>
 <span class="sd">    &gt;&gt;&gt; # - x_0 =  0.5</span>
 <span class="sd">    &gt;&gt;&gt; # - h = 0.05555555555555558</span>
 <span class="sd">    &gt;&gt;&gt; # - Y:  [0.102 0.148 0.194 ... 0.428 0.475 0.523]</span>
 <span class="sd">    &gt;&gt;&gt; # L_4_2(x_0) = 0.06947426144114938</span>
+<span class="sd">    &gt;&gt;&gt; # OR WE CAN USE CUSTOM lagrange_derivative FUNCTION</span>
+<span class="sd">    &gt;&gt;&gt; lagrange_derivative([0.5 ... 0.722], [0.102 ... 0.287], 0.5, k=2)</span>
+<span class="sd">    &gt;&gt;&gt; # L_4_2(x_0) = 0.06947426144084545</span>
 <span class="sd">    &gt;&gt;&gt; # R_4_2_min = 6.1744127485294504e-06</span>
 <span class="sd">    &gt;&gt;&gt; # R_4_2_max = 1.5386508722671422e-05</span>
 <span class="sd">    &gt;&gt;&gt; # f&#39;&#39;(x_0) = 0.06948711710452028</span>
@@ -707,14 +712,20 @@
     <span class="n">h</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;- h = </span><span class="si">{</span><span class="n">h</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-    <span class="n">l_4_2</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">h</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span>
+    <span class="n">L_4_2</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">h</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span>
         <span class="p">(</span><span class="mi">35</span> <span class="o">/</span> <span class="mi">12</span><span class="p">)</span> <span class="o">*</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;Y&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
         <span class="o">-</span> <span class="p">(</span><span class="mi">26</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;Y&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
         <span class="o">+</span> <span class="p">(</span><span class="mi">19</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;Y&quot;</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span>
         <span class="o">-</span> <span class="p">(</span><span class="mi">14</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;Y&quot;</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span>
         <span class="o">+</span> <span class="p">(</span><span class="mi">11</span> <span class="o">/</span> <span class="mi">12</span><span class="p">)</span> <span class="o">*</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;Y&quot;</span><span class="p">][</span><span class="mi">4</span><span class="p">]</span>
     <span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;L_4_2(x_0) = </span><span class="si">{</span><span class="n">l_4_2</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;L_4_2(x_0) = </span><span class="si">{</span><span class="n">L_4_2</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;OR WE CAN USE CUSTOM lagrange_derivative FUNCTION&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&gt;&gt;&gt; lagrange_derivative(</span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">][:</span><span class="mi">5</span><span class="p">]</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Y&#39;</span><span class="p">][:</span><span class="mi">5</span><span class="p">]</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">, k=2)&quot;</span><span class="p">)</span>
+
+    <span class="n">L_4_2</span> <span class="o">=</span> <span class="n">lagrange_derivative</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">][:</span><span class="mi">5</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;Y&quot;</span><span class="p">][:</span><span class="mi">5</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">k</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;L_4_2(x_0) = </span><span class="si">{</span><span class="n">L_4_2</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="n">r_4_2_min</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span>
         <span class="p">(</span><span class="o">-</span><span class="mi">24</span> <span class="o">/</span> <span class="p">((</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">10</span><span class="p">)))</span>
@@ -739,7 +750,7 @@
     <span class="n">f_2</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">((</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;f&#39;&#39;(x_0) = </span><span class="si">{</span><span class="n">f_2</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-    <span class="n">r_4_2</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">l_4_2</span> <span class="o">-</span> <span class="n">f_2</span><span class="p">)</span>
+    <span class="n">r_4_2</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">L_4_2</span> <span class="o">-</span> <span class="n">f_2</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;R_4_2 = </span><span class="si">{</span><span class="n">r_4_2</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&gt;&gt;&gt; </span><span class="si">{</span><span class="n">r_4_2_min</span><span class="si">}</span><span class="s2"> &lt;= </span><span class="si">{</span><span class="n">r_4_2</span><span class="si">}</span><span class="s2"> &lt;= </span><span class="si">{</span><span class="n">r_4_2_max</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
