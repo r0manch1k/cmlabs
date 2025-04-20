@@ -1,16 +1,27 @@
 PACKAGEDIR = cmlabs
 
+.PHONY: format-docs
 format-docs:
 	docformatter -i -r --black $(PACKAGEDIR)
 
-.PHONY: format-docs
 
+.PHONY: tests
 tests:
 	pytest -s
 
-.PHONY: tests
+.PHONY: tests-interpolate
+tests-interpolate:
+	pytest -s cmlabs/interpolate
 
-autodoc:
-	sphinx-apidoc -f -o docs/source cmlabs
+.PHONY: tests-differentiate
+tests-differentiate:
+	pytest -s cmlabs/differentiate
+
+.PHONY: tests-integrate
+tests-integrate:
+	pytest -s cmlabs/integrate
+
 
 .PHONY: autodoc
+autodoc:
+	sphinx-apidoc -f -o docs/source cmlabs

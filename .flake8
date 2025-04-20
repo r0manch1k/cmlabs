@@ -5,6 +5,7 @@ extend-ignore =
     D100,
     D205,
 exclude =
+    __init__.py,
     .git,
     __pycache__,
     .mypy_cache,

@@ -1,4 +1,12 @@
-__all__ = ["rectangle", "midpoint", "trapezoid", "simpsonq", "simpsonc", "weddles"]
+__all__ = [
+    "rectangle",
+    "midpoint",
+    "trapezoid",
+    "simpsonq",
+    "simpsonc",
+    "weddles",
+    "newton_cotes",
+]
 
 from typing import List
 import numpy as np
@@ -294,7 +302,6 @@ def simpsonq(
     >>> simpsonq(xvals, yvals)
     21.333333333333332
     """
-
     if len(xvals) != len(yvals):
         raise ValueError("xvals and yvals must have the same length.")
 
@@ -469,7 +476,6 @@ def weddles(
 
     Examples
     --------
-    >>>
     >>> # import numpy as np
     >>> # from cmlabs.integrate import weddles
     >>> # xvals = np.array([0, 1, 2, 3, 4, 5, 6])
@@ -504,5 +510,64 @@ def weddles(
         )
 
     integral *= 3 * h / 10
+
+    return float(integral)
+
+
+def newton_cotes(
+    xvals: List[float] | np.ndarray,
+    yvals: List[float] | np.ndarray,
+    coef: List[float] | np.ndarray,
+) -> float:
+    r"""Composite Newton-Cotes method for numerical integration.
+
+    .. math::
+
+        \begin{gather}
+            I_n = (b - a) \cdot \sum_{i=0}^{n} c_i f(x_i) \\
+        \end{gather}
+
+    Parameters
+    ----------
+    xvals : array_like, 1-D
+        The sorted x-coordinates of the data points.
+    yvals : array_like, 1-D
+        The y-coordinates of the data points, i.e., :math:`f(x)`.
+    coef : array_like, 1-D
+        The coefficients of the Newton-Cotes formula.
+
+    Returns
+    -------
+    float
+        The approximate value of the integral.
+
+    See Also
+    --------
+    trapezoid, simpsonq, simpsonc, weddles
+
+    Notes
+    -----
+    The Newton-Cotes method approximates the area under the curve by dividing it
+    into polynomials. The height of each polynomial is determined by the function
+    value at the endpoints and midpoints of the interval.
+
+    :math:`\textit{coef}` is the coefficients of the Newton-Cotes formula. The
+    coefficients are determined by the order of the polynomial used in the
+    approximation. The coefficients are usually derived from the Lagrange
+    interpolation polynomial.
+    """
+    if len(xvals) != len(yvals):
+        raise ValueError("xvals and yvals must have the same length.")
+
+    if len(xvals) < 2:
+        raise ValueError("At least two points are required for integration.")
+
+    if len(coef) != len(yvals):
+        raise ValueError("coef must have the same length as yvals.")
+
+    n = len(xvals) - 1
+
+    integral = np.sum([coef[i] * yvals[i] for i in range(n + 1)])
+    integral *= xvals[-1] - xvals[0]
 
     return float(integral)
