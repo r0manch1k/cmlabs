@@ -24,8 +24,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="cmlabs.integrate.test_rectangle_from_docs_example" href="cmlabs.integrate.test_rectangle_from_docs_example.html" />
-    <link rel="prev" title="cmlabs.integrate.weddles" href="cmlabs.integrate.weddles.html" /> 
+    <link rel="next" title="cmlabs.integrate.test_midpoint_error" href="cmlabs.integrate.test_midpoint_error.html" />
+    <link rel="prev" title="cmlabs.integrate.newton_cotes" href="cmlabs.integrate.newton_cotes.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -57,6 +57,12 @@
 <li class="toctree-l4"><a class="reference internal" href="#cmlabs.integrate.test_rectangle_error"><code class="docutils literal notranslate"><span class="pre">test_rectangle_error()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="cmlabs.integrate.test_midpoint_error.html">cmlabs.integrate.test_midpoint_error</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmlabs.integrate.test_trapezoid_error.html">cmlabs.integrate.test_trapezoid_error</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmlabs.integrate.test_simpsonq_error.html">cmlabs.integrate.test_simpsonq_error</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmlabs.integrate.test_simpsonc_error.html">cmlabs.integrate.test_simpsonc_error</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmlabs.integrate.test_weddles_error.html">cmlabs.integrate.test_weddles_error</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmlabs.integrate.test_newton_cotes_error.html">cmlabs.integrate.test_newton_cotes_error</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.integrate.test_rectangle_from_docs_example.html">cmlabs.integrate.test_rectangle_from_docs_example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.integrate.test_midpoint_from_docs_example.html">cmlabs.integrate.test_midpoint_from_docs_example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.integrate.test_trapezoid_from_docs_example.html">cmlabs.integrate.test_trapezoid_from_docs_example</a></li>
@@ -122,7 +128,7 @@ subintervals, and <span class="math notranslate nohighlight">\(\epsilon\)</span>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Test 1: Rectangle Rule Error</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># - f(x) = x - lg(x + 2)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># - X_n:  [0.5   0.625 0.75  0.875 1.   ]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># - Y_1:  [0.102 0.206 0.311 0.416 0.523]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># - Y_n:  [0.102 0.206 0.311 0.416 0.523]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># - X_2n:  [0.5   0.556 0.611 ... 0.889 0.944 1.   ]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># - Y_2n:  [0.102 0.148 0.194 ... 0.428 0.475 0.523]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rectangle</span><span class="p">(</span><span class="n">X_n</span><span class="p">,</span> <span class="n">Y_n</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
@@ -155,8 +161,8 @@ subintervals, and <span class="math notranslate nohighlight">\(\epsilon\)</span>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="cmlabs.integrate.weddles.html" class="btn btn-neutral float-left" title="cmlabs.integrate.weddles" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="cmlabs.integrate.test_rectangle_from_docs_example.html" class="btn btn-neutral float-right" title="cmlabs.integrate.test_rectangle_from_docs_example" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="cmlabs.integrate.newton_cotes.html" class="btn btn-neutral float-left" title="cmlabs.integrate.newton_cotes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="cmlabs.integrate.test_midpoint_error.html" class="btn btn-neutral float-right" title="cmlabs.integrate.test_midpoint_error" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

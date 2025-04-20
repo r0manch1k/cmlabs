@@ -9,7 +9,7 @@
     <link rel="icon" sizes="32x32" href="../_static/favicon-32x32.png" type="image/png">
     <link rel="apple-touch-icon" sizes="180x180" href="../_static/apple-touch-icon.png" type="image/png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>cmlabs.integrate.test_weddles_from_docs_example &mdash; cmlabs 0.0.1 documentation</title>
+  <title>cmlabs.integrate.test_newton_cotes_error &mdash; cmlabs 0.0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
@@ -20,10 +20,12 @@
       <script src="../_static/documentation_options.js?v=d45e8c67"></script>
       <script src="../_static/doctools.js?v=9bcbadda"></script>
       <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="cmlabs.integrate.test_simpsonc_from_docs_example" href="cmlabs.integrate.test_simpsonc_from_docs_example.html" /> 
+    <link rel="next" title="cmlabs.integrate.test_rectangle_from_docs_example" href="cmlabs.integrate.test_rectangle_from_docs_example.html" />
+    <link rel="prev" title="cmlabs.integrate.test_weddles_error" href="cmlabs.integrate.test_weddles_error.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -57,16 +59,16 @@
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.integrate.test_simpsonq_error.html">cmlabs.integrate.test_simpsonq_error</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.integrate.test_simpsonc_error.html">cmlabs.integrate.test_simpsonc_error</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.integrate.test_weddles_error.html">cmlabs.integrate.test_weddles_error</a></li>
-<li class="toctree-l3"><a class="reference internal" href="cmlabs.integrate.test_newton_cotes_error.html">cmlabs.integrate.test_newton_cotes_error</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">cmlabs.integrate.test_newton_cotes_error</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cmlabs.integrate.test_newton_cotes_error"><code class="docutils literal notranslate"><span class="pre">test_newton_cotes_error()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.integrate.test_rectangle_from_docs_example.html">cmlabs.integrate.test_rectangle_from_docs_example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.integrate.test_midpoint_from_docs_example.html">cmlabs.integrate.test_midpoint_from_docs_example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.integrate.test_trapezoid_from_docs_example.html">cmlabs.integrate.test_trapezoid_from_docs_example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.integrate.test_simpsonq_from_docs_example.html">cmlabs.integrate.test_simpsonq_from_docs_example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.integrate.test_simpsonc_from_docs_example.html">cmlabs.integrate.test_simpsonc_from_docs_example</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">cmlabs.integrate.test_weddles_from_docs_example</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#cmlabs.integrate.test_weddles_from_docs_example"><code class="docutils literal notranslate"><span class="pre">test_weddles_from_docs_example()</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="cmlabs.integrate.test_weddles_from_docs_example.html">cmlabs.integrate.test_weddles_from_docs_example</a></li>
 </ul>
 </li>
 </ul>
@@ -88,9 +90,9 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../cmlabs.integrate.html">Integration (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.integrate</span></code>)</a></li>
-      <li class="breadcrumb-item active">cmlabs.integrate.test_weddles_from_docs_example</li>
+      <li class="breadcrumb-item active">cmlabs.integrate.test_newton_cotes_error</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/_autosummary/cmlabs.integrate.test_weddles_from_docs_example.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/_autosummary/cmlabs.integrate.test_newton_cotes_error.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -98,16 +100,49 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="cmlabs-integrate-test-weddles-from-docs-example">
-<h1>cmlabs.integrate.test_weddles_from_docs_example<a class="headerlink" href="#cmlabs-integrate-test-weddles-from-docs-example" title="Link to this heading"></a></h1>
+  <section id="cmlabs-integrate-test-newton-cotes-error">
+<h1>cmlabs.integrate.test_newton_cotes_error<a class="headerlink" href="#cmlabs-integrate-test-newton-cotes-error" title="Link to this heading"></a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="cmlabs.integrate.test_weddles_from_docs_example">
-<span class="sig-prename descclassname"><span class="pre">cmlabs.integrate.</span></span><span class="sig-name descname"><span class="pre">test_weddles_from_docs_example</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cmlabs/integrate/tests/test_integrate.html#test_weddles_from_docs_example"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmlabs.integrate.test_weddles_from_docs_example" title="Link to this definition"></a></dt>
-<dd><p>Test Weddle’s rule from docs example.</p>
+<dt class="sig sig-object py" id="cmlabs.integrate.test_newton_cotes_error">
+<span class="sig-prename descclassname"><span class="pre">cmlabs.integrate.</span></span><span class="sig-name descname"><span class="pre">test_newton_cotes_error</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cmlabs/integrate/tests/test_integrate.html#test_newton_cotes_error"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmlabs.integrate.test_newton_cotes_error" title="Link to this definition"></a></dt>
+<dd><p>Reach accuracy <span class="math notranslate nohighlight">\(\epsilon\)</span> error for Newton-Cotes rule.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{gather}
+    |I_n - I_{2n}| \leq \epsilon, \\
+    |I_{2n} - I_{4n}| \leq \epsilon, \\
+    \ldots \\
+    |I_{2^k n} - I_{2^{k+1} n}| \leq \epsilon, \\
+\end{gather}\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(I_n\)</span> is the integral of the function <span class="math notranslate nohighlight">\(f(x)\)</span> over the interval
+<span class="math notranslate nohighlight">\([a, b]\)</span> using Newton-Cotes rule with <span class="math notranslate nohighlight">\(n\)</span>
+subintervals, and <span class="math notranslate nohighlight">\(\epsilon\)</span> is the desired accuracy.</p>
+<p class="rubric">Notes</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{gather}
+    \int_a^b f(x) \, dx = \int_{0.5}^{1} x - \log_{10}(x + 2) \, dx \\
+    = \frac{1\ln{10} + 20\ln{5} - 24\ln{3} - 20\ln{2} + 4}{8\ln{10}} \\
+    \approx 0.1556335
+\end{gather}\end{split}\]</div>
+<section id="results">
+<h2>Results<a class="headerlink" href="#results" title="Link to this heading"></a></h2>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Test 7: Newton-Cotes Rule Error</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># - f(x) = x - lg(x + 2)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># - X_n:  [0.5 0.6 0.7 0.8 0.9 1. ]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># - Y_n:  [0.102 0.185 0.269 0.353 0.438 0.523]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># - Coef:  [0.066 0.26  0.174 0.174 0.26  0.066]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">newton_cotes</span><span class="p">(</span><span class="n">X_n</span><span class="p">,</span> <span class="n">Y_n</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;coef&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># - I_n:  0.1556334987504589</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># - I_2n:  0.1556334984772168</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># |I_n - I_2n|:  2.7324209561641055e-10</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># 2.7324209561641055e-10 &lt;= 1e-06</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># True</span>
+</pre></div>
+</div>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p><a class="reference internal" href="cmlabs.integrate.weddles.html#cmlabs.integrate.weddles" title="cmlabs.integrate.weddles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">weddles</span></code></a></p>
+<p><a class="reference internal" href="cmlabs.integrate.newton_cotes.html#cmlabs.integrate.newton_cotes" title="cmlabs.integrate.newton_cotes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">newton_cotes</span></code></a></p>
 </div>
+</section>
 </dd></dl>
 
 </section>
@@ -116,7 +151,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="cmlabs.integrate.test_simpsonc_from_docs_example.html" class="btn btn-neutral float-left" title="cmlabs.integrate.test_simpsonc_from_docs_example" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="cmlabs.integrate.test_weddles_error.html" class="btn btn-neutral float-left" title="cmlabs.integrate.test_weddles_error" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="cmlabs.integrate.test_rectangle_from_docs_example.html" class="btn btn-neutral float-right" title="cmlabs.integrate.test_rectangle_from_docs_example" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
