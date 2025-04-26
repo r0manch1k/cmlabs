@@ -102,7 +102,7 @@
 \[\begin{split}\begin{gather}
 L_n(x) = \sum_{i=0}^{n} f(x_0, x_1, \ldots, x_i) \omega_i(x), \\
 \omega_0(x) = 1, \quad \omega_1(x) = x - x_0, \quad
-\omega_i(x) = \prod_{j=0, j \neq i}^{n} (x - x_j), i \geq 2
+\omega_i(x) = \prod_{j=0}^{i-1} (x - x_j), i \geq 2
 \end{gather}\end{split}\]</div>
 <p>where <span class="math notranslate nohighlight">\(f(x_0, x_1, \ldots, x_i)\)</span> is the divided difference of the function
 at the points <span class="math notranslate nohighlight">\(x_0, x_1, \ldots, x_i\)</span>.</p>

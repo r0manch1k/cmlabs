@@ -339,7 +339,7 @@
 <span class="sd">        \begin{gather}</span>
 <span class="sd">        L_n(x) = \sum_{i=0}^{n} f(x_0, x_1, \ldots, x_i) \omega_i(x), \\</span>
 <span class="sd">        \omega_0(x) = 1, \quad \omega_1(x) = x - x_0, \quad</span>
-<span class="sd">        \omega_i(x) = \prod_{j=0, j \neq i}^{n} (x - x_j), i \geq 2</span>
+<span class="sd">        \omega_i(x) = \prod_{j=0}^{i-1} (x - x_j), i \geq 2</span>
 <span class="sd">        \end{gather}</span>
 
 <span class="sd">    where :math:`f(x_0, x_1, \ldots, x_i)` is the divided difference of the function</span>
@@ -627,7 +627,7 @@
 
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
-<span class="sd">    forward_differences</span>
+<span class="sd">    forward_differences, newton</span>
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
@@ -730,7 +730,7 @@
 
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
-<span class="sd">    backward_differences</span>
+<span class="sd">    backward_differences, newton</span>
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
