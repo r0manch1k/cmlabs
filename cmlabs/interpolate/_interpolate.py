@@ -255,7 +255,7 @@ def newton(xvals, x, yvals=None, coef=None):
         \begin{gather}
         L_n(x) = \sum_{i=0}^{n} f(x_0, x_1, \ldots, x_i) \omega_i(x), \\
         \omega_0(x) = 1, \quad \omega_1(x) = x - x_0, \quad
-        \omega_i(x) = \prod_{j=0, j \neq i}^{n} (x - x_j), i \geq 2
+        \omega_i(x) = \prod_{j=0}^{i-1} (x - x_j), i \geq 2
         \end{gather}
 
     where :math:`f(x_0, x_1, \ldots, x_i)` is the divided difference of the function
@@ -531,7 +531,7 @@ def newtonfd(xvals, x, yvals=None, coef=None):
 
     See Also
     --------
-    forward_differences
+    forward_differences, newton
 
     Notes
     -----
@@ -631,7 +631,7 @@ def newtonbd(xvals, x, yvals=None, coef=None):
 
     See Also
     --------
-    backward_differences
+    backward_differences, newton
 
     Notes
     -----
