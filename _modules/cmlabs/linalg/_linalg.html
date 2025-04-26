@@ -1,0 +1,246 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cmlabs.linalg._linalg &mdash; cmlabs 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            cmlabs
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../cmlabs.interpolate.html">Interpolation (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.interpolate</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cmlabs.differentiate.html">Differentiation (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.differentiate</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cmlabs.integrate.html">Integration (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.integrate</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cmlabs.linalg.html">Linear Algebra (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.linalg</span></code>)</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">cmlabs</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">cmlabs.linalg._linalg</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for cmlabs.linalg._linalg</h1><div class="highlight"><pre>
+<span></span><span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;thomas&quot;</span><span class="p">]</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+
+<div class="viewcode-block" id="thomas">
+<a class="viewcode-back" href="../../../_autosummary/cmlabs.linalg.thomas.html#cmlabs.linalg.thomas">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">thomas</span><span class="p">(</span>
+    <span class="n">A</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">B</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">C</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">F</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Solve a tridiagonal system of equations using the Thomas algorithm.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    A : array_like</span>
+<span class="sd">        Sub-diagonal elements (length N-1).</span>
+<span class="sd">    B : list of float</span>
+<span class="sd">        Diagonal elements (length N).</span>
+<span class="sd">    C : list of float</span>
+<span class="sd">        Super-diagonal elements (length N-1).</span>
+<span class="sd">    F : list of float</span>
+<span class="sd">        Right-hand side vector (length N).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    X : list of float</span>
+<span class="sd">        Solution vector (length N).</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The Thomas algorithm is an efficient way of solving tridiagonal matrix systems.</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        \left(</span>
+<span class="sd">            \begin{array}{cccccc}</span>
+<span class="sd">                B_1 &amp; C_1 &amp; 0 &amp; \cdots &amp; 0 &amp; 0 \\</span>
+<span class="sd">                A_2 &amp; B_2 &amp; C_2 &amp; \ddots &amp; \vdots &amp; \vdots \\</span>
+<span class="sd">                0 &amp; A_3 &amp; B_3 &amp; \ddots &amp; 0 &amp; 0 \\</span>
+<span class="sd">                \vdots &amp; \ddots &amp; \ddots &amp; \ddots &amp; C_{N-2} &amp; 0 \\</span>
+<span class="sd">                0 &amp; \cdots &amp; 0 &amp; A_{N-1} &amp; B_{N-1} &amp; C_{N-1} \\</span>
+<span class="sd">                0 &amp; \cdots &amp; 0 &amp; 0 &amp; A_N &amp; B_N</span>
+<span class="sd">            \end{array}</span>
+<span class="sd">        \right)</span>
+<span class="sd">        \left(</span>
+<span class="sd">            \begin{array}{c}</span>
+<span class="sd">                x_1 \\ x_2 \\ x_3 \\ \vdots \\ x_{N-1} \\ x_N</span>
+<span class="sd">            \end{array}</span>
+<span class="sd">        \right)</span>
+<span class="sd">        =</span>
+<span class="sd">        \left(</span>
+<span class="sd">            \begin{array}{c}</span>
+<span class="sd">                F_1 \\ F_2 \\ F_3 \\ \vdots \\ F_{N-1} \\ F_N</span>
+<span class="sd">            \end{array}</span>
+<span class="sd">        \right)</span>
+
+<span class="sd">    Consider the first row of the matrix:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \begin{gather}</span>
+<span class="sd">            x_1 = \alpha_2 x_2 + \beta_2, \quad</span>
+<span class="sd">            \alpha_2 = -\frac{C_1}{B_1}, \quad \beta_2 = \frac{F_1}{B_1}</span>
+<span class="sd">        \end{gather}</span>
+
+<span class="sd">    Let :math:`x_{k-1} = \alpha_k x_k + \beta_k`. Then, we can express the</span>
+<span class="sd">    :math:`x_k` as:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \begin{gather}</span>
+<span class="sd">            x_k = \alpha_{k+1} x_{k+1} + \beta_{k+1}, \quad</span>
+<span class="sd">            \alpha_{k+1} = -\frac{C_k}{B_k + A_k \alpha_k}, \quad</span>
+<span class="sd">            \beta_{k+1} = \frac{F_k - A_k \beta_k}{B_k + A_k \alpha_k}</span>
+<span class="sd">        \end{gather}</span>
+
+<span class="sd">    Consider the last row of the matrix:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \begin{gather}</span>
+<span class="sd">            \begin{cases}</span>
+<span class="sd">                A_N x_{N-1} + B_N x_N = F_N, \\</span>
+<span class="sd">                x_{N-1} = \alpha_N x_N + \beta_N</span>
+<span class="sd">            \end{cases}</span>
+<span class="sd">            \quad \Longrightarrow \quad</span>
+<span class="sd">            x_N = \frac{F_N - A_N \beta_N}{A_N \alpha_N + B_N}</span>
+<span class="sd">        \end{gather}</span>
+
+<span class="sd">    The algorithm consists of two steps: forward elimination and back substitution.</span>
+<span class="sd">    The forward elimination step modifies the coefficients of the system to</span>
+<span class="sd">    eliminate the sub-diagonal elements. The back substitution step solves the</span>
+<span class="sd">    modified system to find the solution vector.</span>
+
+<span class="sd">    The algorithm has a time complexity of O(N) and is particularly efficient</span>
+<span class="sd">    for large systems of equations.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; from cmlabs.linalg import thomas</span>
+<span class="sd">    &gt;&gt;&gt; A = [1, 1]</span>
+<span class="sd">    &gt;&gt;&gt; B = [4, 4, 4]</span>
+<span class="sd">    &gt;&gt;&gt; C = [1, 1]</span>
+<span class="sd">    &gt;&gt;&gt; F = [5, 5, 5]</span>
+<span class="sd">    &gt;&gt;&gt; thomas(A, B, C, F)</span>
+<span class="sd">    array([1.07142857 0.71428571 1.07142857])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">A</span><span class="p">)</span> <span class="o">!=</span> <span class="n">N</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Length of A must be N-1&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">C</span><span class="p">)</span> <span class="o">!=</span> <span class="n">N</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Length of C must be N-1&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">F</span><span class="p">)</span> <span class="o">!=</span> <span class="n">N</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Length of F must be N&quot;</span><span class="p">)</span>
+
+    <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+
+    <span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(([</span><span class="mi">0</span><span class="p">],</span> <span class="n">A</span><span class="p">))</span>
+    <span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">C</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+
+    <span class="c1"># (alpha, beta)</span>
+    <span class="n">coef</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">N</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">N</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">denom</span> <span class="o">=</span> <span class="n">B</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">coef</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">coef</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">C</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="n">denom</span>
+        <span class="n">coef</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">F</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">coef</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="n">denom</span>
+
+    <span class="n">X</span><span class="p">[</span><span class="n">N</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">F</span><span class="p">[</span><span class="n">N</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">A</span><span class="p">[</span><span class="n">N</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">coef</span><span class="p">[</span><span class="n">N</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span>
+        <span class="n">A</span><span class="p">[</span><span class="n">N</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">coef</span><span class="p">[</span><span class="n">N</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">B</span><span class="p">[</span><span class="n">N</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span> <span class="o">-</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">coef</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">X</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">coef</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">X</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Roman Sokolovsky.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

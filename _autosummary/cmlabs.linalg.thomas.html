@@ -1,0 +1,212 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" sizes="16x16" href="../_static/favicon-16x16.png" type="image/png">
+    <link rel="icon" sizes="32x32" href="../_static/favicon-32x32.png" type="image/png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../_static/apple-touch-icon.png" type="image/png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cmlabs.linalg.thomas &mdash; cmlabs 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="cmlabs.linalg.test_thomas" href="cmlabs.linalg.test_thomas.html" />
+    <link rel="prev" title="Linear Algebra (cmlabs.linalg)" href="../cmlabs.linalg.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            cmlabs
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../cmlabs.interpolate.html">Interpolation (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.interpolate</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cmlabs.differentiate.html">Differentiation (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.differentiate</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cmlabs.integrate.html">Integration (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.integrate</span></code>)</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../cmlabs.linalg.html">Linear Algebra (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.linalg</span></code>)</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../cmlabs.linalg.html#linear-algebra">Linear Algebra</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">cmlabs.linalg.thomas</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cmlabs.linalg.thomas"><code class="docutils literal notranslate"><span class="pre">thomas()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../cmlabs.linalg.html#tests">Tests</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">cmlabs</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../cmlabs.linalg.html">Linear Algebra (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.linalg</span></code>)</a></li>
+      <li class="breadcrumb-item active">cmlabs.linalg.thomas</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/_autosummary/cmlabs.linalg.thomas.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="cmlabs-linalg-thomas">
+<h1>cmlabs.linalg.thomas<a class="headerlink" href="#cmlabs-linalg-thomas" title="Link to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="cmlabs.linalg.thomas">
+<span class="sig-prename descclassname"><span class="pre">cmlabs.linalg.</span></span><span class="sig-name descname"><span class="pre">thomas</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">C</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">F</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cmlabs/linalg/_linalg.html#thomas"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmlabs.linalg.thomas" title="Link to this definition"></a></dt>
+<dd><p>Solve a tridiagonal system of equations using the Thomas algorithm.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>A</strong> (<em>array_like</em>) – Sub-diagonal elements (length N-1).</p></li>
+<li><p><strong>B</strong> (<em>list</em><em> of </em><em>float</em>) – Diagonal elements (length N).</p></li>
+<li><p><strong>C</strong> (<em>list</em><em> of </em><em>float</em>) – Super-diagonal elements (length N-1).</p></li>
+<li><p><strong>F</strong> (<em>list</em><em> of </em><em>float</em>) – Right-hand side vector (length N).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>X</strong> – Solution vector (length N).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of float</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The Thomas algorithm is an efficient way of solving tridiagonal matrix systems.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\left(
+    \begin{array}{cccccc}
+        B_1 &amp; C_1 &amp; 0 &amp; \cdots &amp; 0 &amp; 0 \\
+        A_2 &amp; B_2 &amp; C_2 &amp; \ddots &amp; \vdots &amp; \vdots \\
+        0 &amp; A_3 &amp; B_3 &amp; \ddots &amp; 0 &amp; 0 \\
+        \vdots &amp; \ddots &amp; \ddots &amp; \ddots &amp; C_{N-2} &amp; 0 \\
+        0 &amp; \cdots &amp; 0 &amp; A_{N-1} &amp; B_{N-1} &amp; C_{N-1} \\
+        0 &amp; \cdots &amp; 0 &amp; 0 &amp; A_N &amp; B_N
+    \end{array}
+\right)
+\left(
+    \begin{array}{c}
+        x_1 \\ x_2 \\ x_3 \\ \vdots \\ x_{N-1} \\ x_N
+    \end{array}
+\right)
+=
+\left(
+    \begin{array}{c}
+        F_1 \\ F_2 \\ F_3 \\ \vdots \\ F_{N-1} \\ F_N
+    \end{array}
+\right)\end{split}\]</div>
+<p>Consider the first row of the matrix:</p>
+<div class="math notranslate nohighlight">
+\[\begin{gather}
+    x_1 = \alpha_2 x_2 + \beta_2, \quad
+    \alpha_2 = -\frac{C_1}{B_1}, \quad \beta_2 = \frac{F_1}{B_1}
+\end{gather}\]</div>
+<p>Let <span class="math notranslate nohighlight">\(x_{k-1} = \alpha_k x_k + \beta_k\)</span>. Then, we can express the
+<span class="math notranslate nohighlight">\(x_k\)</span> as:</p>
+<div class="math notranslate nohighlight">
+\[\begin{gather}
+    x_k = \alpha_{k+1} x_{k+1} + \beta_{k+1}, \quad
+    \alpha_{k+1} = -\frac{C_k}{B_k + A_k \alpha_k}, \quad
+    \beta_{k+1} = \frac{F_k - A_k \beta_k}{B_k + A_k \alpha_k}
+\end{gather}\]</div>
+<p>Consider the last row of the matrix:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{gather}
+    \begin{cases}
+        A_N x_{N-1} + B_N x_N = F_N, \\
+        x_{N-1} = \alpha_N x_N + \beta_N
+    \end{cases}
+    \quad \Longrightarrow \quad
+    x_N = \frac{F_N - A_N \beta_N}{A_N \alpha_N + B_N}
+\end{gather}\end{split}\]</div>
+<p>The algorithm consists of two steps: forward elimination and back substitution.
+The forward elimination step modifies the coefficients of the system to
+eliminate the sub-diagonal elements. The back substitution step solves the
+modified system to find the solution vector.</p>
+<p>The algorithm has a time complexity of O(N) and is particularly efficient
+for large systems of equations.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">cmlabs.linalg</span><span class="w"> </span><span class="kn">import</span> <span class="n">thomas</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">A</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">B</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">C</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">F</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">thomas</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">F</span><span class="p">)</span>
+<span class="go">array([1.07142857 0.71428571 1.07142857])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../cmlabs.linalg.html" class="btn btn-neutral float-left" title="Linear Algebra (cmlabs.linalg)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="cmlabs.linalg.test_thomas.html" class="btn btn-neutral float-right" title="cmlabs.linalg.test_thomas" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Roman Sokolovsky.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

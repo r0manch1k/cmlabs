@@ -7,4 +7,5 @@ Contents
    cmlabs.interpolate
    cmlabs.differentiate
    cmlabs.integrate
+   cmlabs.linalg
 
