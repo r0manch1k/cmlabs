@@ -21,6 +21,10 @@ tests-differentiate:
 tests-integrate:
 	pytest -s cmlabs/integrate
 
+.PHONY: tests-linalg
+tests-linalg:
+	pytest -s cmlabs/linalg
+
 
 .PHONY: autodoc
 autodoc:

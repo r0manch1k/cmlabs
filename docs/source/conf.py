@@ -53,7 +53,6 @@ exclude_patterns = []
 html_theme = "sphinx_rtd_theme"
 html_static_path = ["_static"]
 favicons = [
-    {"rel": "icon", "href": "icon.svg", "type": "image/svg+xml"},
     {"rel": "icon", "sizes": "16x16", "href": "favicon-16x16.png", "type": "image/png"},
     {"rel": "icon", "sizes": "32x32", "href": "favicon-32x32.png", "type": "image/png"},
     {
