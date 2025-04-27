@@ -114,6 +114,17 @@
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
 <span class="sd">    This function might be slow but it is useful for testing purposes.</span>
+
+<span class="sd">    Complexity analysis.</span>
+<span class="sd">    The function lagrange_derivative recursively computes the k-th derivative of</span>
+<span class="sd">    the Lagrange interpolating polynomial. The recursive step involves iterating</span>
+<span class="sd">    over all subsets of given indices, resulting in a combinatorial growth of the</span>
+<span class="sd">    number of recursive calls. Therefore, the overall time complexity is approximately</span>
+<span class="sd">    :math:`O(n^k)`, where :math:`n` is the number of interpolation points and :math:`k`</span>
+<span class="sd">    is the derivative order. Since the recursion is not based on simple division into</span>
+<span class="sd">    smaller subproblems, the Master Theorem does not apply. If :math:`k` is fixed and</span>
+<span class="sd">    small, the algorithm runs in polynomial time with respect to :math:`n`; otherwise,</span>
+<span class="sd">    for large :math:`k`, the complexity becomes exponential.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">lagrange_basis_kth_derivative_numerator</span><span class="p">(</span><span class="n">indexes</span><span class="p">,</span> <span class="n">kth</span><span class="p">):</span>
