@@ -1,0 +1,297 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" sizes="16x16" href="../_static/favicon-16x16.png" type="image/png">
+    <link rel="icon" sizes="32x32" href="../_static/favicon-32x32.png" type="image/png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../_static/apple-touch-icon.png" type="image/png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cmlabs.interpolate.CubicSpline &mdash; cmlabs 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="cmlabs.interpolate.test_lagrange_degree" href="cmlabs.interpolate.test_lagrange_degree.html" />
+    <link rel="prev" title="cmlabs.interpolate.interpolate" href="cmlabs.interpolate.interpolate.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            cmlabs
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../cmlabs.interpolate.html">Interpolation (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.interpolate</span></code>)</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../cmlabs.interpolate.html#lagrange-newton-interpolation">Lagrange/Newton interpolation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cmlabs.interpolate.html#finite-differences-interpolation">Finite differences interpolation</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../cmlabs.interpolate.html#splines">Splines</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">cmlabs.interpolate.CubicSpline</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cmlabs.interpolate.CubicSpline"><code class="docutils literal notranslate"><span class="pre">CubicSpline</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../cmlabs.interpolate.html#tests">Tests</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../cmlabs.differentiate.html">Differentiation (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.differentiate</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cmlabs.integrate.html">Integration (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.integrate</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cmlabs.linalg.html">Linear Algebra (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.linalg</span></code>)</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">cmlabs</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../cmlabs.interpolate.html">Interpolation (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.interpolate</span></code>)</a></li>
+      <li class="breadcrumb-item active">cmlabs.interpolate.CubicSpline</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/_autosummary/cmlabs.interpolate.CubicSpline.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="cmlabs-interpolate-cubicspline">
+<h1>cmlabs.interpolate.CubicSpline<a class="headerlink" href="#cmlabs-interpolate-cubicspline" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="cmlabs.interpolate.CubicSpline">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cmlabs.interpolate.</span></span><span class="sig-name descname"><span class="pre">CubicSpline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xvals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yvals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bc_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'not-a-knot'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cmlabs/interpolate/_cubic.html#CubicSpline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmlabs.interpolate.CubicSpline" title="Link to this definition"></a></dt>
+<dd><p>Cubic spline data interpolator.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{gather}
+    S(x) = c_i + d_i (x - x_i) + a_i (x - x_i)^2 + b_i (x - x_i)^3, \\
+    S(x) \in P_{3i}, \quad S(x) \in C^2[a, b], \quad S(x_i) = y_i
+\end{gather}\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(P_{3i}\)</span> is the set of cubic polynomials, <span class="math notranslate nohighlight">\(C^2[a, b]\)</span> is the
+set of twice continuously differentiable functions, and <span class="math notranslate nohighlight">\(y_i\)</span> is the
+interpolated value at <span class="math notranslate nohighlight">\(x_i\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xvals</strong> (<em>array-like</em>) – The x-coordinates of the data points.</p></li>
+<li><p><strong>yvals</strong> (<em>array-like</em>) – The y-coordinates of the data points.</p></li>
+<li><p><strong>bc_type</strong> (<em>str</em><em>, </em><em>optional</em>) – <p>Boundary condition type. Two additional equations, given by the
+boundary conditions, are required to determine all coefficients of
+polynomials on each segment.</p>
+<ul>
+<li><p>’clamped’: The first derivative at curves ends are equal, i.e.,
+<span class="math notranslate nohighlight">\(S'(a) = f'(a)\)</span> and <span class="math notranslate nohighlight">\(S'(b) = f'(b)\)</span>.</p></li>
+<li><p>’second’: The second derivative at curves ends are equal, i.e.,
+<span class="math notranslate nohighlight">\(S''(a) = f''(a)\)</span> and <span class="math notranslate nohighlight">\(S''(b) = f''(b)\)</span>.</p></li>
+<li><p>’periodic’: The interpolated functions is assumed to be periodic
+of period, i.e., <span class="math notranslate nohighlight">\(S^i(a) = S^i(b)\)</span> for <span class="math notranslate nohighlight">\(i = 0, 1, 2\)</span>.</p></li>
+<li><p>’not-a-knot’ (default): The first and second segment at a curve end
+are the same polynomial. It is a good default when there is no
+information on boundary conditions, i.e., <span class="math notranslate nohighlight">\(S'''(x_1 - 0) =
+S'''(x_1 + 0)\)</span> and <span class="math notranslate nohighlight">\(S'''(x_{n-1} - 0) = S'''(x_{n-1} + 0)\)</span>.</p></li>
+</ul>
+</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="cmlabs.linalg.thomas.html#cmlabs.linalg.thomas" title="cmlabs.linalg.thomas"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cmlabs.linalg.thomas</span></code></a></p>
+</div>
+<p class="rubric">Notes</p>
+<p>Сonsider the construction of a cubic spline interpolant based on given data points.
+The spline will be represented piecewise on each subinterval.</p>
+<p>Assume that <span class="math notranslate nohighlight">\(S'(x_i) = y'_i = m_i\)</span> - first derivative of the
+interpolated function at the node <span class="math notranslate nohighlight">\(x_i\)</span>. So the polynomial looks like this:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{gather}
+    S(x) = y_i + m_i (x - x_i) + a_i \frac{(x - x_i)^2}{2}
+    + b_i \frac{(x - x_i)^3}{6}, \\
+    a_i = \frac{6}{h_{i+1}} \left(\frac{y_{i+1} - y_i}{h_{i+1}} -
+    \frac{m_{i+1} + 2m_i}{3}\right), \quad
+    b_i = \frac{12}{h_{i+1}^2} \left(\frac{m_{i+1} + m_i}{2} -
+    \frac{y_{i+1} - y_i}{h_{i+1}}\right)
+\end{gather}\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(h_{i+1} = x_{i+1} - x_i\)</span> is the distance between the nodes.</p>
+<p>Using second condition <span class="math notranslate nohighlight">\(S''(x_i - 0) = S''(x_i + 0)\)</span> we can
+set up a system of equations for the unknown slopes <span class="math notranslate nohighlight">\(m_i\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{gather}
+    \mu_i m_{i-1} + 2 m_i + \lambda_i m_{i+1} = 3 \left(\lambda_i
+    \frac{y_{i+1} - y_i}{h_{i+1}} + \mu_i \frac{y_i - y_{i-1}}{h_i}\right),
+    \quad i = \overline{2, N-2}
+\end{gather}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\lambda_i = \frac{h_{i+1}}{h_i + h_{i+1}}\)</span> and
+<span class="math notranslate nohighlight">\(\mu_i = \frac{h_i}{h_i + h_{i+1}}\)</span> are the coefficients of the
+system. The first and last equations are given by the boundary conditions.</p>
+<p>We impose the not-a-knot condition, which requires that the third derivative
+be continuous at the second and penultimate nodes. The not-a-knot condition
+effectively treats the first two segments and the last two segments as parts
+of the same cubic polynomial:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{gather}
+    S'''(x_1 - 0) = S'''(x_1 + 0), \quad
+    S'''(x_{n-1} - 0) = S'''(x_{n-1} + 0) \\
+    b_0 = b_1, \quad b_{n-2} = b_{n-1} \\
+    (1 + \gamma_1) m_1 + \gamma_1 m_2 = \lambda_1 (3 + 2 \gamma_1)
+    \frac{y_2 - y_1}{h_2} + \mu_1 \frac{y_1 - y_0}{h_1} \\
+    \gamma_N m_{N-2} + (1 + \gamma_N) m_{N-1} = \mu_{N-1}
+    (3 + 2 \gamma_N) \frac{y_{N-1} - y_{N-2}}{h_{N-1}} +
+    \lambda_{N-1} \frac{y_N - y_{N-1}}{h_N} \\
+\end{gather}\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\gamma_1 = \frac{h_1}{h_2}\)</span> and <span class="math notranslate nohighlight">\(\gamma_N = \frac{h_N}{h_{N-1}}\)</span>.</p>
+<p>The system of equations can be solved using the Thomas algorithm. The tridiagonal
+system is represented in the form:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\left(
+    \begin{array}{cccccc}
+        1 + \gamma_1 &amp; \gamma_1 &amp; 0 &amp; \cdots &amp; 0 &amp; 0 \\
+        \mu_2 &amp; 2 &amp; \lambda_2 &amp; \ddots &amp; \vdots &amp; \vdots \\
+        0 &amp; \mu_3 &amp; 2 &amp; \ddots &amp; 0 &amp; 0 \\
+        \vdots &amp; \ddots &amp; \ddots &amp; \ddots &amp; \lambda_{N-3} &amp; 0 \\
+        0 &amp; \cdots &amp; 0 &amp; \mu_{N-2} &amp; 2 &amp; \lambda_{N-2} \\
+        0 &amp; \cdots &amp; 0 &amp; 0 &amp; \gamma_N &amp; 1 + \gamma_N
+    \end{array}
+\right)
+\left(
+    \begin{array}{c}
+        m_1 \\ m_2 \\ m_3 \\ \vdots \\ m_{N-1} \\ m_N
+    \end{array}
+\right)
+=
+\left(
+    \begin{array}{c}
+        \hat{g}_1 \\ g_2 \\ g_3 \\ \vdots \\ g_{N-2} \\ \hat{g}_{N-1}
+    \end{array}
+\right)\end{split}\]</div>
+<p>where</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{gather}
+    \hat{g}_1 = \lambda_1 (3 + 2 \gamma_1) \frac{y_2 - y_1}{h_2} +
+    \mu_1 \frac{y_1 - y_0}{h_1} \\
+    g_i = 3 \left(\lambda_i \frac{y_{i+1} - y_i}{h_{i+1}} +
+    \mu_i \frac{y_i - y_{i-1}}{h_i}\right), \quad i = \overline{2, N-2} \\
+    \hat{g}_{N-1} = \mu_{N-1} (3 + 2 \gamma_N) \frac{y_{N-1} - y_{N-2}}
+    {h_{N-1}} + \lambda_{N-1} \frac{y_N - y_{N-1}}{h_N}
+\end{gather}\end{split}\]</div>
+<p>Now consider the second derivative of the spline:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{gather}
+    S'(x) = m_i + \frac{6(x - x_i)}{h_{i+1}} \left(\frac{y_{i+1} - y_i}
+    {h_{i+1}} - \frac{m_{i+1} + 2m_i}{3}\right) + \\
+    + \frac{6(x - x_i)^2}{h_{i+1}^2}
+    \left(\frac{m_{i+1} + m_i}{2} - \frac{y_{i+1} - y_i}{h_{i+1}}\right) \\
+    S''(x) = \frac{6}{h_{i+1}} \left(\frac{y_{i+1} - y_i}{h_{i+1}} -
+    \frac{m_{i+1} + 2m_i}{3}\right) + \frac{12(x - x_i)}{h_{i+1}^2}
+    \left(\frac{m_{i+1} + m_i}{2} - \frac{y_{i+1} - y_i}{h_{i+1}}\right)
+\end{gather}\end{split}\]</div>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">cmlabs.interpolate</span><span class="w"> </span><span class="kn">import</span> <span class="n">CubicSpline</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cs</span> <span class="o">=</span> <span class="n">CubicSpline</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cs</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="go">-0.9589242746631386</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="cmlabs.interpolate.CubicSpline.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xvals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yvals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bc_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'not-a-knot'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cmlabs/interpolate/_cubic.html#CubicSpline.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmlabs.interpolate.CubicSpline.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initialize the cubic spline with given x and y data points.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xvals</strong> (<em>array-like</em>) – The x-coordinates of the data points.</p></li>
+<li><p><strong>yvlas</strong> (<em>array-like</em>) – The y-coordinates of the data points.</p></li>
+<li><p><strong>bc_type</strong> (<em>str</em><em>, </em><em>optional</em>) – Boundary condition type. Options are ‘clamped’, ‘second’,
+‘periodic’, and ‘not-a-knot’. Default is ‘not-a-knot’.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Methods</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#cmlabs.interpolate.CubicSpline.__init__" title="cmlabs.interpolate.CubicSpline.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(xvals, yvals[, bc_type])</p></td>
+<td><p>Initialize the cubic spline with given x and y data points.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">derivative</span></code>(x[, order])</p></td>
+<td><p>Calculate the derivative of the cubic spline at a given point.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">interpolate</span></code>(x)</p></td>
+<td><p>Interpolate the <span class="math notranslate nohighlight">\(S(x)\)</span> using cubic spline interpolation.</p></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="cmlabs.interpolate.interpolate.html" class="btn btn-neutral float-left" title="cmlabs.interpolate.interpolate" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="cmlabs.interpolate.test_lagrange_degree.html" class="btn btn-neutral float-right" title="cmlabs.interpolate.test_lagrange_degree" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Roman Sokolovsky.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

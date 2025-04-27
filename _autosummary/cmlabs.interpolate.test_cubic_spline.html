@@ -8,7 +8,7 @@
     <link rel="icon" sizes="32x32" href="../_static/favicon-32x32.png" type="image/png">
     <link rel="apple-touch-icon" sizes="180x180" href="../_static/apple-touch-icon.png" type="image/png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>cmlabs.interpolate.test_lagrange_from_docs_example &mdash; cmlabs 0.0.1 documentation</title>
+  <title>cmlabs.interpolate.test_cubic_spline &mdash; cmlabs 0.0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
@@ -19,11 +19,12 @@
       <script src="../_static/documentation_options.js?v=d45e8c67"></script>
       <script src="../_static/doctools.js?v=9bcbadda"></script>
       <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="cmlabs.interpolate.test_remainder_from_docs_example" href="cmlabs.interpolate.test_remainder_from_docs_example.html" />
-    <link rel="prev" title="cmlabs.interpolate.test_cubic_spline" href="cmlabs.interpolate.test_cubic_spline.html" /> 
+    <link rel="next" title="cmlabs.interpolate.test_lagrange_from_docs_example" href="cmlabs.interpolate.test_lagrange_from_docs_example.html" />
+    <link rel="prev" title="cmlabs.interpolate.test_interpolate_remainder" href="cmlabs.interpolate.test_interpolate_remainder.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -57,11 +58,11 @@
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_lagrange_remainder_2.html">cmlabs.interpolate.test_lagrange_remainder_2</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_lagrange_compare_with_newton.html">cmlabs.interpolate.test_lagrange_compare_with_newton</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_interpolate_remainder.html">cmlabs.interpolate.test_interpolate_remainder</a></li>
-<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_cubic_spline.html">cmlabs.interpolate.test_cubic_spline</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">cmlabs.interpolate.test_lagrange_from_docs_example</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#cmlabs.interpolate.test_lagrange_from_docs_example"><code class="docutils literal notranslate"><span class="pre">test_lagrange_from_docs_example()</span></code></a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">cmlabs.interpolate.test_cubic_spline</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cmlabs.interpolate.test_cubic_spline"><code class="docutils literal notranslate"><span class="pre">test_cubic_spline()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_lagrange_from_docs_example.html">cmlabs.interpolate.test_lagrange_from_docs_example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_remainder_from_docs_example.html">cmlabs.interpolate.test_remainder_from_docs_example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_newton_from_docs_example.html">cmlabs.interpolate.test_newton_from_docs_example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cmlabs.interpolate.test_finite_differences_from_docs_example.html">cmlabs.interpolate.test_finite_differences_from_docs_example</a></li>
@@ -96,9 +97,9 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../cmlabs.interpolate.html">Interpolation (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.interpolate</span></code>)</a></li>
-      <li class="breadcrumb-item active">cmlabs.interpolate.test_lagrange_from_docs_example</li>
+      <li class="breadcrumb-item active">cmlabs.interpolate.test_cubic_spline</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/_autosummary/cmlabs.interpolate.test_lagrange_from_docs_example.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/_autosummary/cmlabs.interpolate.test_cubic_spline.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -106,16 +107,39 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="cmlabs-interpolate-test-lagrange-from-docs-example">
-<h1>cmlabs.interpolate.test_lagrange_from_docs_example<a class="headerlink" href="#cmlabs-interpolate-test-lagrange-from-docs-example" title="Link to this heading"></a></h1>
+  <section id="cmlabs-interpolate-test-cubic-spline">
+<h1>cmlabs.interpolate.test_cubic_spline<a class="headerlink" href="#cmlabs-interpolate-test-cubic-spline" title="Link to this heading"></a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="cmlabs.interpolate.test_lagrange_from_docs_example">
-<span class="sig-prename descclassname"><span class="pre">cmlabs.interpolate.</span></span><span class="sig-name descname"><span class="pre">test_lagrange_from_docs_example</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cmlabs/interpolate/tests/test_interpolate.html#test_lagrange_from_docs_example"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmlabs.interpolate.test_lagrange_from_docs_example" title="Link to this definition"></a></dt>
-<dd><p>Lagrange interpolation from docs example.</p>
+<dt class="sig sig-object py" id="cmlabs.interpolate.test_cubic_spline">
+<span class="sig-prename descclassname"><span class="pre">cmlabs.interpolate.</span></span><span class="sig-name descname"><span class="pre">test_cubic_spline</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cmlabs/interpolate/tests/test_interpolate.html#test_cubic_spline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cmlabs.interpolate.test_cubic_spline" title="Link to this definition"></a></dt>
+<dd><p>Cubic spline interpolation/differentiation.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{gather}
+    S(x) = \sum_{i=0}^{n} S_i(x) \\
+    S_i(x) = a_i + b_i (x - x_i) + c_i (x - x_i)^2 + d_i (x - x_i)^3 \\
+    \left(x - \lg(x+2)\right)'' = \frac{1}{(x + 2)^2 \cdot \ln(10)}
+\end{gather}\end{split}\]</div>
+<section id="results">
+<h2>Results<a class="headerlink" href="#results" title="Link to this heading"></a></h2>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Test 8: Cubic Spline Interpolation</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># - X:  [0.5   0.556 0.611 ... 0.889 0.944 1.   ]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># - Y:  [0.102 0.148 0.194 ... 0.428 0.475 0.523]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">CubicSpline</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">bc_type</span><span class="o">=</span><span class="s1">&#39;not-a-knot)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># f(0.77)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># 0.32752023093555144</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">spline</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="mf">0.77</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># 0.3275202307162315</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s1">&#39;&#39;</span><span class="p">(</span><span class="mf">0.77</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># 0.056601087190404124</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">spline</span><span class="o">.</span><span class="n">derivative</span><span class="p">(</span><span class="mf">0.77</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># 0.05659785880306364</span>
+</pre></div>
+</div>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p><a class="reference internal" href="cmlabs.interpolate.lagrange.html#cmlabs.interpolate.lagrange" title="cmlabs.interpolate.lagrange"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lagrange</span></code></a></p>
+<p><a class="reference internal" href="cmlabs.interpolate.CubicSpline.html#cmlabs.interpolate.CubicSpline" title="cmlabs.interpolate.CubicSpline"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CubicSpline</span></code></a></p>
 </div>
+</section>
 </dd></dl>
 
 </section>
@@ -124,8 +148,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="cmlabs.interpolate.test_cubic_spline.html" class="btn btn-neutral float-left" title="cmlabs.interpolate.test_cubic_spline" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="cmlabs.interpolate.test_remainder_from_docs_example.html" class="btn btn-neutral float-right" title="cmlabs.interpolate.test_remainder_from_docs_example" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="cmlabs.interpolate.test_interpolate_remainder.html" class="btn btn-neutral float-left" title="cmlabs.interpolate.test_interpolate_remainder" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="cmlabs.interpolate.test_lagrange_from_docs_example.html" class="btn btn-neutral float-right" title="cmlabs.interpolate.test_lagrange_from_docs_example" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

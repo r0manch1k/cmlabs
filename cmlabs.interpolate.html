@@ -68,6 +68,10 @@
 <li class="toctree-l3"><a class="reference internal" href="_autosummary/cmlabs.interpolate.interpolate.html">cmlabs.interpolate.interpolate</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#splines">Splines</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/cmlabs.interpolate.CubicSpline.html">cmlabs.interpolate.CubicSpline</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#tests">Tests</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_lagrange_degree.html">cmlabs.interpolate.test_lagrange_degree</a></li>
 <li class="toctree-l3"><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_lagrange_remainder_1.html">cmlabs.interpolate.test_lagrange_remainder_1</a></li>
@@ -75,6 +79,7 @@
 <li class="toctree-l3"><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_lagrange_remainder_2.html">cmlabs.interpolate.test_lagrange_remainder_2</a></li>
 <li class="toctree-l3"><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_lagrange_compare_with_newton.html">cmlabs.interpolate.test_lagrange_compare_with_newton</a></li>
 <li class="toctree-l3"><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_interpolate_remainder.html">cmlabs.interpolate.test_interpolate_remainder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_cubic_spline.html">cmlabs.interpolate.test_cubic_spline</a></li>
 <li class="toctree-l3"><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_lagrange_from_docs_example.html">cmlabs.interpolate.test_lagrange_from_docs_example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_remainder_from_docs_example.html">cmlabs.interpolate.test_remainder_from_docs_example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_newton_from_docs_example.html">cmlabs.interpolate.test_newton_from_docs_example</a></li>
@@ -85,6 +90,7 @@
 <li class="toctree-l3"><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_newtonbd_from_docs_example.html">cmlabs.interpolate.test_newtonbd_from_docs_example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_gaussfd_from_docs_example.html">cmlabs.interpolate.test_gaussfd_from_docs_example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_gaussbd_from_docs_example.html">cmlabs.interpolate.test_gaussbd_from_docs_example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_cubic_spline_from_docs_example.html">cmlabs.interpolate.test_cubic_spline_from_docs_example</a></li>
 </ul>
 </li>
 </ul>
@@ -178,6 +184,16 @@ related utilities.</p>
 </tbody>
 </table>
 </section>
+<section id="splines">
+<h2>Splines<a class="headerlink" href="#splines" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/cmlabs.interpolate.CubicSpline.html#cmlabs.interpolate.CubicSpline" title="cmlabs.interpolate.CubicSpline"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CubicSpline</span></code></a></p></td>
+<td><p>Cubic spline data interpolator.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
 <section id="tests">
 <h2>Tests<a class="headerlink" href="#tests" title="Link to this heading"></a></h2>
 <table class="autosummary longtable docutils align-default">
@@ -200,35 +216,41 @@ related utilities.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_interpolate_remainder.html#cmlabs.interpolate.test_interpolate_remainder" title="cmlabs.interpolate.test_interpolate_remainder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_interpolate_remainder</span></code></a></p></td>
 <td><p>Estimate the remainder of interpolation.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_lagrange_from_docs_example.html#cmlabs.interpolate.test_lagrange_from_docs_example" title="cmlabs.interpolate.test_lagrange_from_docs_example"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_lagrange_from_docs_example</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_cubic_spline.html#cmlabs.interpolate.test_cubic_spline" title="cmlabs.interpolate.test_cubic_spline"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_cubic_spline</span></code></a></p></td>
+<td><p>Cubic spline interpolation/differentiation.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_lagrange_from_docs_example.html#cmlabs.interpolate.test_lagrange_from_docs_example" title="cmlabs.interpolate.test_lagrange_from_docs_example"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_lagrange_from_docs_example</span></code></a></p></td>
 <td><p>Lagrange interpolation from docs example.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_remainder_from_docs_example.html#cmlabs.interpolate.test_remainder_from_docs_example" title="cmlabs.interpolate.test_remainder_from_docs_example"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_remainder_from_docs_example</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_remainder_from_docs_example.html#cmlabs.interpolate.test_remainder_from_docs_example" title="cmlabs.interpolate.test_remainder_from_docs_example"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_remainder_from_docs_example</span></code></a></p></td>
 <td><p>Remainder from docs example.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_newton_from_docs_example.html#cmlabs.interpolate.test_newton_from_docs_example" title="cmlabs.interpolate.test_newton_from_docs_example"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_newton_from_docs_example</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_newton_from_docs_example.html#cmlabs.interpolate.test_newton_from_docs_example" title="cmlabs.interpolate.test_newton_from_docs_example"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_newton_from_docs_example</span></code></a></p></td>
 <td><p>Newton interpolation from docs example.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_finite_differences_from_docs_example.html#cmlabs.interpolate.test_finite_differences_from_docs_example" title="cmlabs.interpolate.test_finite_differences_from_docs_example"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_finite_differences_from_docs_example</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_finite_differences_from_docs_example.html#cmlabs.interpolate.test_finite_differences_from_docs_example" title="cmlabs.interpolate.test_finite_differences_from_docs_example"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_finite_differences_from_docs_example</span></code></a></p></td>
 <td><p>Finite differences from docs example.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_forward_differences_from_docs_example.html#cmlabs.interpolate.test_forward_differences_from_docs_example" title="cmlabs.interpolate.test_forward_differences_from_docs_example"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_forward_differences_from_docs_example</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_forward_differences_from_docs_example.html#cmlabs.interpolate.test_forward_differences_from_docs_example" title="cmlabs.interpolate.test_forward_differences_from_docs_example"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_forward_differences_from_docs_example</span></code></a></p></td>
 <td><p>Forward differences from docs example.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_backward_differences_from_docs_example.html#cmlabs.interpolate.test_backward_differences_from_docs_example" title="cmlabs.interpolate.test_backward_differences_from_docs_example"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_backward_differences_from_docs_example</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_backward_differences_from_docs_example.html#cmlabs.interpolate.test_backward_differences_from_docs_example" title="cmlabs.interpolate.test_backward_differences_from_docs_example"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_backward_differences_from_docs_example</span></code></a></p></td>
 <td><p>Backward differences from docs example.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_newtonfd_from_docs_example.html#cmlabs.interpolate.test_newtonfd_from_docs_example" title="cmlabs.interpolate.test_newtonfd_from_docs_example"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_newtonfd_from_docs_example</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_newtonfd_from_docs_example.html#cmlabs.interpolate.test_newtonfd_from_docs_example" title="cmlabs.interpolate.test_newtonfd_from_docs_example"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_newtonfd_from_docs_example</span></code></a></p></td>
 <td><p>Newton's forward interpolation formula from docs example.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_newtonbd_from_docs_example.html#cmlabs.interpolate.test_newtonbd_from_docs_example" title="cmlabs.interpolate.test_newtonbd_from_docs_example"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_newtonbd_from_docs_example</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_newtonbd_from_docs_example.html#cmlabs.interpolate.test_newtonbd_from_docs_example" title="cmlabs.interpolate.test_newtonbd_from_docs_example"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_newtonbd_from_docs_example</span></code></a></p></td>
 <td><p>Newton's backward interpolation formula from docs example.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_gaussfd_from_docs_example.html#cmlabs.interpolate.test_gaussfd_from_docs_example" title="cmlabs.interpolate.test_gaussfd_from_docs_example"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_gaussfd_from_docs_example</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_gaussfd_from_docs_example.html#cmlabs.interpolate.test_gaussfd_from_docs_example" title="cmlabs.interpolate.test_gaussfd_from_docs_example"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_gaussfd_from_docs_example</span></code></a></p></td>
 <td><p>Gauss’s forward interpolation formula from docs example.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_gaussbd_from_docs_example.html#cmlabs.interpolate.test_gaussbd_from_docs_example" title="cmlabs.interpolate.test_gaussbd_from_docs_example"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_gaussbd_from_docs_example</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_gaussbd_from_docs_example.html#cmlabs.interpolate.test_gaussbd_from_docs_example" title="cmlabs.interpolate.test_gaussbd_from_docs_example"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_gaussbd_from_docs_example</span></code></a></p></td>
 <td><p>Gauss’s backward interpolation formula from docs example.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/cmlabs.interpolate.test_cubic_spline_from_docs_example.html#cmlabs.interpolate.test_cubic_spline_from_docs_example" title="cmlabs.interpolate.test_cubic_spline_from_docs_example"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_cubic_spline_from_docs_example</span></code></a></p></td>
+<td><p>Cubic spline interpolation from docs example.</p></td>
 </tr>
 </tbody>
 </table>

@@ -110,6 +110,7 @@
 <span class="sd">    The Thomas algorithm is an efficient way of solving tridiagonal matrix systems.</span>
 
 <span class="sd">    .. math::</span>
+
 <span class="sd">        \left(</span>
 <span class="sd">            \begin{array}{cccccc}</span>
 <span class="sd">                B_1 &amp; C_1 &amp; 0 &amp; \cdots &amp; 0 &amp; 0 \\</span>
@@ -194,8 +195,8 @@
 
     <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
 
-    <span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(([</span><span class="mi">0</span><span class="p">],</span> <span class="n">A</span><span class="p">))</span>
-    <span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">C</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+    <span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([[</span><span class="mi">0</span><span class="p">],</span> <span class="n">A</span><span class="p">])</span>
+    <span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">C</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
 
     <span class="c1"># (alpha, beta)</span>
     <span class="n">coef</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">N</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
