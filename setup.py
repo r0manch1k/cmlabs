@@ -16,8 +16,5 @@ setup(
         "Operating System :: OS Independent",
     ],
     python_requires=">=3.6",
-    install_requires=[
-        "numpy>=1.21.0",
-        "scipy>=1.7.0",
-    ],
+    install_requires=["numpy>=1.21.0", "scipy>=1.7.0", "pytest==8.3.5"],
 )
