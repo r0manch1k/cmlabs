@@ -34,6 +34,7 @@ def thomas(
     The Thomas algorithm is an efficient way of solving tridiagonal matrix systems.
 
     .. math::
+
         \left(
             \begin{array}{cccccc}
                 B_1 & C_1 & 0 & \cdots & 0 & 0 \\
@@ -118,8 +119,8 @@ def thomas(
 
     X = np.zeros(N)
 
-    A = np.concatenate(([0], A))
-    C = np.concatenate((C, [0]))
+    A = np.concatenate([[0], A])
+    C = np.concatenate([C, [0]])
 
     # (alpha, beta)
     coef = np.zeros((N, 2))

@@ -14,6 +14,7 @@ from cmlabs.interpolate import (
     stirling,
     bessel,
     interpolate,
+    CubicSpline,
 )
 
 __all__ = [
@@ -23,6 +24,7 @@ __all__ = [
     "test_lagrange_remainder_2",
     "test_lagrange_compare_with_newton",
     "test_interpolate_remainder",
+    "test_cubic_spline",
     "test_lagrange_from_docs_example",
     "test_remainder_from_docs_example",
     "test_newton_from_docs_example",
@@ -33,6 +35,7 @@ __all__ = [
     "test_newtonbd_from_docs_example",
     "test_gaussfd_from_docs_example",
     "test_gaussbd_from_docs_example",
+    "test_cubic_spline_from_docs_example",
 ]
 
 
@@ -541,6 +544,71 @@ def test_interpolate_remainder():
     assert r_min <= r_exp <= r_max, "Remainder is out of bounds"
 
 
+def test_cubic_spline():
+    r"""Cubic spline interpolation/differentiation.
+
+    .. math::
+
+        \begin{gather}
+            S(x) = \sum_{i=0}^{n} S_i(x) \\
+            S_i(x) = a_i + b_i (x - x_i) + c_i (x - x_i)^2 + d_i (x - x_i)^3 \\
+            \left(x - \lg(x+2)\right)'' = \frac{1}{(x + 2)^2 \cdot \ln(10)}
+        \end{gather}
+
+    Results
+    -------
+    >>> # Test 8: Cubic Spline Interpolation
+    >>> # - X:  [0.5   0.556 0.611 ... 0.889 0.944 1.   ]
+    >>> # - Y:  [0.102 0.148 0.194 ... 0.428 0.475 0.523]
+    >>> CubicSpline(X, Y, bc_type='not-a-knot)
+    >>> # f(0.77)
+    >>> # 0.32752023093555144
+    >>> spline.interpolate(0.77)
+    >>> # 0.3275202307162315
+    >>> f''(0.77)
+    >>> # 0.056601087190404124
+    >>> spline.derivative(0.77, order=2)
+    >>> # 0.05659785880306364
+
+    See Also
+    --------
+    CubicSpline
+
+    """
+    print("\n")
+    print("Test 8: Cubic Spline Interpolation")
+    print("- X: ", df["X"])
+    print("- Y: ", df["Y"])
+
+    print(">>> CubicSpline(X, Y, bc_type='not-a-knot)")
+
+    spline = CubicSpline(df["X"], df["Y"], bc_type="not-a-knot")
+
+    print(f"f({df['x*']})")
+    f_exp = df["f"](df["x*"])
+    print(f_exp)
+
+    print(f">>> spline.interpolate({df['x*']})")
+    f_obs = spline.interpolate(df["x*"])
+    print(f_obs)
+
+    assert np.isclose(
+        f_obs, f_exp, atol=1e-6
+    ), "Cubic spline interpolation result is not close to expected value"
+
+    f_2_der_exp = 1 / ((df["x*"] + 2) ** 2 * np.log(10))
+    print(f">>> f''({df['x*']})")
+    print(f_2_der_exp)
+
+    print(f">>> spline.derivative({df['x*']}, order=2)")
+    f_2_der_obs = spline.derivative(df["x*"], order=2)
+    print(f_2_der_obs)
+
+    assert np.isclose(
+        f_2_der_obs, f_2_der_exp, atol=1e-4
+    ), "Cubic spline second derivative result is not close to expected value"
+
+
 def test_lagrange_from_docs_example():
     r"""Lagrange interpolation from docs example.
 
@@ -887,3 +955,42 @@ def test_interpolate_from_docs_example():
     print(f_obs)
 
     assert isinstance(f_obs, float), "Result is not a float"
+
+
+def test_cubic_spline_from_docs_example():
+    r"""Cubic spline interpolation from docs example.
+
+    See Also
+    --------
+    CubicSpline
+
+    """
+    print("\n")
+    print("Test N: Cubic Spline Interpolation From Docs Example")
+
+    xvals = np.linspace(0, 10, 5)
+    yvals = np.sin(xvals)
+    print("- X: ", xvals)
+    print("- Y: ", yvals)
+
+    x = 5
+    print(f">>> x = {x}")
+
+    f_exp = np.sin(x)
+    print(f">>> f({x})")
+    print(f_exp)
+
+    print(f">>> CubicSpline({xvals}, {yvals}, bc_type='not-a-knot')")
+
+    spline = CubicSpline(xvals, yvals, bc_type="not-a-knot")
+    print(f">>> spline.interpolate({x})")
+    f_obs = spline.interpolate(x)
+    print(f_obs)
+
+    assert np.isclose(
+        f_obs, f_exp, atol=1e-6
+    ), "Cubic spline interpolation result is not close to expected value"
+
+
+
+    

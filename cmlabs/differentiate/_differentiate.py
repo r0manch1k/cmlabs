@@ -1,7 +1,7 @@
-__all__ = ["lagrange_derivative"]
-
 import numpy as np
 import itertools
+
+__all__ = ["lagrange_derivative"]
 
 
 def lagrange_derivative(xvals, yvals, x, k):

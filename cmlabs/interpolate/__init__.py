@@ -40,6 +40,15 @@ Finite differences interpolation
    interpolate
 
 
+Splines
+=======
+.. autosummary::
+   :toctree: _autosummary
+   :nosignatures:
+
+   CubicSpline
+
+
 Tests
 =====
 
@@ -53,6 +62,7 @@ Tests
    test_lagrange_remainder_2
    test_lagrange_compare_with_newton
    test_interpolate_remainder
+   test_cubic_spline
    test_lagrange_from_docs_example
    test_remainder_from_docs_example
    test_newton_from_docs_example
@@ -63,9 +73,11 @@ Tests
    test_newtonbd_from_docs_example
    test_gaussfd_from_docs_example
    test_gaussbd_from_docs_example
+   test_cubic_spline_from_docs_example
 
 """
 
 from ._interpolate import *
+from ._cubic import *
 
 from .tests.test_interpolate import *

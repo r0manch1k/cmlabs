@@ -22,6 +22,7 @@ Integration
    weddles
    newton_cotes
 
+
 Tests
 =====
 .. autosummary::
