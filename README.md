@@ -13,8 +13,7 @@ pip install cmlabs
 ### Interpolation
 
 ```python
-from cmlabs.interpolate import lagrange, newton
-from cmlabs.cubic import cubic_spline
+from cmlabs.interpolate import lagrange, newton, CubicSpline
 
 # Sample data
 x = [0, 1, 2]
@@ -29,8 +28,8 @@ y = newton(x, y, 0.5)
 print(y)
 
 # Cubic spline interpolation
-spline = cubic_spline(x, y, bc_type='not-a-knot')
-print(spline.interpolate(0.5))
+cs = CubicSpline(x, y, bc_type='not-a-knot')
+print(cs.interpolate(0.5))
 ```
 
 ### Differentiation
