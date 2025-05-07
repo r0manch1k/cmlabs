@@ -61,6 +61,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../cmlabs.integrate.html">Integration (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.integrate</span></code>)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cmlabs.linalg.html">Linear Algebra (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.linalg</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cmlabs.optimize.html">Optimization (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.optimize</span></code>)</a></li>
 </ul>
 
         </div>
@@ -132,6 +133,16 @@ is the derivative order. Since the recursion is not based on simple division int
 smaller subproblems, the Master Theorem does not apply. If <span class="math notranslate nohighlight">\(k\)</span> is fixed and
 small, the algorithm runs in polynomial time with respect to <span class="math notranslate nohighlight">\(n\)</span>; otherwise,
 for large <span class="math notranslate nohighlight">\(k\)</span>, the complexity becomes exponential.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">cmlabs.differentiate</span><span class="w"> </span><span class="kn">import</span> <span class="n">lagrange_derivative</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xvals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">yvals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">16</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="mf">2.5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">k</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lagrange_derivative</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">yvals</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+<span class="go">6.0</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </section>

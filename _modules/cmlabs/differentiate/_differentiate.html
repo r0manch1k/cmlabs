@@ -45,6 +45,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../cmlabs.differentiate.html">Differentiation (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.differentiate</span></code>)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../cmlabs.integrate.html">Integration (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.integrate</span></code>)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../cmlabs.linalg.html">Linear Algebra (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.linalg</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cmlabs.optimize.html">Optimization (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.optimize</span></code>)</a></li>
 </ul>
 
         </div>
@@ -125,6 +126,16 @@
 <span class="sd">    smaller subproblems, the Master Theorem does not apply. If :math:`k` is fixed and</span>
 <span class="sd">    small, the algorithm runs in polynomial time with respect to :math:`n`; otherwise,</span>
 <span class="sd">    for large :math:`k`, the complexity becomes exponential.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; from cmlabs.differentiate import lagrange_derivative</span>
+<span class="sd">    &gt;&gt;&gt; xvals = np.array([0, 1, 2, 3, 4])</span>
+<span class="sd">    &gt;&gt;&gt; yvals = np.array([0, 1, 4, 9, 16])</span>
+<span class="sd">    &gt;&gt;&gt; x = 2.5</span>
+<span class="sd">    &gt;&gt;&gt; k = 2</span>
+<span class="sd">    &gt;&gt;&gt; lagrange_derivative(xvals, yvals, x, k)</span>
+<span class="sd">    6.0</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">lagrange_basis_kth_derivative_numerator</span><span class="p">(</span><span class="n">indexes</span><span class="p">,</span> <span class="n">kth</span><span class="p">):</span>

@@ -1,0 +1,431 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cmlabs.optimize._optimize &mdash; cmlabs 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            cmlabs
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../cmlabs.interpolate.html">Interpolation (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.interpolate</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cmlabs.differentiate.html">Differentiation (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.differentiate</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cmlabs.integrate.html">Integration (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.integrate</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cmlabs.linalg.html">Linear Algebra (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.linalg</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cmlabs.optimize.html">Optimization (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cmlabs.optimize</span></code>)</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">cmlabs</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">cmlabs.optimize._optimize</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for cmlabs.optimize._optimize</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;find_root_brackets&quot;</span><span class="p">,</span> <span class="s2">&quot;bisect&quot;</span><span class="p">,</span> <span class="s2">&quot;newton&quot;</span><span class="p">,</span> <span class="s2">&quot;secant&quot;</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="find_root_brackets">
+<a class="viewcode-back" href="../../../_autosummary/cmlabs.optimize.find_root_brackets.html#cmlabs.optimize.find_root_brackets">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">find_root_brackets</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="nb">callable</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">bins</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Find the root brackets of a function.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    f : callable</span>
+<span class="sd">        The function to find the root brackets for.</span>
+<span class="sd">    a : float</span>
+<span class="sd">        The lower bound of the interval.</span>
+<span class="sd">    b : float</span>
+<span class="sd">        The upper bound of the interval.</span>
+<span class="sd">    bins : int, optional</span>
+<span class="sd">        The number of bins to use for the search.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    list of tuples</span>
+<span class="sd">        A list of tuples containing the lower and upper bounds of each root bracket.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The function passed to this method must be continuous on the interval</span>
+<span class="sd">    :math:`[a, b]`. According to the Bolzano–Cauchy theorem, if a continuous</span>
+<span class="sd">    function :math:`f` satisfies :math:`f(a) \cdot f(b) &lt; 0`, then there exists</span>
+<span class="sd">    at least one point :math:`c \in (a, b)` such that :math:`f(c) = 0`.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; from cmlabs.optimize import find_root_brackets</span>
+<span class="sd">    &gt;&gt;&gt; f = lambda x: x**2 - 4</span>
+<span class="sd">    &gt;&gt;&gt; a = 0</span>
+<span class="sd">    &gt;&gt;&gt; b = 10</span>
+<span class="sd">    &gt;&gt;&gt; bins = 10</span>
+<span class="sd">    &gt;&gt;&gt; find_root_brackets(f, a, b, bins)</span>
+<span class="sd">    &gt;&gt;&gt; # [(np.float64(1.1111111111111112), np.float64(2.2222222222222223))]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">bins</span><span class="p">)</span>
+
+    <span class="n">intervals</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span> <span class="o">!=</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])):</span>
+            <span class="n">intervals</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]))</span>
+
+    <span class="k">return</span> <span class="n">intervals</span></div>
+
+
+
+<div class="viewcode-block" id="bisect">
+<a class="viewcode-back" href="../../../_autosummary/cmlabs.optimize.bisect.html#cmlabs.optimize.bisect">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">bisect</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="nb">callable</span><span class="p">,</span> <span class="n">bracket</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">xtol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">ytol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Bisection method for finding roots.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    f : callable</span>
+<span class="sd">        The function to find the root of.</span>
+<span class="sd">    bracket : A sequence of 2 floats</span>
+<span class="sd">        THe root interval. The function must have different signs at the endpoints.</span>
+<span class="sd">    xtol : float, optional</span>
+<span class="sd">        The absolute error in x required to declare convergence.</span>
+<span class="sd">    ytol : float, optional</span>
+<span class="sd">        The absolute error in f(x) required to declare convergence.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    find_root_brackets</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The function passed to this method must satisfy The Bolzano–Cauchy theorem.</span>
+
+<span class="sd">    Parameter `xtol` is the absolute error in x required to declare convergence.</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \begin{aligned}</span>
+<span class="sd">            |x^* - x| &lt; \text{xtol}</span>
+<span class="sd">        \end{aligned}</span>
+
+<span class="sd">    where :math:`x^*` is the root of the function.</span>
+
+<span class="sd">    Parameter `ytol` is the absolute error in f(x) required to declare convergence.</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \begin{aligned}</span>
+<span class="sd">            |f(x^*) - f(x)| &lt; \text{ytol}</span>
+<span class="sd">        \end{aligned}</span>
+
+<span class="sd">    where :math:`x^*` is the root of the function.</span>
+
+<span class="sd">    You can define both `xtol` and `ytol` to declare convergence. The first one</span>
+<span class="sd">    that is satisfied will be used to declare convergence.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; from cmlabs.optimize import bisect</span>
+<span class="sd">    &gt;&gt;&gt; f = lambda x: x**2 - 4</span>
+<span class="sd">    &gt;&gt;&gt; bracket = [0, 10]</span>
+<span class="sd">    &gt;&gt;&gt; bisect(f, bracket)</span>
+<span class="sd">    &gt;&gt;&gt; # 1.9999980926513672</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">xtol</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">ytol</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;At least one of xtol or ytol must be provided.&quot;</span><span class="p">)</span>
+
+    <span class="n">x_n</span><span class="p">,</span> <span class="n">x_k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">bracket</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">x_n</span><span class="p">))</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">x_k</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The function must have different signs at the endpoints.&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">f</span><span class="p">(</span><span class="n">x_n</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="p">(</span><span class="n">ytol</span> <span class="ow">and</span> <span class="nb">abs</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">x_n</span><span class="p">))</span> <span class="o">&lt;</span> <span class="n">ytol</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">x_n</span>
+
+    <span class="k">if</span> <span class="n">f</span><span class="p">(</span><span class="n">x_k</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="p">(</span><span class="n">ytol</span> <span class="ow">and</span> <span class="nb">abs</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">x_k</span><span class="p">))</span> <span class="o">&lt;</span> <span class="n">ytol</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">x_k</span>
+
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">xtol</span> <span class="ow">and</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x_k</span> <span class="o">-</span> <span class="n">x_n</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">xtol</span><span class="p">:</span>
+            <span class="k">break</span>
+
+        <span class="n">x_m</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">((</span><span class="n">x_n</span> <span class="o">+</span> <span class="n">x_k</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+
+        <span class="n">f_m</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">x_m</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">x_n</span><span class="p">))</span> <span class="o">!=</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">f_m</span><span class="p">):</span>
+            <span class="n">x_k</span> <span class="o">=</span> <span class="n">x_m</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">x_n</span> <span class="o">=</span> <span class="n">x_m</span>
+
+        <span class="k">if</span> <span class="n">ytol</span> <span class="ow">and</span> <span class="nb">abs</span><span class="p">(</span><span class="n">f_m</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">ytol</span><span class="p">:</span>
+            <span class="k">break</span>
+
+    <span class="k">return</span> <span class="n">x_m</span></div>
+
+
+
+<div class="viewcode-block" id="newton">
+<a class="viewcode-back" href="../../../_autosummary/cmlabs.optimize.newton.html#cmlabs.optimize.newton">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">newton</span><span class="p">(</span>
+    <span class="n">f</span><span class="p">:</span> <span class="nb">callable</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="nb">callable</span><span class="p">,</span> <span class="n">x0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">xtol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">ytol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Newton&#39;s method for finding roots.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    f : callable</span>
+<span class="sd">        The function to find the root of.</span>
+<span class="sd">    df : callable</span>
+<span class="sd">        The derivative of the function.</span>
+<span class="sd">    x0 : float</span>
+<span class="sd">        The initial guess for the root.</span>
+<span class="sd">    xtol : float, optional</span>
+<span class="sd">        The absolute error in x required to declare convergence.</span>
+<span class="sd">    ytol : float, optional</span>
+<span class="sd">        The absolute error in f(x) required to declare convergence.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    find_root_brackets</span>
+<span class="sd">    bisect</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    This method is an iterative numerical technique for finding a root of a real-valued</span>
+<span class="sd">    function :math:`f(x)`, based on linear approximation using the first derivative.</span>
+<span class="sd">    The method requires the function to be sufficiently smooth and its derivative</span>
+<span class="sd">    behavior to meet certain conditions to ensure convergence.</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \begin{aligned}</span>
+<span class="sd">            \overline{x}_{n+1} = \overline{x}_n -</span>
+<span class="sd">            \frac{f(\overline{x}_n)}{f&#39;(\overline{x}_n)}</span>
+<span class="sd">        \end{aligned}</span>
+
+<span class="sd">    where :math:`\overline{x}_n` is the current approximation of the root,</span>
+<span class="sd">    and :math:`\overline{x}_{n+1}` is the next approximation.</span>
+
+<span class="sd">    The function :math:`f(x)` must be continuous and differentiable in the neighborhood</span>
+<span class="sd">    of the root. The derivative :math:`f&#39;(x)` must not be zero at the root.</span>
+
+<span class="sd">    The starting point :math:`x_0` should be chosen close to the actual root to ensure</span>
+<span class="sd">    convergence. A practical sufficient condition for local convergence is</span>
+<span class="sd">    :math:`f(x_0) \cdot f&#39;&#39;(x_0) &gt; 0`.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; from cmlabs.optimize import newton</span>
+<span class="sd">    &gt;&gt;&gt; f = lambda x: x**2 - 4</span>
+<span class="sd">    &gt;&gt;&gt; df = lambda x: 2 * x</span>
+<span class="sd">    &gt;&gt;&gt; x0 = 5.0</span>
+<span class="sd">    &gt;&gt;&gt; newton(f, df, x0, xtol=1e-5, ytol=1e-5)</span>
+<span class="sd">    &gt;&gt;&gt; # 2.0000051812194735</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">xtol</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">ytol</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;At least one of xtol or ytol must be provided.&quot;</span><span class="p">)</span>
+
+    <span class="n">x_n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">x0</span><span class="p">)</span>
+    <span class="n">f_n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">x_n</span><span class="p">))</span>
+    <span class="n">df_n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">df</span><span class="p">(</span><span class="n">x_n</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">df_n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The derivative must not be zero at the root.&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">f_n</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="p">(</span><span class="n">ytol</span> <span class="ow">and</span> <span class="nb">abs</span><span class="p">(</span><span class="n">f_n</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">ytol</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">x_n</span>
+
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">df_n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The derivative must not be zero at the root.&quot;</span><span class="p">)</span>
+
+        <span class="n">x_n1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">x_n</span> <span class="o">-</span> <span class="n">f_n</span> <span class="o">/</span> <span class="n">df_n</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">xtol</span> <span class="ow">and</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x_n1</span> <span class="o">-</span> <span class="n">x_n</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">xtol</span><span class="p">:</span>
+            <span class="k">break</span>
+
+        <span class="n">f_n1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">x_n1</span><span class="p">))</span>
+        <span class="n">df_n1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">df</span><span class="p">(</span><span class="n">x_n1</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">ytol</span> <span class="ow">and</span> <span class="nb">abs</span><span class="p">(</span><span class="n">f_n1</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">ytol</span><span class="p">:</span>
+            <span class="k">break</span>
+
+        <span class="n">x_n</span> <span class="o">=</span> <span class="n">x_n1</span>
+        <span class="n">f_n</span> <span class="o">=</span> <span class="n">f_n1</span>
+        <span class="n">df_n</span> <span class="o">=</span> <span class="n">df_n1</span>
+
+    <span class="k">return</span> <span class="n">x_n</span></div>
+
+
+
+<div class="viewcode-block" id="secant">
+<a class="viewcode-back" href="../../../_autosummary/cmlabs.optimize.secant.html#cmlabs.optimize.secant">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">secant</span><span class="p">(</span>
+    <span class="n">f</span><span class="p">:</span> <span class="nb">callable</span><span class="p">,</span> <span class="n">x0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">x1</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">xtol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">ytol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Secant method for finding roots.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    f : callable</span>
+<span class="sd">        The function to find the root of.</span>
+<span class="sd">    x0 : float</span>
+<span class="sd">        The first initial guess for the root.</span>
+<span class="sd">    x1 : float</span>
+<span class="sd">        The second initial guess for the root.</span>
+<span class="sd">    xtol : float, optional</span>
+<span class="sd">        The absolute error in x required to declare convergence.</span>
+<span class="sd">    ytol : float, optional</span>
+<span class="sd">        The absolute error in f(x) required to declare convergence.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    find_root_brackets</span>
+<span class="sd">    bisect</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    This method is an iterative numerical technique for finding a root of a real-valued</span>
+<span class="sd">    function :math:`f(x)` using two initial guesses. It is a generalization of the</span>
+<span class="sd">    Newton-Raphson method and does not require the computation of the derivative.</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \begin{aligned}</span>
+<span class="sd">            \overline{x}_{n+1} = \overline{x}_n -</span>
+<span class="sd">            \frac{f(\overline{x}_n) (\overline{x}_n - \overline{x}_{n-1})}</span>
+<span class="sd">            {f(\overline{x}_n) - f(\overline{x}_{n-1})}</span>
+<span class="sd">        \end{aligned}</span>
+
+<span class="sd">    where :math:`\overline{x}_n` is the current approximation of the root,</span>
+<span class="sd">    and :math:`\overline{x}_{n+1}` is the next approximation.</span>
+
+<span class="sd">    The function :math:`f(x)` must be continuous in the neighborhood of the root.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; from cmlabs.optimize import secant</span>
+<span class="sd">    &gt;&gt;&gt; f = lambda x: x**2 - 4</span>
+<span class="sd">    &gt;&gt;&gt; x0 = 0.0</span>
+<span class="sd">    &gt;&gt;&gt; x1 = 10.0</span>
+<span class="sd">    &gt;&gt;&gt; secant(f, x0, x1, xtol=1e-5, ytol=1e-5)</span>
+<span class="sd">    &gt;&gt;&gt; # 2.000000000826115</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">xtol</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">ytol</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;At least one of xtol or ytol must be provided.&quot;</span><span class="p">)</span>
+
+    <span class="n">x_n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">x0</span><span class="p">)</span>
+    <span class="n">x_n1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">x1</span><span class="p">)</span>
+    <span class="n">f_n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">x_n</span><span class="p">))</span>
+    <span class="n">f_n1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">x_n1</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">f_n</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="p">(</span><span class="n">ytol</span> <span class="ow">and</span> <span class="nb">abs</span><span class="p">(</span><span class="n">f_n</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">ytol</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">x_n</span>
+
+    <span class="k">if</span> <span class="n">f_n1</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="p">(</span><span class="n">ytol</span> <span class="ow">and</span> <span class="nb">abs</span><span class="p">(</span><span class="n">f_n1</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">ytol</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">x_n1</span>
+
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">f_n</span> <span class="o">==</span> <span class="n">f_n1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;The function values at the current guesses must not be equal.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="n">x_n2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">x_n1</span> <span class="o">-</span> <span class="n">f_n1</span> <span class="o">/</span> <span class="p">(</span><span class="n">f_n1</span> <span class="o">-</span> <span class="n">f_n</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">x_n1</span> <span class="o">-</span> <span class="n">x_n</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">xtol</span> <span class="ow">and</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x_n2</span> <span class="o">-</span> <span class="n">x_n1</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">xtol</span><span class="p">:</span>
+
+            <span class="k">break</span>
+
+        <span class="n">f_n2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">x_n2</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">ytol</span> <span class="ow">and</span> <span class="nb">abs</span><span class="p">(</span><span class="n">f_n2</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">ytol</span><span class="p">:</span>
+            <span class="k">break</span>
+
+        <span class="n">x_n</span><span class="p">,</span> <span class="n">x_n1</span> <span class="o">=</span> <span class="n">x_n1</span><span class="p">,</span> <span class="n">x_n2</span>
+        <span class="n">f_n</span><span class="p">,</span> <span class="n">f_n1</span> <span class="o">=</span> <span class="n">f_n1</span><span class="p">,</span> <span class="n">f_n2</span>
+
+    <span class="k">return</span> <span class="n">x_n2</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Roman Sokolovsky.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
