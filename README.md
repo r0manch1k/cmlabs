@@ -72,4 +72,21 @@ print(solution)
 # [1.071 0.714 1.071]
 ```
 
+### Optimization
+
+```python
+from cmlabs.optimize import find_root_brackets, bisect
+
+def f(x):
+    return x**2 - 4
+
+intervals = find_root_brackets(f, a=0, b=10, bins=10)
+print(intervals)
+# [(1.1111111111111112, 2.2222222222222223)]
+
+root = bisect(f_test, intervals[0], xtol=1e-5, ytol=1e-5)
+print(root)
+# 1.9999980926513672
+```
+
 If you find any errors in the formulas or code, please feel free to open a [github issue](https://github.com/r0manch1k/cmlabs/issues)
