@@ -2,7 +2,7 @@ import math
 import numpy as np
 from cmlabs.differentiate import lagrange_derivative
 
-__all__ = ["test_lagrange_derivative"]
+__all__ = ["test_lagrange_derivative", "test_lagrange_derivative_from_docs_example"]
 
 
 def f(x):
@@ -153,3 +153,41 @@ def test_lagrange_derivative():
     print(r_4_2_min <= r_4_2 <= r_4_2_max)
 
     assert r_4_2_min <= r_4_2 <= r_4_2_max, "Remainder is out of bounds"
+
+
+def test_lagrange_derivative_from_docs_example():
+    r"""Lagrange derivative from docs example.
+
+    Results
+    --------
+    >>> # Test N: Lagrange Derivative From Docs Example
+    >>> # - X:  [0 1 2 3 4]
+    >>> # - Y:  [ 0  1  4  9 16]
+    >>> # - x_0 =  2.5
+    >>> # - k =  2
+    >>> lagrange_derivative([0 1 2 3 4], [ 0  1  4  9 16], 2.5, k=2)
+    >>> # 2.0
+
+    See Also
+    --------
+    lagrange_derivative
+    """
+    print("\n")
+    print("Test N: Lagrange Derivative From Docs Example")
+
+    xvals = np.array([0, 1, 2, 3, 4])
+    yvals = np.array([0, 1, 4, 9, 16])
+
+    print("- X: ", xvals)
+    print("- Y: ", yvals)
+
+    x = 2.5
+    print("- x_0 = ", x)
+
+    k = 2
+    print("- k = ", k)
+
+    print(f">>> lagrange_derivative({xvals}, {yvals}, {x}, k={k})")
+
+    L_4_2 = lagrange_derivative(xvals, yvals, x, k)
+    print(L_4_2)

@@ -23,6 +23,7 @@ Tests
    :nosignatures:
 
    test_lagrange_derivative
+   test_lagrange_derivative_from_docs_example
 """
 
 from ._differentiate import *

@@ -49,6 +49,16 @@ def lagrange_derivative(xvals, yvals, x, k):
     smaller subproblems, the Master Theorem does not apply. If :math:`k` is fixed and
     small, the algorithm runs in polynomial time with respect to :math:`n`; otherwise,
     for large :math:`k`, the complexity becomes exponential.
+
+    Examples
+    --------
+    >>> from cmlabs.differentiate import lagrange_derivative
+    >>> xvals = np.array([0, 1, 2, 3, 4])
+    >>> yvals = np.array([0, 1, 4, 9, 16])
+    >>> x = 2.5
+    >>> k = 2
+    >>> lagrange_derivative(xvals, yvals, x, k)
+    6.0
     """
 
     def lagrange_basis_kth_derivative_numerator(indexes, kth):

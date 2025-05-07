@@ -778,3 +778,65 @@ def test_weddles_from_docs_example():
     print(result)
 
     assert isinstance(result, float), "Result is not a float"
+
+
+def test_trapezoid_and_simpsonq():
+    r"""Test trapezoid and Simpson's rule (quadratic).
+
+    See Also
+    --------
+    trapezoid
+    simpsonq
+    """
+    print("\n")
+    print("Test N: Trapezoid and Simpson's Rule (Quadratic)")
+
+    xvals_1 = np.linspace(0, 2, 9)
+    yvals_1 = [
+        1.0,
+        0.979915,
+        0.927295,
+        0.858001,
+        0.785398,
+        0.716844,
+        0.655196,
+        0.600943,
+        0.553574,
+    ]
+
+    print("- X:", xvals_1)
+    print("- Y:", yvals_1)
+
+    print(f">>> trapezoid({xvals_1}, {yvals_1})")
+    result_trap_1 = trapezoid(xvals_1, yvals_1)
+    print(result_trap_1)
+
+    print(f">>> simpsonq({xvals_1}, {yvals_1})")
+    result_sim_1 = simpsonq(xvals_1, yvals_1)
+    print(result_sim_1)
+
+    xvals_2 = np.linspace(0, 2, 5)
+    yvals_2 = [
+        1.0,
+        0.927295,
+        0.785398,
+        0.655196,
+        0.553574,
+    ]
+
+    print("- X:", xvals_2)
+    print("- Y:", yvals_2)
+
+    print(f">>> trapezoid({xvals_2}, {yvals_2})")
+    result_trap_2 = trapezoid(xvals_2, yvals_2)
+    print(result_trap_2)
+
+    print(f">>> simpsonq({xvals_2}, {yvals_2})")
+    result_simp_2 = simpsonq(xvals_2, yvals_2)
+    print(result_simp_2)
+
+    print("1/3 * |I_tr(2h) - I_tr(h)|")
+    print(1 / 3 * abs(result_trap_1 - result_trap_2))
+
+    print("1/15 * |I_s(2h) - I_s(h)|")
+    print(1 / 15 * abs(result_sim_1 - result_simp_2))

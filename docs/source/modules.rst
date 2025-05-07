@@ -8,4 +8,4 @@ Contents
    cmlabs.differentiate
    cmlabs.integrate
    cmlabs.linalg
-
+   cmlabs.optimize

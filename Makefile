@@ -25,6 +25,10 @@ tests-integrate:
 tests-linalg:
 	pytest -s cmlabs/linalg
 
+.PHONY: tests-optimize
+tests-optimize:
+	pytest -s cmlabs/optimize
+
 
 .PHONY: autodoc
 autodoc:
