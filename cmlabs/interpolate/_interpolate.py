@@ -558,9 +558,9 @@ def newtonfd(xvals, x, yvals=None, coef=None):
     .. math::
 
         \begin{gather}
-            P_n(x_0 + th) = \sum_{k=0}^{n} \frac{t(t-1)\ldots(t-k+1)}{k!} \Delta^k f(x_0) \\
-            C^k_n = \frac{n(n-1)\ldots(n-k+1)}{k!}, \quad k \geq 2, \quad C^0_n = 1,
-            \quad C^1_n = n \\
+            P_n(x_0 + th) = \sum_{k=0}^{n} \frac{t(t-1)\ldots(t-k+1)}{k!} \Delta^k
+            f(x_0) \\ C^k_n = \frac{n(n-1)\ldots(n-k+1)}{k!}, \quad k \geq 2,
+            \quad C^0_n = 1, \quad C^1_n = n \\
             P_n(x_0 + th) = \sum_{k=0}^{n} C^k_t \Delta^k f(x_0) \\
         \end{gather}
 

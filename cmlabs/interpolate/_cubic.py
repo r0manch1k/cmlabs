@@ -117,7 +117,7 @@ class CubicSpline:
         \right)
         \left(
             \begin{array}{c}
-                m_1 \\ m_2 \\ m_3 \\ \vdots \\ m_{N-1} \\ m_N
+                m_1 \\ m_2 \\ m_3 \\ \vdots \\ m_{N-2} \\ m_{N-1}
             \end{array}
         \right)
         =
