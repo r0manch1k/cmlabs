@@ -17,16 +17,16 @@ def thomas(
     ----------
     A : array_like
         Sub-diagonal elements (length N-1).
-    B : list of float
+    B : array_like
         Diagonal elements (length N).
-    C : list of float
+    C : array_like
         Super-diagonal elements (length N-1).
-    F : list of float
+    F : array_like
         Right-hand side vector (length N).
 
     Returns
     -------
-    X : list of float
+    X : array_like
         Solution vector (length N).
 
     Notes

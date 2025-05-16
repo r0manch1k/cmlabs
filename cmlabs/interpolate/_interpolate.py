@@ -713,7 +713,7 @@ def gaussfd(xvals, x, yvals=None, coef=None, m=None):
             &+ \frac{(t+2)(t+1)t(t-1)(t-2)(t-3)}{6!} \Delta^6 f(x_{m-3}) + \ldots
         \end{aligned}
 
-    where :math:`x_m` is the midpoint of the data point (if even then :math:`x_{n/2}`)
+    where :math:`x_m` is the midpoint of the data point (:math:`m = n // 2`)
     and :math:`t = \frac{x-x_m}{h}`.
 
     Parameters
@@ -808,7 +808,7 @@ def gaussbd(xvals, x, yvals=None, coef=None, m=None):
             &+ \frac{(t-2)(t-1)t(t+1)(t+2)(t+3)}{6!} \nabla^6 f(x_{m+3}) + \ldots
         \end{aligned}
 
-    where :math:`x_m` is the midpoint of the data point (if even then :math:`x_{n/2}`)
+    where :math:`x_m` is the midpoint of the data point (:math:`m = n // 2`)
     and :math:`t = \frac{x-x_m}{h}`.
 
     Parameters
@@ -1015,7 +1015,7 @@ def bessel(xvals, x, yvals=None, coef=None, m=None):
             (t-\frac{1}{2})}{(2n+1)!} \Delta^{2n+1} f(x_0)
         \end{aligned}
 
-    where :math:`x_m` is the midpoint of the data point (if even then :math:`x_{n/2}`)
+    where :math:`x_m` is the midpoint of the data point (:math:`m = n // 2`)
     and :math:`t = \frac{x - x_m}{h}`.
 
     Parameters
