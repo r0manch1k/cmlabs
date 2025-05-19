@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="cmlabs",
-    version="0.2.1",
+    version="0.2.2",
     author="Roman Sokolovsky",
     author_email="romansokolv209@gmail.com",
     description="A library for computational mathematics labs",

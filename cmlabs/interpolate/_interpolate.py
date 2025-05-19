@@ -808,7 +808,7 @@ def gaussbd(xvals, x, yvals=None, coef=None, m=None):
             &+ \frac{(t-2)(t-1)t(t+1)(t+2)(t+3)}{6!} \nabla^6 f(x_{m+3}) + \ldots
         \end{aligned}
 
-    where :math:`x_m` is the midpoint of the data point (:math:`m = n // 2`)
+    where :math:`x_m` is the midpoint of the data point (:math:`m = n // 2 + n % 2`)
     and :math:`t = \frac{x-x_m}{h}`.
 
     Parameters
@@ -857,7 +857,7 @@ def gaussbd(xvals, x, yvals=None, coef=None, m=None):
     n = len(xvals) - 1
 
     if m is None:
-        m = n // 2
+        m = n // 2 + n % 2
     elif m >= n:
         raise ValueError("m must be less than n")
 
