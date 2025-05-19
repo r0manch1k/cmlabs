@@ -14,6 +14,7 @@ Subpackages
  cmlabs.differentiate
  cmlabs.integrate
  cmlabs.linalg
+ cmlabs.optimize
 """
 
 import importlib as _importlib
@@ -24,6 +25,7 @@ submodules = [
     "differentiate",
     "integrate",
     "linalg",
+    "optimize",
 ]
 
 __all__ = submodules + [
